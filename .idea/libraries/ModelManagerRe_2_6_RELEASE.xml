@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ModelManagerRe-2.6-RELEASE">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../Nukkit Plugin/PowerNukkit/plugins/ModelManagerRe-2.6-RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

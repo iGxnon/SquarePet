@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="SquarePet" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="937fa506-11f5-4a82-a3e3-afb5c87c02b8" name="默认更改列表" comment="">
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/plugin.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/resources/config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/resources/plugin.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/DLC/BaseDLC.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/DLC/DLCClassLoader.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/DLC/DLCLoader.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/DLC/DLCLogger$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/DLC/DLCLogger.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Exceptions/DLCLoadException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Exceptions/PlayerBagOutOfBoundException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Exceptions/PropNotFoundException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Form/ConfirmForm.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Form/Market.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Form/Me.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Form/Menu.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Form/Pet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Listeners/PlayerListener.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Manager/ConfigManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Manager/DLCManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Manager/PetMapManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Manager/TrainerManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Pet/Attribute$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Pet/Attribute$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Pet/Attribute$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Pet/Attribute$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Pet/Attribute.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Pet/BasePet$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Pet/BasePet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Pet/PetTag.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Prop/BaseProp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Prop/DLCProp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Prop/HPRecoverProp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Prop/LuckyStrawProp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Prop/PetAcceptable.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Prop/PlayerAcceptable.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Prop/PropAcceptable.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Prop/SPRecoverProp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Prop/SkillStoneProp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Skill/BaseSkill.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Skill/ConfigSkill.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Skill/DLCSkill.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/SquarePet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Trainer/Bag.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Trainer/Lineup$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Trainer/Lineup.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Trainer/Trainer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/SquarePetRe/xyz/lightsky/SquarePetRe/Trainer/TrainerController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/玩家数据/iGxnon/宠物/僵尸.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Form/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Form/Market.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Form/Pet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Form/Pet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Listeners/PlayerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Listeners/PlayerListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Manager/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Manager/ConfigManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Manager/PetMapManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Manager/PetMapManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Pet/BasePet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Pet/BasePet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Trainer/Lineup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Trainer/Lineup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Trainer/Trainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Trainer/Trainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Trainer/TrainerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/xyz/lightsky/SquarePetRe/Trainer/TrainerController.java" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="iGxnon &lt;1545766400@qq.com&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1uwqesJHlZbdAQYgjLlhCSeIC6O" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="添加" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="android.sdk.path" value="D:/SDK" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Nukkit Plugin/PowerNukkit/plugins" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15527344" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="Push.Settings">
+    <force-push-targets>
+      <force-push-target remote-path="origin" branch="main" />
+    </force-push-targets>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="xyz.lightsky.SquarePetRe.DLC" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\绿泡泡\Documents\工作目录\GitHub\SquarePetRe\src\resources" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="937fa506-11f5-4a82-a3e3-afb5c87c02b8" name="默认更改列表" comment="" />
+      <created>1625587098021</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1625587098021</updated>
+      <workItem from="1625587099812" duration="2780000" />
+      <workItem from="1625623226592" duration="201000" />
+      <workItem from="1625623519199" duration="7059000" />
+      <workItem from="1625630925354" duration="5000" />
+      <workItem from="1625630936320" duration="3624000" />
+      <workItem from="1625639146223" duration="2599000" />
+      <workItem from="1625661147690" duration="11180000" />
+      <workItem from="1625709661428" duration="6504000" />
+      <workItem from="1625717064658" duration="18267000" />
+      <workItem from="1625752707639" duration="19000" />
+      <workItem from="1625833021143" duration="6350000" />
+      <workItem from="1625905729373" duration="174000" />
+      <workItem from="1625905939425" duration="213000" />
+      <workItem from="1625912156110" duration="9255000" />
+      <workItem from="1625921609367" duration="1143000" />
+      <workItem from="1625974180739" duration="2498000" />
+      <workItem from="1625981060177" duration="5013000" />
+      <workItem from="1626001227969" duration="10581000" />
+      <workItem from="1626270614246" duration="635000" />
+      <workItem from="1626271278023" duration="1011000" />
+      <workItem from="1626272399753" duration="8000" />
+      <workItem from="1626272458285" duration="823000" />
+      <workItem from="1626273307208" duration="569000" />
+      <workItem from="1626314163693" duration="22000" />
+      <workItem from="1626326821381" duration="23000" />
+      <workItem from="1626326918742" duration="29028000" />
+      <workItem from="1626392765397" duration="25064000" />
+      <workItem from="1626419065089" duration="9834000" />
+      <workItem from="1626433386528" duration="2764000" />
+    </task>
+    <task id="LOCAL-00001" summary="test">
+      <created>1625631066636</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1625631066636</updated>
+    </task>
+    <task id="LOCAL-00002" summary="test">
+      <created>1625631133864</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1625631133864</updated>
+    </task>
+    <task id="LOCAL-00003" summary="test">
+      <created>1625631350572</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1625631350572</updated>
+    </task>
+    <task id="LOCAL-00004" summary="test">
+      <created>1625631363917</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1625631363917</updated>
+    </task>
+    <task id="LOCAL-00005" summary="test">
+      <created>1625634865231</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1625634865231</updated>
+    </task>
+    <task id="LOCAL-00006" summary="test">
+      <created>1625639213856</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1625639213856</updated>
+    </task>
+    <task id="LOCAL-00007" summary="test">
+      <created>1625640832160</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1625640832160</updated>
+    </task>
+    <task id="LOCAL-00008" summary="DLC system updated">
+      <created>1625669854580</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1625669854580</updated>
+    </task>
+    <task id="LOCAL-00009" summary="DLC system updated">
+      <created>1625670294588</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1625670294588</updated>
+    </task>
+    <task id="LOCAL-00010" summary="DLC system updated">
+      <created>1625674836833</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1625674836833</updated>
+    </task>
+    <task id="LOCAL-00011" summary="DLC system updated">
+      <created>1625674864268</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1625674864268</updated>
+    </task>
+    <task id="LOCAL-00012" summary="DLC system updated">
+      <created>1625674915929</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1625674915929</updated>
+    </task>
+    <task id="LOCAL-00013" summary="DLC system updated">
+      <created>1625674971038</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1625674971038</updated>
+    </task>
+    <task id="LOCAL-00014" summary="DLC system updated">
+      <created>1625710324958</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1625710324958</updated>
+    </task>
+    <task id="LOCAL-00015" summary="DLC system updated">
+      <created>1625712266498</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1625712266498</updated>
+    </task>
+    <task id="LOCAL-00016" summary="DLC system updated">
+      <created>1625712314221</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1625712314221</updated>
+    </task>
+    <task id="LOCAL-00017" summary="DLC system updated">
+      <created>1625712350815</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1625712350815</updated>
+    </task>
+    <task id="LOCAL-00018" summary="DLC system updated">
+      <created>1625712374762</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1625712374762</updated>
+    </task>
+    <task id="LOCAL-00019" summary="DLC system updated">
+      <created>1625729225259</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1625729225259</updated>
+    </task>
+    <task id="LOCAL-00020" summary="DLC system updated">
+      <created>1625739582566</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1625739582566</updated>
+    </task>
+    <task id="LOCAL-00021" summary="DLC system updated">
+      <created>1625748695762</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1625748695762</updated>
+    </task>
+    <task id="LOCAL-00022" summary="init">
+      <created>1625833520016</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1625833520016</updated>
+    </task>
+    <task id="LOCAL-00023" summary="init">
+      <created>1625913139122</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1625913139122</updated>
+    </task>
+    <task id="LOCAL-00024" summary="修整">
+      <created>1625914462750</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1625914462750</updated>
+    </task>
+    <task id="LOCAL-00025" summary="config.yml added">
+      <created>1625914917013</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1625914917013</updated>
+    </task>
+    <task id="LOCAL-00026" summary="dlc system uploaded">
+      <created>1625917187916</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1625917187916</updated>
+    </task>
+    <task id="LOCAL-00027" summary="logger updated">
+      <created>1625919092037</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1625919092037</updated>
+    </task>
+    <task id="LOCAL-00028" summary="7/10 updated">
+      <created>1625920210260</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1625920210260</updated>
+    </task>
+    <task id="LOCAL-00029" summary="7/10 updated">
+      <created>1625921298298</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1625921298298</updated>
+    </task>
+    <task id="LOCAL-00030" summary="7/11 updated DLC与plugin解耦">
+      <created>1625984212859</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1625984212859</updated>
+    </task>
+    <task id="LOCAL-00031" summary="7/11 updated Prop system">
+      <created>1626009241678</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1626009241678</updated>
+    </task>
+    <task id="LOCAL-00032" summary="7/11 resources added">
+      <created>1626012380361</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1626012380361</updated>
+    </task>
+    <task id="LOCAL-00033" summary="7/15 ui test">
+      <created>1626328143964</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1626328143965</updated>
+    </task>
+    <task id="LOCAL-00034" summary="7/15 ui Me completed">
+      <created>1626331526655</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1626331526655</updated>
+    </task>
+    <task id="LOCAL-00035" summary="7/15 ui complete 60%">
+      <created>1626350336487</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1626350336487</updated>
+    </task>
+    <task id="LOCAL-00036" summary="7/15 ui complete 60%">
+      <created>1626352659009</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1626352659009</updated>
+    </task>
+    <task id="LOCAL-00037" summary="7/15 pet updated">
+      <created>1626360013460</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1626360013460</updated>
+    </task>
+    <task id="LOCAL-00038" summary="7/15 pet updated">
+      <created>1626364616320</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1626364616320</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="test" />
+    <MESSAGE value="DLC system updated" />
+    <MESSAGE value="init" />
+    <MESSAGE value="修整" />
+    <MESSAGE value="config.yml added" />
+    <MESSAGE value="dlc system uploaded" />
+    <MESSAGE value="logger updated" />
+    <MESSAGE value="7/10 updated" />
+    <MESSAGE value="7/11 updated DLC与plugin解耦" />
+    <MESSAGE value="7/11 updated Prop system" />
+    <MESSAGE value="7/11 resources added" />
+    <MESSAGE value="7/15 ui test" />
+    <MESSAGE value="7/15 ui Me completed" />
+    <MESSAGE value="7/15 ui complete 60%" />
+    <MESSAGE value="7/15 pet updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="7/15 pet updated" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>jar://C:/Program Files/Java/jdk1.8.0_241/src.zip!/java/lang/Enum.java</url>
+          <line>75</line>
+          <properties class="java.lang.Enum" method="name">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../../Nukkit Plugin/PowerNukkit/Nukkit.jar!/cn/nukkit/entity/EntityHuman.class</url>
+          <line>294</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
