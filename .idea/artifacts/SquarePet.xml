@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="SquarePet">
-    <output-path>$PROJECT_DIR$/../../Nukkit Plugin/PowerNukkit/plugins</output-path>
-    <root id="archive" name="SquarePet.jar">
-      <element id="module-output" name="SquarePetRe" />
-    </root>
-  </artifact>
-</component>

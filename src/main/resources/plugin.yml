@@ -1,6 +1,6 @@
 name: SquarePetReIG
 main: xyz.lightsky.SquarePet.Main
-version: 0.0.1 Test
+version: @pom.version@
 api: [1.0.9]
 author: iGxnon
 description: 一款轻量级宠物插件

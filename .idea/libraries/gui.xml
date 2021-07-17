@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="gui">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../Nukkit Plugin/PowerNukkit/plugins/gui.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
