@@ -146,6 +146,11 @@ public class PetManager {
         return getBaseConfig(type).getInt("基础CD");
     }
 
+    public static List<String> getLineupAdd(String type) {
+        if(getBaseConfig(type) == null) return null;
+        return getBaseConfig(type).getStringList("阵容加成");
+    }
+
     /** @deprecated */
     @Deprecated
     public static CompoundTag createTag(Vector3 pos, Config cfg) {

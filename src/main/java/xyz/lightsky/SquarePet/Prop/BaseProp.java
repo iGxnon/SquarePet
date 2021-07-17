@@ -81,6 +81,10 @@ public abstract class BaseProp {
     }
 
 
+    /**
+     * return isWorked
+     *  used to reduce prop
+     * */
     public boolean work(Trainer trainer, String petType) {
         return onUseToPet(trainer, petType);
     }

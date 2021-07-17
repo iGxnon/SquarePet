@@ -35,7 +35,7 @@ public class Trainer {
     private int maxExp;
     private String prefix;
     private int luckRate;
-    private List<String> lineup;
+    private Lineup lineup;
     private Bag bag;
 
     /**当宠物释放时读取spawnedPets为实时数据, 当宠物收回时,读取petMap为实时数据*/
@@ -65,15 +65,16 @@ public class Trainer {
         } else {
             this.cfg = new Config(info, 2);
         }
+        updateMaxExp();
+        refreshPetList();
+        refreshLineup();
         this.prefix = this.cfg.getString("头衔");
         this.luckRate = this.cfg.getInt("幸运值");
-        this.lineup = this.cfg.getStringList("宠物阵容");
         this.bag = new Bag(this, bagDat);
         this.level = this.cfg.getInt("等级");
         this.exp = this.cfg.getInt("经验");
         this.maxLevel = ConfigManager.getTrainerMaxLv();
-        updateMaxExp();
-        refreshPetList();
+        this.lineup = new Lineup(this.cfg.getStringList("宠物阵容"), this);
     }
 
     public void refreshPetList() {
@@ -117,6 +118,10 @@ public class Trainer {
                 petTypes.add(type);
             }
         }
+    }
+
+    public void refreshLineup() {
+        lineup.update();
     }
 
     public void refreshAche(BaseSquarePet pet) {

@@ -4,15 +4,11 @@ import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.plugin.PluginBase;
-import cn.nukkit.utils.Config;
 import xyz.lightsky.SquarePet.Form.Menu;
 import xyz.lightsky.SquarePet.Form.API.WindowManager;
 import xyz.lightsky.SquarePet.Listner.TrainerHandlePetListener;
 import xyz.lightsky.SquarePet.Listner.TrainerListener;
-import xyz.lightsky.SquarePet.Manager.ConfigManager;
-import xyz.lightsky.SquarePet.Manager.DLCManager;
-import xyz.lightsky.SquarePet.Manager.PetManager;
-import xyz.lightsky.SquarePet.Manager.TrainerManager;
+import xyz.lightsky.SquarePet.Manager.*;
 import xyz.lightsky.SquarePet.Prop.BaseProp;
 import xyz.lightsky.SquarePet.Skill.BaseSkill;
 import xyz.lightsky.SquarePet.Trainer.Trainer;
@@ -45,6 +41,7 @@ public class Main extends PluginBase {
         PetManager.init();
         TrainerManager.init();
         DLCManager.init();
+        MarketManager.init();
 
         BaseProp.init();
         BaseSkill.init();

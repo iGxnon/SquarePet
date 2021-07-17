@@ -1,4 +1,4 @@
-name: SquarePetReIG
+name: SquarePet
 main: xyz.lightsky.SquarePet.Main
 version: @pom.version@
 api: [1.0.9]
@@ -7,7 +7,6 @@ description: 一款轻量级宠物插件
 load: POSTWORLD
 depend:
   - "ModelManagerRe"
-  - "GUI"
 commands:
   spet:
     permission: spet.command.SquarePet

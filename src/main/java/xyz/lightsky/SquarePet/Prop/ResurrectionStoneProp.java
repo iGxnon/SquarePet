@@ -28,6 +28,7 @@ public class ResurrectionStoneProp extends BaseProp implements PetAcceptable {
     public boolean onUseToPet(Trainer trainer, String petType) {
         PetResourceAche ache = trainer.getPetMap().get(petType);
         if(!ache.isPreDead()) {
+            trainer.sendMessage("该宠物没有濒死!");
             return false;
         }
         ache.setPreDead(false);

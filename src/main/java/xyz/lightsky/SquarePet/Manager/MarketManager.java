@@ -26,10 +26,13 @@ public class MarketManager {
         propConfig = new Config(base + "基础道具市场");
         petConfig = new Config(base + "宠物市场");
         skillConfig = new Config( base + "技能石市场");
+        registerAllGoods();
     }
 
     public static void registerAllGoods() {
-
+        registerPet();
+        registerProp();
+        registerSkill();
     }
 
     public static int getBaseProp$Cost(int id) {
@@ -45,15 +48,21 @@ public class MarketManager {
     }
 
     public static void registerPet() {
-
+        petConfig.getAll().forEach((k, v) -> {
+            petPrices.put(k, (Integer) v);
+        });
     }
 
     public static void registerProp() {
-
+        propConfig.getAll().forEach((k, v) -> {
+            propPrices.put(k, (Integer) v);
+        });
     }
 
     public static void registerSkill() {
-
+        skillConfig.getAll().forEach((k, v) -> {
+            skillStonePrices.put(k, (Integer) v);
+        });
     }
 
 }

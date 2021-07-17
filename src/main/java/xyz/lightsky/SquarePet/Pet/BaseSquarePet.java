@@ -218,7 +218,7 @@ public class BaseSquarePet extends EntityHuman {
         petConf.set("暴击率", critRate);
         petConf.set("暴击倍率", critTimeRate);
         petConf.set("SP", sp);
-        petConf.set("MaxSP", maxSP);
+        petConf.set("最大SP", maxSP);
         petConf.set("大小", scale);
         petConf.set("SP恢复速率", spRecoverRate);
         petConf.set("SP损耗率", spLossRate);
