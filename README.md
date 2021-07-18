@@ -1,2 +1,2 @@
 # SquarePet
-Nuclear powered pet plugin for Nukkit*
+###### Nuclear powered pet plugin for Nukkit

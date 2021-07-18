@@ -1,17 +1,34 @@
 package xyz.lightsky.SquarePet;
 
+
+/*
+ *
+ *    _____                             ____       __
+ *   / ___/____ ___  ______ _________  / __ \___  / /_
+ *   \__ \/ __ `/ / / / __ `/ ___/ _ \/ /_/ / _ \/ __/
+ *  ___/ / /_/ / /_/ / /_/ / /  /  __/ ____/  __/ /_
+ * /____/\__, /\__,_/\__,_/_/   \___/_/    \___/\__/
+ *         /_/
+ *
+ */
+
+
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.plugin.PluginBase;
-import xyz.lightsky.SquarePet.Form.Menu;
-import xyz.lightsky.SquarePet.Form.API.WindowManager;
-import xyz.lightsky.SquarePet.Listner.TrainerHandlePetListener;
-import xyz.lightsky.SquarePet.Listner.TrainerListener;
-import xyz.lightsky.SquarePet.Manager.*;
-import xyz.lightsky.SquarePet.Prop.BaseProp;
-import xyz.lightsky.SquarePet.Skill.BaseSkill;
-import xyz.lightsky.SquarePet.Trainer.Trainer;
+import cn.nukkit.scheduler.Task;
+import cn.nukkit.scheduler.TaskHandler;
+import xyz.lightsky.SquarePet.form.Menu;
+import xyz.lightsky.SquarePet.form.API.WindowManager;
+import xyz.lightsky.SquarePet.listner.TrainerHandlePetListener;
+import xyz.lightsky.SquarePet.listner.TrainerListener;
+import xyz.lightsky.SquarePet.manager.*;
+import xyz.lightsky.SquarePet.prop.BaseProp;
+import xyz.lightsky.SquarePet.skill.BaseSkill;
+import xyz.lightsky.SquarePet.utlis.Tools;
+import xyz.lightsky.SquarePet.trainer.Trainer;
 
 public class Main extends PluginBase {
 
@@ -32,6 +49,7 @@ public class Main extends PluginBase {
     @Override
     public void onLoad() {
         instance = this;
+        getLogger().info(Tools.logo());
     }
 
     @Override
@@ -48,6 +66,7 @@ public class Main extends PluginBase {
         getServer().getPluginManager().registerEvents(new TrainerListener(), this);
         getServer().getPluginManager().registerEvents(new TrainerHandlePetListener(), this);
         getServer().getPluginManager().registerEvents(new WindowManager(), this);
+
     }
 
     @Override
@@ -79,7 +98,7 @@ public class Main extends PluginBase {
 //                }
 //            } ,5 * 20);
             Menu.MAIN((Player) sender);
-            trainer.getBag().use(10, "僵尸");
+            //trainer.getBag().use(11);
         }
         return true;
     }
