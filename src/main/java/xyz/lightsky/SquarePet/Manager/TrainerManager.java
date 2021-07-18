@@ -23,4 +23,8 @@ public class TrainerManager {
         trainerMap.clear();
     }
 
+    public static void save() {
+        trainerMap.values().forEach(Trainer::save);
+    }
+
 }

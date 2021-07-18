@@ -4,6 +4,7 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.entity.EntityHuman;
+import cn.nukkit.entity.data.FloatEntityData;
 import cn.nukkit.event.entity.EntityDamageByEntityEvent;
 import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.item.Item;
@@ -14,6 +15,7 @@ import cn.nukkit.nbt.tag.ListTag;
 import cn.nukkit.nbt.tag.StringTag;
 import cn.nukkit.scheduler.Task;
 import cn.nukkit.utils.Config;
+import com.google.common.util.concurrent.AtomicDouble;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -76,6 +78,8 @@ public class BaseSquarePet extends EntityHuman {
     /**濒死状态*/
     private boolean preDead = false;
 
+    private PetResourceAche ache;
+
     public BaseSquarePet(FullChunk chunk, CompoundTag nbt) {
         super(chunk, nbt);
 
@@ -89,6 +93,7 @@ public class BaseSquarePet extends EntityHuman {
         for (int i = 0; i < foods.size(); i ++) {
             addFood(foods.get(i).data);
         }
+        ache = owner.getPetMap().get(getType());
     }
 
     @Override
@@ -143,7 +148,14 @@ public class BaseSquarePet extends EntityHuman {
                 return false;
             }
         }
+
+        //todo 阵容加成防御提升 + 自身防御
         return super.attack(source);
+    }
+
+    //todo 基础伤害 + 暴击 + 阵容提升
+    public void onDamage(Entity target) {
+
     }
 
     @Override
@@ -382,6 +394,11 @@ public class BaseSquarePet extends EntityHuman {
         double rate = ((double) lv) / ((double) maxLv);
         double result = getMinScale() + (rate * (getMaxScale() - getMinScale()));
         setScale((float) result);
+        if(isInLineup) {
+            /* do not refresh this.scale */
+            this.setDataProperty(new FloatEntityData(38, (float) (result + getOwner().getLineup().getScaleAdd())));
+            this.recalculateBoundingBox();
+        }
     }
 
     public void healHP(int amount) {
@@ -424,7 +441,7 @@ public class BaseSquarePet extends EntityHuman {
                 + "SP: " + getSp() + "/" + getMaxSP() + "\n"
                 + "血量: " + (int) getHealth() + "/" + getMaxHealth() + "\n"
                 + "攻击: " + getAttack() + "\n"
-                + "攻速: " + getAttackSpeed() + "\n"
+                + "攻速: " + String.format("%.1f", (1F / (float) getAttackSpeed())) + "\n"
                 + "防御: " + getDefenceRate() + "\n"
                 + "暴击率: " + getCritRate() * 100 + "%" + "  幸运值加成: " + getLuckilyUpRate() * 100 + "%" + "\n"
                 + "暴击倍率: " + getCritTimeRate() * 100 + "%" + "\n"

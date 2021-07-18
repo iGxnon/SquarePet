@@ -1,5 +1,6 @@
 package xyz.lightsky.SquarePet.Prop;
 
+import xyz.lightsky.SquarePet.Manager.MarketManager;
 import xyz.lightsky.SquarePet.Pet.BaseSquarePet;
 import xyz.lightsky.SquarePet.Pet.PetResourceAche;
 import xyz.lightsky.SquarePet.Prop.Symbol.PetAcceptable;
@@ -34,6 +35,12 @@ public class SkillStoneProp extends BaseProp implements PetAcceptable {
 
     public BaseSkill getSkill() {
         return achedSkill;
+    }
+
+    /** after setSkill()*/
+    @Override
+    public int get$Cost() {
+        return MarketManager.getSkillStone$Cost(getSkill().getName());
     }
 
     @Override

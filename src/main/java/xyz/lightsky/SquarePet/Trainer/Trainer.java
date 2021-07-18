@@ -65,9 +65,6 @@ public class Trainer {
         } else {
             this.cfg = new Config(info, 2);
         }
-        updateMaxExp();
-        refreshPetList();
-        refreshLineup();
         this.prefix = this.cfg.getString("头衔");
         this.luckRate = this.cfg.getInt("幸运值");
         this.bag = new Bag(this, bagDat);
@@ -75,6 +72,9 @@ public class Trainer {
         this.exp = this.cfg.getInt("经验");
         this.maxLevel = ConfigManager.getTrainerMaxLv();
         this.lineup = new Lineup(this.cfg.getStringList("宠物阵容"), this);
+        updateMaxExp();
+        refreshPetList();
+        refreshLineup();
     }
 
     public void refreshPetList() {
@@ -87,7 +87,7 @@ public class Trainer {
                 Config config = new Config(file);
                 ache.setName(config.getString("名称"));
                 ache.setOwnerName(config.getString("主人"));
-                ache.setOwner(TrainerManager.getTrainer(ache.getOwnerName()));
+                ache.setOwner(this);
                 ache.setType(config.getString("类型"));
                 ache.setModelName(config.getString("模型"));
                 ache.setAttributeStr(config.getString("属性"));
@@ -181,6 +181,7 @@ public class Trainer {
     }
 
     public void spawnPet(String type) {
+        if(type == null) return;
         if(!petMap.containsKey(type)) {
             sendMessage("你没有该宠物!");
         }
@@ -193,7 +194,7 @@ public class Trainer {
         pet.setSkin(ModelManagerRe.getModel(pet.getModelName()));
         pet.spawnToAll();
         spawnedPets.put(type, pet);
-        sendMessage("成功召唤该宠物");
+        sendMessage("成功召唤该宠物 " + pet.getName());
     }
 
     public void closePet(String type) {
@@ -265,7 +266,7 @@ public class Trainer {
                 + "经验: " + getExp() + "/" + getMaxExp() + "\n"
                 + "幸运值: " + getLuckRate() + "\n"
                 + "头衔: " + getPrefix() + "\n"
-                + "阵容: " + getLineup() + "\n"
+                + "阵容: " + getLineup().toArray() + "\n"
                 + "宠物列表: " + petTypes.toString();
     }
 
@@ -310,18 +311,19 @@ public class Trainer {
     }
 
     public void save() {
+        bag.save();
+        lineup.save();
         this.cfg.set("名称", player.getName());
         this.cfg.set("等级", getLevel());
         this.cfg.set("经验", getExp());
         this.cfg.set("头衔", getPrefix());
         this.cfg.set("幸运值", getLuckRate());
-        this.cfg.set("宠物阵容", getLineup());
+        this.cfg.set("宠物阵容", getLineup().toArray());
         this.cfg.save();
     }
 
     public void close() {
         save();
-        bag.save();
         closeAllPets();
         TrainerManager.trainerMap.remove(getName());
         petMap.clear();

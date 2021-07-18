@@ -5,15 +5,18 @@ import cn.nukkit.math.Vector3f;
 import cn.nukkit.utils.Config;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import xyz.lightsky.SquarePet.Manager.PetManager;
 import xyz.lightsky.SquarePet.Trainer.Trainer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 @Getter
 @Setter
+@ToString(exclude = {"owner"})
 public class PetResourceAche {
 
     private Trainer owner;
@@ -70,9 +73,9 @@ public class PetResourceAche {
         petConf.set("SP恢复速率", spRecoverRate);
         petConf.set("SP损耗率", spLossRate);
         petConf.set("食物", PetManager.getFoods(type));
+        getSkills().removeIf(Objects::isNull);
         petConf.set("技能", getSkills());
         petConf.save();
     }
-
 
 }

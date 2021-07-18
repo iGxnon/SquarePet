@@ -4,8 +4,6 @@ import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerJoinEvent;
 import cn.nukkit.event.player.PlayerQuitEvent;
-import cn.nukkit.event.server.DataPacketReceiveEvent;
-import cn.nukkit.network.protocol.SetEntityLinkPacket;
 import xyz.lightsky.SquarePet.Manager.TrainerManager;
 import xyz.lightsky.SquarePet.Trainer.Trainer;
 

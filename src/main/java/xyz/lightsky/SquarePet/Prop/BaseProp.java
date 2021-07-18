@@ -18,6 +18,7 @@ public abstract class BaseProp {
 
     private static Map<Integer, BaseProp> propMap = new HashMap<>();
 
+
     public static void init() {
         registerProp(LuckyStrawProp.class);
         registerProp(LittleHPProp.class);
@@ -32,13 +33,25 @@ public abstract class BaseProp {
         registerProp(ResurrectionStoneProp.class);
     }
 
-    public static List<String> names = new ArrayList<>();
+    public static BaseProp get(int id) {
+        if(id == 9) {
+            Main.warning("We suggest you to use 'new SkillStoneProp() and setSkill(BaseSkill skill)' or 'MarketManager.getSkillStone(String skillName)' to create this prop");
+            return null;
+        }
+        return propMap.get(id);
+    }
+
+    private static final Map<String, Integer> name2Id = new HashMap<>();
 
     @Deprecated
     public static void registerProp(int id, BaseProp prop) {
         if(id <= 10) return;
         propMap.put(id, prop);
-        names.add(prop.getName());
+        name2Id.put(prop.getName(), id);
+    }
+
+    public static int getID(String name) {
+        return name2Id.get(name);
     }
 
     public static void registerProp(Class<? extends BaseProp> clazz) {
@@ -50,7 +63,7 @@ public abstract class BaseProp {
             }
             BaseProp prop = clazz.newInstance();
             propMap.put(id, prop);
-            names.add(prop.getName());
+            name2Id.put(prop.getName(), id);
         } catch (NoSuchFieldException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
             Main.warning(clazz.getSimpleName() + " register failed!, do not find final field 'ID'");
@@ -80,11 +93,12 @@ public abstract class BaseProp {
         return onUseToTrainer(trainer);
     }
 
-
     /**
-     * return isWorked
-     *  used to reduce prop
-     * */
+     *
+     * @param trainer trainer
+     * @param petType type of pet
+     * @return isWorked , used to check if reduce prop
+     */
     public boolean work(Trainer trainer, String petType) {
         return onUseToPet(trainer, petType);
     }

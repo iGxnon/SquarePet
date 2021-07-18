@@ -1,5 +1,6 @@
 package xyz.lightsky.SquarePet.Prop;
 
+import xyz.lightsky.SquarePet.Manager.PetManager;
 import xyz.lightsky.SquarePet.Pet.BaseSquarePet;
 import xyz.lightsky.SquarePet.Pet.PetResourceAche;
 import xyz.lightsky.SquarePet.Prop.Symbol.PetAcceptable;
@@ -31,14 +32,24 @@ public class HPEnhanceProp extends BaseProp implements PetAcceptable {
         int addition = new Random().nextInt(11);
         if(trainer.hasSpawnedPet(petType)) {
             BaseSquarePet pet = trainer.getSpawnedPets().get(petType);
-            pet.setMaxHealth(addition + pet.getMaxHealth());
+            if(pet.getMaxHealth() == PetManager.getUltimateHp(petType)) {
+                trainer.sendMessage("已经扩容至最大HP,无法继续扩容了!");
+                return false;
+            }
+            int result = addition + pet.getMaxHealth();
+            pet.setMaxHealth(Math.min(result, PetManager.getUltimateHp(petType)));
             pet.save();
         }else {
             PetResourceAche ache = trainer.getPetMap().get(petType);
-            ache.setMaxHP(addition + ache.getMaxHP());
+            if(ache.getMaxHP() == PetManager.getUltimateHp(petType)) {
+                trainer.sendMessage("已经扩容至最大HP,无法继续扩容了!");
+                return false;
+            }
+            int result = addition + ache.getMaxHP();
+            ache.setMaxHP(Math.min(result, PetManager.getUltimateHp(petType)));
             ache.save();
         }
-        trainer.sendMessage("HP已经扩容HP " + addition + " 点");
+        trainer.sendMessage("已经扩容HP " + addition + " 点");
         return true;
     }
 }

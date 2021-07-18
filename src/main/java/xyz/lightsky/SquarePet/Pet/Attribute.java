@@ -1,6 +1,7 @@
 package xyz.lightsky.SquarePet.Pet;
 
 public enum  Attribute {
+
     LAND{
         @Override
         public String toString() {

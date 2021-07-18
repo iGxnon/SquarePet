@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 
 public class FormCustom extends FormWindowCustom {
 
-
     public FormCustom() {
         super("");
     }

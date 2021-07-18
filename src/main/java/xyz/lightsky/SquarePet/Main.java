@@ -52,6 +52,12 @@ public class Main extends PluginBase {
     }
 
     @Override
+    public void onDisable() {
+        MarketManager.save();
+        TrainerManager.save();
+    }
+
+    @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             Trainer trainer = TrainerManager.trainerMap.get(sender.getName());
@@ -74,8 +80,7 @@ public class Main extends PluginBase {
 //                }
 //            } ,5 * 20);
             Menu.MAIN((Player) sender);
-
-            System.out.println(trainer.getBag().getContains());
+            trainer.getBag().use(10, "僵尸");
         }
         return true;
     }

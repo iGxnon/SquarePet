@@ -147,8 +147,18 @@ public class PetManager {
     }
 
     public static List<String> getLineupAdd(String type) {
-        if(getBaseConfig(type) == null) return null;
+        if(getBaseConfig(type) == null) return new ArrayList<>();
         return getBaseConfig(type).getStringList("阵容加成");
+    }
+
+    public static int getUltimateHp(String type) {
+        if(getBaseConfig(type) == null) return -1;
+        return getBaseConfig(type).getInt("血量上限");
+    }
+
+    public static int getUltimateSp(String type) {
+        if(getBaseConfig(type) == null) return -1;
+        return getBaseConfig(type).getInt("SP上限");
     }
 
     /** @deprecated */

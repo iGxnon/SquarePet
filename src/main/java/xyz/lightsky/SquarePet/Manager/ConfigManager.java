@@ -4,14 +4,11 @@ import cn.nukkit.Player;
 import cn.nukkit.utils.Config;
 import xyz.lightsky.SquarePet.Main;
 import xyz.lightsky.SquarePet.Pet.BaseSquarePet;
-import xyz.lightsky.SquarePet.Prop.BaseProp;
 import xyz.lightsky.SquarePet.Trainer.Trainer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ConfigManager {
 
@@ -29,12 +26,13 @@ public class ConfigManager {
         Main.info("配置文件加载完毕");
     }
 
-    // 经常访问,直接注册
+    // Frequently visit, register directly
     private static void registerPlayerMaxLv() {
         trainerMaxLv = config.getInt("训练师最高等级");
     }
 
     private static void registerPetPrefix() {
+        System.out.println(config.getAll());
         petPrefixBase = config.getString("宠物头衔显示格式");
     }
 

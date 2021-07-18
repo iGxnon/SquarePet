@@ -1,5 +1,6 @@
 package xyz.lightsky.SquarePet.Prop;
 
+import xyz.lightsky.SquarePet.Manager.PetManager;
 import xyz.lightsky.SquarePet.Pet.BaseSquarePet;
 import xyz.lightsky.SquarePet.Pet.PetResourceAche;
 import xyz.lightsky.SquarePet.Prop.Symbol.PetAcceptable;
@@ -31,14 +32,24 @@ public class SPEnhanceProp extends BaseProp implements PetAcceptable {
         int addition = new Random().nextInt(11);
         if(trainer.hasSpawnedPet(petType)) {
             BaseSquarePet pet = trainer.getSpawnedPets().get(petType);
-            pet.setMaxSP(addition + pet.getMaxSP());
+            if(pet.getMaxSP() == PetManager.getUltimateSp(petType)) {
+                trainer.sendMessage("已经扩容至最大SP,无法继续扩容了!");
+                return false;
+            }
+            int result = addition + pet.getMaxSP();
+            pet.setMaxSP(Math.min(result, PetManager.getUltimateSp(petType)));
             pet.save();
         }else {
             PetResourceAche ache = trainer.getPetMap().get(petType);
-            ache.setMaxSP(addition + ache.getMaxSP());
+            if(ache.getMaxSP() == PetManager.getUltimateSp(petType)) {
+                trainer.sendMessage("已经扩容至最大SP,无法继续扩容了!");
+                return false;
+            }
+            int result = addition + ache.getMaxSP();
+            ache.setMaxSP(Math.min(result, PetManager.getUltimateSp(petType)));
             ache.save();
         }
-        trainer.sendMessage("SP已经扩容SP " + addition + " 点");
+        trainer.sendMessage("已经扩容SP " + addition + " 点");
         return true;
     }
 }

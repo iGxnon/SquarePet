@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DLCClassLoader extends URLClassLoader {
-    private DLCLoader loader;
+
+    private final DLCLoader loader;
 
     private final Map<String, Class> classes = new HashMap<>();
 

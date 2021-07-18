@@ -28,15 +28,14 @@ public class Bag {
         contains.merge(propID, value, Integer::sum);
     }
 
-    public boolean remove(int id, int amount) {
+    public void remove(int id, int amount) {
         if(amount > contains.get(id)) {
-            return false;
+            return;
         }
         contains.put(id, contains.get(id) - amount);
         if(contains.get(id) == 0) {
             contains.remove(id);
         }
-        return true;
     }
 
     public void save() {
@@ -48,19 +47,42 @@ public class Bag {
         return contains.containsKey(id);
     }
 
+    /** propName should not be 'SkillStone'*/
+    public void use(String propName) {
+        use(BaseProp.getID(propName));
+    }
+
+    /** propName should not be 'SkillStone'*/
+    public void use(String propName, String type) {
+        use(BaseProp.getID(propName), type);
+    }
+
     public void use(int propId) {
-        BaseProp prop = BaseProp.getProp(propId);
-        if(prop.work(getOwner())) {
-            remove(propId, 1);
+        if(contains(propId)) {
+            BaseProp prop = BaseProp.getProp(propId);
+            if (prop.work(getOwner())) {
+                remove(propId, 1);
+            }
+        }else {
+            getOwner().sendMessage("你没有该道具!");
         }
     }
 
     public void use(int propId, String type) {
-        BaseProp prop = BaseProp.getProp(propId);
-        if(prop.work(getOwner(), type)) {
-            remove(propId, 1);
+        if(contains(propId)){
+            BaseProp prop = BaseProp.getProp(propId);
+            if(prop.work(getOwner(), type)) {
+                remove(propId, 1);
+            }
+        }else {
+            getOwner().sendMessage("你没有该道具!");
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "Bag{" +
+                "contains=" + contains +
+                '}';
+    }
 }
