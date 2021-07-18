@@ -36,7 +36,6 @@ public class Main extends PluginBase {
 
     @Override
     public void onEnable() {
-
         ConfigManager.init();
         PetManager.init();
         TrainerManager.init();
@@ -62,10 +61,10 @@ public class Main extends PluginBase {
         if(sender instanceof Player) {
             Trainer trainer = TrainerManager.trainerMap.get(sender.getName());
 
-////            CompoundTag tag = PetManager.createTag((Vector3) sender, testCfg);
-////            BaseSquarePet pet = new BaseSquarePet(((Player) sender).chunk, tag);
-////            pet.setSkin(((Player) sender).getSkin());
-////            pet.spawnToAll();
+//            CompoundTag tag = PetManager.createTag((Vector3) sender, testCfg);
+//            BaseSquarePet pet = new BaseSquarePet(((Player) sender).chunk, tag);
+//            pet.setSkin(((Player) sender).getSkin());
+//            pet.spawnToAll();
 //
 //            trainer.addPet("僵尸");
 //            trainer.spawnPet("僵尸");
