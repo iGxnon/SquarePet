@@ -1,15 +1,12 @@
-package xyz.lightsky.SquarePet.utlis;
+package xyz.lightsky.SquarePet.utils;
 
 import cn.nukkit.Server;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.level.Position;
 import cn.nukkit.level.particle.FloatingTextParticle;
-import cn.nukkit.math.Vector3f;
 import cn.nukkit.nbt.tag.CompoundTag;
 import cn.nukkit.scheduler.Task;
-import cn.nukkit.scheduler.TaskHandler;
 
-import java.net.ServerSocket;
 import java.util.*;
 
 public class Tools {

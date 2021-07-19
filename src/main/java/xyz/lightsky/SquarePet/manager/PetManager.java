@@ -27,6 +27,7 @@ public class PetManager {
         registerAllPetMaps();
     }
 
+    /* 将宠物图鉴注册 */
     private static void registerAllPetMaps() {
         for (File map : Objects.requireNonNull(petPath.listFiles())) {
             if(map.getName().endsWith(".yml")) {
@@ -77,30 +78,68 @@ public class PetManager {
         return getBaseConfig(type).getString("介绍");
     }
 
+    /**
+     * 返回模型 String
+     * Return model String
+     * @param type
+     * @return
+     */
     public static String getModel(String type) {
         if(getBaseConfig(type) == null) return "";
         return getBaseConfig(type).getString("模型");
     }
 
+    /**
+     * 将属性作为 String 返回
+     * Return the attribute as a String
+     * @param type
+     * @return
+     */
     public static String getAttributeAsString(String type) {
         if(getBaseConfig(type) == null) return "";
         return getBaseConfig(type).getString("属性");
     }
 
+    /**
+     * 将属性作为 Attribute 返回
+     * Return the attribute as `Attribute`
+     * @param type
+     * @return
+     */
     public static Attribute getAttribute(String type) {
         return Attribute.of(getAttributeAsString(type));
     }
 
+    /**
+     * 返回基础HP
+     * Return base HP
+     * @param type
+     * @return
+     */
     public static int getBaseHp(String type) {
         if(getBaseConfig(type) == null) return -1;
         return getBaseConfig(type).getInt("基础血量");
     }
 
+    /**
+     * 返回目前等级升级所需Exp
+     * Return the Exp required for the current level upgrade
+     * @param type
+     * @param lv
+     * @return
+     */
     public static int getPetNeedExp(String type, int lv) {
         if(getBaseConfig(type) == null) return -1;
         return (int) (getBaseConfig(type).getInt("初始升级经验") + Math.pow(lv, getBaseConfig(type).getInt("等级经验倍率")));
     }
 
+    /**
+     * 返回目前等级对应的HP
+     * Returns the HP corresponding to the current level
+     * @param type
+     * @param lv
+     * @return
+     */
     public static int getPetCurrentMaxHP(String type, int lv) {
         if(getBaseConfig(type) == null) return -1;
         int base = getBaseHp(type);
@@ -109,6 +148,13 @@ public class PetManager {
         return (int) (base + ((max - base) * rate));
     }
 
+    /**
+     * 返回目前等级对应的SP
+     * Return the SP corresponding to the current level
+     * @param type
+     * @param lv
+     * @return
+     */
     public static int getPetCurrentMaxSP(String type, int lv) {
         if(getBaseConfig(type) == null) return -1;
         int base = getBaseMaxSP(type);
@@ -117,12 +163,53 @@ public class PetManager {
         return (int) (base + ((max - base) * rate));
     }
 
+
+    /**
+     * 返回目前等级对应的伤害
+     * Returns the damage corresponding to the current level
+     * @param type
+     * @param lv
+     * @return
+     */
     public static int getPetCurrentAttack(String type, int lv) {
         if(getBaseConfig(type) == null) return -1;
         int base = getBaseAttack(type);
         int max = getUltimateAttack(type);
         double rate = ((double) lv) / ((double) getMaxLv(type));
         return (int) (base + ((max - base) * rate));
+    }
+
+    /**
+     * 返回仇恨范围
+     * Return to the hatred area
+     * @param type
+     * @return
+     */
+    public static int getHatredRange(String type) {
+        if(getBaseConfig(type) == null) return -1;
+        return getBaseConfig(type).getInt("仇恨范围");
+    }
+
+    /**
+     * 返回攻击范围
+     * Return to attack range
+     * @param type
+     * @return
+     */
+    public static double getAttackRange(String type) {
+        if(getBaseConfig(type) == null) return -1D;
+        return getBaseConfig(type).getDouble("攻击范围");
+    }
+
+    //todo
+    public static double getBaseSpeed(String type) {
+        if(getBaseConfig(type) == null) return -1D;
+        return getBaseConfig(type).getDouble("基础速度");
+    }
+    //todo
+    public static double getUltimateSpeed(String type) {
+        if(getBaseConfig(type) == null) return -1D;
+        return getBaseConfig(type).getDouble("速度上限");
     }
 
     public static int getBaseMaxSP(String type) {

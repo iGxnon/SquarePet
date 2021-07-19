@@ -25,10 +25,11 @@ import xyz.lightsky.SquarePet.manager.ConfigManager;
 import xyz.lightsky.SquarePet.manager.PetManager;
 import xyz.lightsky.SquarePet.manager.TrainerManager;
 import xyz.lightsky.SquarePet.skill.BaseSkill;
-import xyz.lightsky.SquarePet.utlis.Tools;
+import xyz.lightsky.SquarePet.utils.Tools;
 import xyz.lightsky.SquarePet.trainer.Trainer;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -161,7 +162,7 @@ public class BaseSquarePet extends EntityHuman {
                 finalDefenceRate += getOwner().getLineup().getDefenceRateAdd();
             }
             double denfencedRate = 1D - finalDefenceRate;
-            source.setDamage((float) (source.getDamage() * denfencedRate));
+            source.setDamage(Math.max((float) (source.getDamage() * denfencedRate), 1F));
         }
         return super.attack(source);
     }
@@ -187,6 +188,8 @@ public class BaseSquarePet extends EntityHuman {
         DestroyBlockParticle particle = new DestroyBlockParticle(target.add(0, getEyeHeight()), Block.get(Block.REDSTONE_BLOCK));
         getLevel().addParticle(particle);
         finalAttack *= finalCritTimeRate;
+        float finalRandom = new Random().nextFloat();
+        finalAttack = new Random().nextBoolean() ? (finalAttack - finalRandom) : (finalAttack + finalRandom);
         if(ConfigManager.showAttack()) {
             Tools.createDamageParticle(target, (float) finalAttack, crit);
         }
@@ -234,7 +237,6 @@ public class BaseSquarePet extends EntityHuman {
         }
         return true;
     }
-
 
     public void addFood(String foodRaw) {
         if(foodRaw == null) return;
@@ -290,7 +292,9 @@ public class BaseSquarePet extends EntityHuman {
     }
 
     public boolean feed(Item food) {
-        if(!getFoodItems().contains(food)) {
+        ArrayList<Integer> ids = (ArrayList<Integer>) getFoodItems().stream().map(Item::getId).collect(Collectors.toList());
+        ArrayList<Integer> metas = (ArrayList<Integer>) getFoodItems().stream().map(Item::getDamage).collect(Collectors.toList());
+        if(!ids.contains(food.getId()) || !metas.contains(food.getDamage())) {
             getOwner().sendMessage(getName() + ": 我不喜欢吃这个!");
             return false;
         }
@@ -325,14 +329,14 @@ public class BaseSquarePet extends EntityHuman {
         }
         if(attackDelay <= 0) {
             attackDelay = (int) (attackSpeed * 20);
-            if(target != null && this.distanceSquared(target) <= 2) {
+            if(target != null && this.distanceSquared(target) <= Math.pow(PetManager.getAttackRange(getType()), 2)) {
                 onDamage(target);
             }
         }
         /*  Reduce the number of refreshes */
         if(currentTick % 5 == 0) {
             updateNameTag();
-            checkIfKill();
+            checkTarget();
             checkInWater();
             checkOnGround();
             checkLineup();
@@ -344,14 +348,23 @@ public class BaseSquarePet extends EntityHuman {
         return super.onUpdate(currentTick);
     }
 
-    public void checkIfKill() {
+    public void checkTarget() {
         if(this.target != null) {
             if (!this.target.isAlive()) {
                 // TODO: 2021/07/16 经验自适应
                 gainExp(new Random().nextInt(20));
                 this.target = null;
+                return;
+            }
+            if(this.distanceSquared(target) >= Math.pow(PetManager.getHatredRange(getType()), 2)) {
+                this.target = null;
             }
         }
+    }
+
+    private Vector3f eMotion;
+    public void moveToTarget() {
+
     }
 
     //// TODO: 2021/07/17
@@ -393,6 +406,7 @@ public class BaseSquarePet extends EntityHuman {
     public void updatePreDead() {
         getOwner().getPetMap().get(getType()).setPreDead(preDead);
     }
+
 
     public void levelUP() {
         if(this.lv != maxLv) {
@@ -437,7 +451,11 @@ public class BaseSquarePet extends EntityHuman {
     }
 
     private void updateNameTag() {
-        setNameTag(ConfigManager.getPetPrefix(this));
+        if(this.getPassenger() != null) {
+            setNameTag(ConfigManager.getPetPrefix(this) + ".\n"+".\n"+".\n"+".\n");
+        }else {
+            setNameTag(ConfigManager.getPetPrefix(this));
+        }
     }
 
     private void updateScale() {

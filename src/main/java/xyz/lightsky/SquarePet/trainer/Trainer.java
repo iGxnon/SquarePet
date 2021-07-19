@@ -16,7 +16,7 @@ import xyz.lightsky.SquarePet.manager.TrainerManager;
 import xyz.lightsky.SquarePet.pet.Attribute;
 import xyz.lightsky.SquarePet.pet.BaseSquarePet;
 import xyz.lightsky.SquarePet.pet.PetResourceAche;
-import xyz.lightsky.SquarePet.utlis.Tools;
+import xyz.lightsky.SquarePet.utils.Tools;
 
 import java.io.File;
 import java.util.*;

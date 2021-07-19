@@ -14,12 +14,9 @@ package xyz.lightsky.SquarePet;
 
 
 import cn.nukkit.Player;
-import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.plugin.PluginBase;
-import cn.nukkit.scheduler.Task;
-import cn.nukkit.scheduler.TaskHandler;
 import xyz.lightsky.SquarePet.form.Menu;
 import xyz.lightsky.SquarePet.form.API.WindowManager;
 import xyz.lightsky.SquarePet.listner.TrainerHandlePetListener;
@@ -27,7 +24,7 @@ import xyz.lightsky.SquarePet.listner.TrainerListener;
 import xyz.lightsky.SquarePet.manager.*;
 import xyz.lightsky.SquarePet.prop.BaseProp;
 import xyz.lightsky.SquarePet.skill.BaseSkill;
-import xyz.lightsky.SquarePet.utlis.Tools;
+import xyz.lightsky.SquarePet.utils.Tools;
 import xyz.lightsky.SquarePet.trainer.Trainer;
 
 public class Main extends PluginBase {

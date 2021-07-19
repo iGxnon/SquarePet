@@ -6,7 +6,7 @@ import cn.nukkit.scheduler.Task;
 import cn.nukkit.scheduler.TaskHandler;
 import xyz.lightsky.ModelManagerRe.ModelManagerRe;
 import xyz.lightsky.SquarePet.prop.Symbol.TrainerAcceptable;
-import xyz.lightsky.SquarePet.utlis.Tools;
+import xyz.lightsky.SquarePet.utils.Tools;
 import xyz.lightsky.SquarePet.trainer.Trainer;
 
 import java.util.Random;

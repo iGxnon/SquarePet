@@ -1,4 +1,4 @@
-package xyz.lightsky.SquarePet.utlis;
+package xyz.lightsky.SquarePet.utils;
 
 import cn.nukkit.entity.Entity;
 import cn.nukkit.entity.projectile.EntityProjectile;

@@ -99,7 +99,7 @@ public class Lineup {
 
     public void add(String type) {
         if(type == null) return;
-        switch (trainer.getPetMap().get(type).getAttribute()) {
+        switch (PetManager.getAttribute(type)) {
             case FLY:
                 fly = type;
                 break;

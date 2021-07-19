@@ -106,7 +106,7 @@ public class ConfigManager {
         String spBar = generateBar(sp, maxSP, 10);
         String hpBar = generateBar(hp, maxHP, 10);
         String expBar = generateBar(exp, maxExp, 10);
-        return base.replace("{hp}", String.valueOf(hp))
+        String result = base.replace("{hp}", String.valueOf(hp))
                 .replace("{lv}", String.valueOf(lv))
                 .replace("{name}", name)
                 .replace("{owner}", owner)
@@ -119,6 +119,11 @@ public class ConfigManager {
                 .replace("{hpBar}", hpBar)
                 .replace("{expBar}", expBar)
                 .replace("{n}", "\n");
+        if (pet.isInLineup()) {
+            return result.replace("{lineup}", "阵容+");
+        }else {
+            return result.replace("{lineup}", "");
+        }
     }
 
     public static String generateBar(int amount, int max, int length) {
