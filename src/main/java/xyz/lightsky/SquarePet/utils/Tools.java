@@ -7,6 +7,7 @@ import cn.nukkit.level.Position;
 import cn.nukkit.level.particle.FloatingTextParticle;
 import cn.nukkit.nbt.tag.CompoundTag;
 import cn.nukkit.scheduler.Task;
+import xyz.lightsky.SquarePet.pet.BaseSquarePet;
 
 import java.util.*;
 
@@ -44,14 +45,28 @@ public class Tools {
         return result.toString();
     }
 
-    public static void createDamageParticle(Position centre, float damage, boolean crit) {
-        List<FloatingTextParticle> particles = new ArrayList<>();
-        float bit = 0.5F/16F;
+    public static void createHealParticle(Position pos, float value, HealType type){
+        String color = (type == HealType.HP) ? "§c" : "§1";
+        String text = color + "§l§o+" + value;
+        addFloatDropText(pos, text);
+    }
 
-        float x =new Random().nextFloat();
-        float z = new Random().nextFloat();
+    public enum HealType {
+        HP, SP
+    }
+
+    public static void createDamageParticle(Position centre, float damage, boolean crit) {
         String color = randomColor();
         String text = crit ? color+"§l§o-"+String.format("%.01f", damage)+"\n"+randomColor()+"暴击!" : "§l§o-"+String.format("%.01f", damage);
+        addFloatDropText(centre, text);
+    }
+
+
+    public static void addFloatDropText(Position centre, String text) {
+        List<FloatingTextParticle> particles = new ArrayList<>();
+        float bit = 0.5F/16F;
+        float x = new Random().nextFloat();
+        float z = new Random().nextFloat();
         for(int i=63;i>=32;i--) {
             Position newPos = centre.add(x, i * bit, z);
             FloatingTextParticle particle = new FloatingTextParticle(newPos, text);

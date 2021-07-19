@@ -14,6 +14,7 @@ import xyz.lightsky.SquarePet.pet.BaseSquarePet;
 import xyz.lightsky.SquarePet.utils.CoreFocus;
 import xyz.lightsky.SquarePet.utils.Tools;
 
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +114,13 @@ public class ConfigSkill extends BaseSkill {
                 case "雷击":
                     EntityLightning lightning = new EntityLightning(target.chunk, Entity.getDefaultNBT(target));
                     lightning.spawnToAll();
+                    //延迟半秒
+                    Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
+                        @Override
+                        public void onRun(int i) {
+                            damager.fireTicks = 0;
+                        }
+                    }, 10);
                     break;
                 case "效果":
                     int id = Integer.parseInt(s.split("-")[1]);

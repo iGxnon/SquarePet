@@ -475,10 +475,16 @@ public class BaseSquarePet extends EntityHuman {
 
     public void healHP(int amount) {
         heal((float) amount);
+        if(ConfigManager.showAttack()) {
+            Tools.createHealParticle(this, amount, Tools.HealType.HP);
+        }
     }
 
     public void healSP(int amount) {
         this.sp = Math.min(getMaxSP(), getSp() + amount);
+        if(ConfigManager.showAttack()) {
+            Tools.createHealParticle(this, amount, Tools.HealType.SP);
+        }
     }
 
     public void autoSkill() {
@@ -499,6 +505,9 @@ public class BaseSquarePet extends EntityHuman {
             skill.work(this, target);
             /* 造成伤害*/
             target.attack(skill.getDamage());
+            if(ConfigManager.showAttack()){
+                Tools.createDamageParticle(target, skill.getDamage(), true);
+            }
             setSp(getSp() - skill.getSpCost());
             getOwner().sendMessage(getName() + ": 发动技能 " + skill.getName());
             Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
