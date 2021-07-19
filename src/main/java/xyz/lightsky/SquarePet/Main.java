@@ -27,6 +27,8 @@ import xyz.lightsky.SquarePet.skill.BaseSkill;
 import xyz.lightsky.SquarePet.utils.Tools;
 import xyz.lightsky.SquarePet.trainer.Trainer;
 
+import java.util.Arrays;
+
 public class Main extends PluginBase {
 
     private static Main instance;
@@ -95,7 +97,6 @@ public class Main extends PluginBase {
 //                }
 //            } ,5 * 20);
             Menu.MAIN((Player) sender);
-            //trainer.getBag().use(11);
         }
         return true;
     }

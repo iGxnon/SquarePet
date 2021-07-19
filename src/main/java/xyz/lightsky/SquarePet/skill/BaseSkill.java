@@ -23,13 +23,12 @@ public abstract class BaseSkill {
         }
         Stream.of(Objects.requireNonNull(path.listFiles()))
                 .filter(s -> s.getName().endsWith(".yml"))
-                .forEach(s->{
-                    register(s.getName().split("\\.")[0], new Config(s));
-                });
+                .forEach(s-> register(s.getName().split("\\.")[0], new Config(s)));
     }
 
     public static void register(String name, Config config) {
         skillMap.putIfAbsent(name, new ConfigSkill(config));
+        Main.info("已经加载技能: " + name);
     }
 
     public abstract Attribute getAttribute();

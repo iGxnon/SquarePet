@@ -36,7 +36,7 @@ public enum  Attribute {
             case "水":
                 return Attribute.SWIM;
             default:
-                return null;
+                return Attribute.ALL;
         }
     }
 }

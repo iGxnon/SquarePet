@@ -272,7 +272,7 @@ public class BaseSquarePet extends EntityHuman {
         petConf.set("SP恢复速率", spRecoverRate);
         petConf.set("SP损耗率", spLossRate);
         petConf.set("食物", PetManager.getFoods(type));
-        petConf.set("技能", getSkills());
+        petConf.set("技能", skillNames);
         petConf.save();
     }
 
@@ -361,8 +361,11 @@ public class BaseSquarePet extends EntityHuman {
             }
         }
     }
+    //todo
+    public void moveToTarget(float speed) {
 
-    private Vector3f eMotion;
+    }
+    //todo
     public void moveToTarget() {
 
     }
@@ -496,11 +499,14 @@ public class BaseSquarePet extends EntityHuman {
             skill.work(this, target);
             /* 造成伤害*/
             target.attack(skill.getDamage());
-            getOwner().sendMessage(getName() + ": 释放技能 " + skill.getName());
+            setSp(getSp() - skill.getSpCost());
+            getOwner().sendMessage(getName() + ": 发动技能 " + skill.getName());
             Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
                 @Override
                 public void onRun(int i) {
-                    healSP((int) ((1 - getSpLossRate()) * skill.getSpCost()));
+                    int amount = (int) ((1 - getSpLossRate()) * skill.getSpCost());
+                    healSP(amount);
+                    getOwner().sendMessage(getName() +": 已恢复SP: " + amount + "点");
                 }
             }, getSpRecoverRate() * 20);
         }else {

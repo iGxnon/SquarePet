@@ -125,6 +125,7 @@ public class Lineup {
                 land = type;
                 break;
         }
+        update();
     }
 
     public void update() {

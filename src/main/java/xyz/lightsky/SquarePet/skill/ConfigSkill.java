@@ -1,9 +1,18 @@
 package xyz.lightsky.SquarePet.skill;
 
+import cn.nukkit.Server;
+import cn.nukkit.block.Block;
 import cn.nukkit.entity.Entity;
+import cn.nukkit.entity.weather.EntityLightning;
+import cn.nukkit.level.particle.DestroyBlockParticle;
+import cn.nukkit.nbt.tag.CompoundTag;
+import cn.nukkit.potion.Effect;
+import cn.nukkit.scheduler.Task;
 import cn.nukkit.utils.Config;
 import xyz.lightsky.SquarePet.pet.Attribute;
 import xyz.lightsky.SquarePet.pet.BaseSquarePet;
+import xyz.lightsky.SquarePet.utils.CoreFocus;
+import xyz.lightsky.SquarePet.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +51,78 @@ public class ConfigSkill extends BaseSkill {
     @Override
     public void work(BaseSquarePet damager, Entity target) {
         skillRaw.forEach(s -> {
-
+            String key = s.split("-")[0];
+            switch (key) {
+                case "集中":
+                    Tools.generatePos(target).forEach(v->{
+                        CompoundTag tag = Tools.createProjectileTag(v, Integer.parseInt(s.split("-")[1]));
+                        CoreFocus focus = new CoreFocus(target.chunk, tag, target);
+                        focus.spawnToAll();
+                    });
+                    DestroyBlockParticle particle = new DestroyBlockParticle(target.add(0, target.getEyeHeight()), Block.get(Block.REDSTONE_BLOCK));
+                    damager.getLevel().addParticle(particle);
+                    break;
+                case "加血量":
+                    int value = Integer.parseInt(s.split("-")[1]);
+                    damager.healHP(value);
+                    break;
+                case "加暴击率":
+                    int delayTick1 = Integer.parseInt(s.split("-")[2]) * 20;
+                    damager.setCritRateAdd(Double.parseDouble(s.split("-")[1]));
+                    Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
+                        @Override
+                        public void onRun(int i) {
+                            if(damager.isClosed() || !damager.isAlive()) return;
+                            damager.setCritRateAdd(0D);
+                        }
+                    }, delayTick1);
+                    break;
+                case "加暴击倍率":
+                    int delayTick2 = Integer.parseInt(s.split("-")[2]) * 20;
+                    damager.setCritTimeRateAdd(Double.parseDouble(s.split("-")[1]));
+                    Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
+                        @Override
+                        public void onRun(int i) {
+                            if(damager.isClosed() || !damager.isAlive()) return;
+                            damager.setCritTimeRateAdd(0D);
+                        }
+                    }, delayTick2);
+                    break;
+                case "加防御":
+                    int delayTick3 = Integer.parseInt(s.split("-")[2]) * 20;
+                    damager.setDefenceRateAdd(Double.parseDouble(s.split("-")[1]));
+                    Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
+                        @Override
+                        public void onRun(int i) {
+                            if(damager.isClosed() || !damager.isAlive()) return;
+                            damager.setDefenceRateAdd(0D);
+                        }
+                    }, delayTick3);
+                    break;
+                case "加攻击":
+                    int delayTick4 = Integer.parseInt(s.split("-")[2]) * 20;
+                    damager.setAttackAdd(Integer.parseInt(s.split("-")[1]));
+                    Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
+                        @Override
+                        public void onRun(int i) {
+                            if(damager.isClosed() || !damager.isAlive()) return;
+                            damager.setAttackAdd(0);
+                        }
+                    }, delayTick4);
+                    break;
+                case "雷击":
+                    EntityLightning lightning = new EntityLightning(target.chunk, Entity.getDefaultNBT(target));
+                    lightning.spawnToAll();
+                    break;
+                case "效果":
+                    int id = Integer.parseInt(s.split("-")[1]);
+                    int level = Integer.parseInt(s.split("-")[2]);
+                    int duration = Integer.parseInt(s.split("-")[3]) * 20;
+                    target.addEffect(Effect.getEffect(id).setAmplifier(level).setDuration(duration));
+                    break;
+                default:
+                    break;
+            }
         });
     }
 

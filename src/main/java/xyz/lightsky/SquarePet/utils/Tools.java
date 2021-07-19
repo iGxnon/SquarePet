@@ -1,5 +1,6 @@
 package xyz.lightsky.SquarePet.utils;
 
+import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.level.Position;
@@ -77,6 +78,22 @@ public class Tools {
                 centre.getLevel().addParticle(o);
             }
         }, 1);
+    }
+
+    public static void sendTitle(Player player, String... messages) {
+        int[] j = new int[]{0};
+        int end = messages.length - 1;
+        Server.getInstance().getScheduler().scheduleDelayedRepeatingTask(new Task() {
+            @Override
+            public void onRun(int i) {
+                String mess = messages[j[0]];
+                player.sendTitle(mess,"",10, 15, 4);
+                j[0] ++;
+                if(j[0] > end) {
+                    getHandler().cancel();
+                }
+            }
+        }, 20, 30);
     }
 
     public static List<Position> generatePos(Position core) {
