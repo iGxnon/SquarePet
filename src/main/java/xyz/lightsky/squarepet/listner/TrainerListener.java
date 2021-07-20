@@ -17,8 +17,10 @@ public class TrainerListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        TrainerManager.trainerMap.get(event.getPlayer().getName()).close();
-        TrainerManager.trainerMap.remove(event.getPlayer().getName());
+        if(TrainerManager.trainerMap.containsKey(event.getPlayer().getName())){
+            TrainerManager.trainerMap.get(event.getPlayer().getName()).close();
+            TrainerManager.trainerMap.remove(event.getPlayer().getName());
+        }
     }
 
 }

@@ -12,6 +12,7 @@ import cn.nukkit.item.Item;
 import cn.nukkit.level.Position;
 import cn.nukkit.level.format.FullChunk;
 import cn.nukkit.level.particle.DestroyBlockParticle;
+import cn.nukkit.math.Vector2f;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.math.Vector3f;
 import cn.nukkit.nbt.tag.CompoundTag;
@@ -330,7 +331,6 @@ public class BaseSquarePet extends EntityHuman {
         if(cd <= 0) {
             cd = dataTag.getInt("CD") * 20;
             canSkill = true;
-            updateScale();
         }
         if(attackDelay <= 0) {
             attackDelay = (int) (attackSpeed * 20);
@@ -346,14 +346,23 @@ public class BaseSquarePet extends EntityHuman {
             checkOnGround();
             checkLineup();
             checkOwnerDistance();
-            //// TODO: 2021/07/15 训练师控制技能释放
+            updateScale();
+            //// TODO: 2021/07/15 训练师控制技能释放(骑乘后可控制 or 手动控制)
             if(target != null) {
                 autoSkill();
             }
             if(target != null) {
                 moveTo(target);
             }else {
-                moveTo(getOwner().getPlayer().add(1,0,0));
+                moveTo(getOwner().getPlayer().add(1.2,0,1.2));
+            }
+        }
+
+        if(currentTick % 10 == 0) {
+            if(target != null){
+                look(target);
+            }else {
+                look(getOwner().getPlayer());
             }
         }
 
@@ -405,11 +414,11 @@ public class BaseSquarePet extends EntityHuman {
     }
 
     public void moveTo(Position pos) {
+        if(getPassenger() != null) return;
         // wait for 1 tick = 50 ms
         // need to complete in 250 ms = 5 tick
         Vector3 next = new AstarPathfinder(this, pos).find();
         Vector3 start = this.getPosition();
-        look(pos);
         if(next != null) {
             int[] j = new int[]{0};
             // 5 - 1 = 4 tick
@@ -429,20 +438,53 @@ public class BaseSquarePet extends EntityHuman {
         }
     }
 
-    public void look(Position pos) {
+    public void look(Entity pos) {
+        if(getPassenger() != null) return;
+        double horizontal = Math.sqrt(Math.pow((pos.x - this.x),2) + Math.pow((pos.z - this.z),2));
+        double vertical = pos.y + pos.getEyeHeight() - this.y - 0.2;
+        double atan2 = - Math.atan2(vertical, horizontal) / Math.PI * 180;
 
+        if(atan2 > 90) {
+            this.pitch = atan2 - 180;
+        }else if(atan2 > -90) {
+            this.pitch = atan2;
+        }else if(atan2 > -180) {
+            this.pitch = atan2 + 180;
+        }
+
+        double xDist = pos.x - this.x;
+        double zDist = pos.z - this.z;
+        this.yaw = Math.atan2(zDist, xDist) / Math.PI * 180 - 90;
+        if(this.yaw < 0){
+            this.yaw += 360.0F;
+        }
     }
 
     //// TODO: 2021/07/17
     public void checkOnGround() {
-//        if(getAttribute().equals(Attribute.LAND)) {
-//            //isOnGround(); // need on ground? path finder has completed this task
-//        }
+        if(getAttribute().equals(Attribute.LAND)) {
+            // path finder has completed this task for no passenger
+            if(getPassenger() != null) {
+                if(Util.isPermeable(getLevel().getBlock(this.add(0, -0.5, 0)))){
+                    move(0, -0.5, 0);
+                }
+            }
+        }
 
         /* float on the sky */
         if(isInLineup && getAttribute().equals(Attribute.SWIM)) {
 
         }
+    }
+
+    public Vector3f checkJump(Vector2f motion) {
+        float dx = motion.x;
+        float dz = motion.y;
+        float dy = 0F;
+        if(!Util.isPermeable(getLevel().getBlock(this.add(dx + 0.5, 0, dz + 0.5)))) {
+            dy = 1F;
+        }
+        return new Vector3f(dx, dy , dz);
     }
 
     public void checkInWater() {
@@ -517,7 +559,7 @@ public class BaseSquarePet extends EntityHuman {
 
     private void updateNameTag() {
         if(this.getPassenger() != null) {
-            setNameTag(ConfigManager.getPetPrefix(this) + ".\n"+".\n"+".\n"+".\n");
+            setNameTag("");
         }else {
             setNameTag(ConfigManager.getPetPrefix(this));
         }

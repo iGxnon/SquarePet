@@ -9,10 +9,13 @@ import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.event.server.DataPacketReceiveEvent;
 import cn.nukkit.inventory.transaction.data.UseItemOnEntityData;
 import cn.nukkit.item.Item;
+import cn.nukkit.math.Vector2f;
+import cn.nukkit.math.Vector3f;
 import cn.nukkit.network.protocol.InventoryTransactionPacket;
 import cn.nukkit.network.protocol.PlayerActionPacket;
 import cn.nukkit.network.protocol.PlayerInputPacket;
 import xyz.lightsky.squarepet.manager.TrainerManager;
+import xyz.lightsky.squarepet.pet.Attribute;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
@@ -24,16 +27,35 @@ public class TrainerHandlePetListener implements Listener {
     @EventHandler
     public void onHandle(DataPacketReceiveEvent event) {
         Trainer trainer = TrainerManager.getTrainer(event.getPlayer().getName());
-        /*
-         * 跳跃dismount
-         */
+
         if(event.getPacket() instanceof PlayerInputPacket) {
-            if(((PlayerInputPacket) event.getPacket()).jumping) {
-                BaseSquarePet pet = null;
-                if((pet = trainer.getOnRide()) != null) {
+            /*
+             * 跳跃dismount
+             */
+            PlayerInputPacket pk = (PlayerInputPacket) event.getPacket();
+            BaseSquarePet pet = trainer.getOnRide();
+            if(pk.jumping) {
+                if(pet != null) {
                     pet.dismountEntity(trainer.getPlayer());
                 }
             }
+            if(pet != null) {
+                if(pk.motionY > 0) {
+                    pet.yaw = trainer.getPlayer().yaw;
+                    if(pet.getAttribute().equals(Attribute.FLY)) {
+                        pet.pitch = trainer.getPlayer().pitch;
+                        pet.getLevel().addEntityMovement(pet, pet.x, pet.y, pet.z, pet.yaw, pet.pitch, pet.yaw);
+                        pet.move(pet.getDirectionVector().x * 0.5, pet.getDirectionVector().y * 0.5, pet.getDirectionVector().z * 0.5);
+                    }else {
+                        pet.pitch = 0;
+                        pet.getLevel().addEntityMovement(pet, pet.x, pet.y, pet.z, pet.yaw, pet.pitch, pet.yaw);
+                        Vector3f motion = pet.checkJump(new Vector2f((float) pet.getDirectionVector().x, (float) pet.getDirectionVector().z));
+                        pet.move(motion.x * 0.5, motion.y, motion.z * 0.5);
+                    }
+                    pet.updateMovement();
+                }
+            }
+
         }
 
         /*
