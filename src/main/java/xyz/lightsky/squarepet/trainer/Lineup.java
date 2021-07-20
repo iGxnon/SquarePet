@@ -50,11 +50,11 @@ public class Lineup {
     }
 
     public String getInfo() {
-        return "阵容加成: " + "/n"
-                + "大小: +" + scaleAdd
-                + "防御: +" + defenceRateAdd
-                + "攻击: +" + attackAdd
-                + "暴击率: +" + critRateAdd
+        return "阵容加成: " + "\n"
+                + "大小: +" + scaleAdd + "\n"
+                + "防御: +" + defenceRateAdd + "\n"
+                + "攻击: +" + attackAdd + "\n"
+                + "暴击率: +" + critRateAdd + "\n"
                 + "暴击倍率: +" + critTimeRateAdd;
     }
 
@@ -123,6 +123,21 @@ public class Lineup {
                 break;
             case LAND:
                 land = type;
+                break;
+        }
+        update();
+    }
+
+    public void remove(Attribute attribute) {
+        switch (attribute) {
+            case SWIM:
+                swim = null;
+                break;
+            case FLY:
+                fly = null;
+                break;
+            case LAND:
+                land = null;
                 break;
         }
         update();

@@ -46,7 +46,7 @@ public class Menu {
                         Market.SWITCH(trainer);
                         break;
                     case 5:
-                        Me.ME(trainer);
+                        Me.ME_INFO(trainer);
                         break;
                     case 6:
                         OP_SETTING(player);
@@ -61,7 +61,7 @@ public class Menu {
     }
 
 
-    public void CONFIRM(Player player, Consumer<Boolean> consumer) {
+    public static void CONFIRM(Player player, Consumer<Boolean> consumer) {
         CONFIRM(player, consumer, "确认界面", "确定要这么做吗?");
     }
 

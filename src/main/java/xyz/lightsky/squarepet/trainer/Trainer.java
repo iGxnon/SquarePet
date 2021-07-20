@@ -185,6 +185,9 @@ public class Trainer {
         if(!petMap.containsKey(type)) {
             sendMessage("你没有该宠物!");
         }
+        if(spawnedPets.containsKey(type)) {
+            return;
+        }
         if(petMap.get(type).isPreDead()) {
             sendMessage("该宠物已经濒死，请使用复活石复活!");
             return;
@@ -198,9 +201,11 @@ public class Trainer {
     }
 
     public void closePet(String type) {
-        spawnedPets.get(type).close();
-        spawnedPets.remove(type);
-        sendMessage("成功收回该宠物");
+        if(spawnedPets.containsKey(type)) {
+            spawnedPets.get(type).close();
+            spawnedPets.remove(type);
+            sendMessage("成功收回该宠物");
+        }
     }
 
     public void closeAllPets() {
@@ -244,6 +249,48 @@ public class Trainer {
         petConf.set("技能", new ArrayList<>());
         petConf.save();
         sendMessage("成功添加宠物" + type);
+    }
+
+    public void receivePet(Trainer sender, PetResourceAche ache) {
+        Config config = new Config(this.getPlayerFolder() + "/宠物/" + ache.getType() + ".yml");
+        config.set("名称", ache.getName());
+        config.set("主人", getName());
+        config.set("类型", ache.getType());
+        config.set("模型", ache.getModelName());
+        config.set("属性", ache.getAttributeStr());
+        config.set("等级", ache.getLv());
+        config.set("经验", ache.getExp());
+        config.set("血量", ache.getHp());
+        config.set("最大血量", ache.getMaxHP());
+        config.set("攻击", ache.getAttack());
+        config.set("攻速", ache.getAttackSpeed());
+        config.set("防御", ache.getDefenceRate());
+        config.set("暴击率", ache.getCritRate());
+        config.set("暴击倍率", ache.getCritTimeRate());
+        config.set("SP", ache.getSp());
+        config.set("最大SP", ache.getMaxSP());
+        config.set("CD", ache.getCd());
+        config.set("大小", ache.getScale());
+        config.set("SP恢复速率", ache.getSpRecoverRate());
+        config.set("SP损耗率", ache.getSpLossRate());
+        config.set("食物", ache.getFoods());
+        config.set("技能", ache.getSkills());
+        config.save();
+        refreshPetList();
+        sendMessage("你收到了来自 "+sender.getName()+" 的宠物 "+ache.getName());
+        sender.removePet(ache.getType());
+    }
+
+    public void removePet(String type) {
+        getPetTypes().remove(type);
+        getPetMap().remove(type);
+        if(lineup.contains(type)) {
+            lineup.remove(PetManager.getAttribute(type));
+        }
+        File path = new File(this.getPlayerFolder() + "/宠物/" + type + ".yml");
+        if(path.exists()) {
+            path.delete();
+        }
     }
 
     public void updateMaxExp() {

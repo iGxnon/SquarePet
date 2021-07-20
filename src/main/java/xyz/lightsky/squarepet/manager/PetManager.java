@@ -78,6 +78,7 @@ public class PetManager {
         return getBaseConfig(type).getString("介绍");
     }
 
+
     /**
      * 返回模型 String
      * Return model String

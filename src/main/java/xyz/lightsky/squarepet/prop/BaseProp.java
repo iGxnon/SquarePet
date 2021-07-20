@@ -32,14 +32,6 @@ public abstract class BaseProp {
         registerProp(炫迈.class);
     }
 
-    public static BaseProp get(int id) {
-        if(id == 9) {
-            Main.warning("We suggest you to use 'new SkillStoneProp() and setSkill(BaseSkill skill)' or 'MarketManager.getSkillStone(String skillName)' to create this prop");
-            return null;
-        }
-        return propMap.get(id);
-    }
-
     private static final Map<String, Integer> name2Id = new HashMap<>();
 
     @Deprecated
@@ -70,6 +62,10 @@ public abstract class BaseProp {
     }
 
     public static BaseProp getProp(int id) {
+        if(id == 9) {
+            Main.warning("We suggest you to use 'new SkillStoneProp() and setSkill(BaseSkill skill)' or 'MarketManager.getSkillStone(String skillName)' to create this prop");
+            return null;
+        }
         return propMap.get(id);
     }
 

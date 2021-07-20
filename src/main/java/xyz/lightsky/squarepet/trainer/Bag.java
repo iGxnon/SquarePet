@@ -2,12 +2,17 @@ package xyz.lightsky.squarepet.trainer;
 
 import cn.nukkit.utils.Config;
 import lombok.Getter;
+import lombok.Setter;
 import xyz.lightsky.squarepet.prop.BaseProp;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
+@Setter
 public class Bag {
 
     private Trainer owner;
@@ -22,6 +27,12 @@ public class Bag {
             put(id, amount);
         });
         this.config = config;
+    }
+
+    public List<String> getContainNames() {
+        return contains.keySet().stream()
+                .map(s-> Objects.requireNonNull(BaseProp.getProp(s)).getName())
+                .collect(Collectors.toList());
     }
 
     public void put(int propID, int value) {
@@ -60,6 +71,7 @@ public class Bag {
     public void use(int propId) {
         if(contains(propId)) {
             BaseProp prop = BaseProp.getProp(propId);
+            assert prop != null;
             if (prop.work(getOwner())) {
                 remove(propId, 1);
             }
@@ -71,6 +83,7 @@ public class Bag {
     public void use(int propId, String type) {
         if(contains(propId)){
             BaseProp prop = BaseProp.getProp(propId);
+            assert prop != null;
             if(prop.work(getOwner(), type)) {
                 remove(propId, 1);
             }
