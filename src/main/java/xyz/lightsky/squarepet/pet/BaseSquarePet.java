@@ -405,10 +405,11 @@ public class BaseSquarePet extends EntityHuman {
     }
 
     public void moveTo(Position pos) {
-        // wait for 1 tick = 50ms
+        // wait for 1 tick = 50 ms
         // need to complete in 250 ms = 5 tick
         Vector3 next = new AstarPathfinder(this, pos).find();
         Vector3 start = this.getPosition();
+        look(pos);
         if(next != null) {
             int[] j = new int[]{0};
             // 5 - 1 = 4 tick
@@ -428,11 +429,15 @@ public class BaseSquarePet extends EntityHuman {
         }
     }
 
+    public void look(Position pos) {
+
+    }
+
     //// TODO: 2021/07/17
     public void checkOnGround() {
-        if(getAttribute().equals(Attribute.LAND)) {
-            isOnGround();
-        }
+//        if(getAttribute().equals(Attribute.LAND)) {
+//            //isOnGround(); // need on ground? path finder has completed this task
+//        }
 
         /* float on the sky */
         if(isInLineup && getAttribute().equals(Attribute.SWIM)) {

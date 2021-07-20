@@ -111,15 +111,8 @@ public class ConfigSkill extends BaseSkill {
                     }, delayTick4);
                     break;
                 case "雷击":
-                    EntityLightning lightning = new EntityLightning(target.chunk, Entity.getDefaultNBT(target));
+                    EntityLightning lightning = new EntityLightning(target.chunk, Entity.getDefaultNBT(target.add(0, -10,0)));
                     lightning.spawnToAll();
-                    //延迟半秒
-                    Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
-                        @Override
-                        public void onRun(int i) {
-                            damager.fireTicks = 0;
-                        }
-                    }, 10);
                     break;
                 case "效果":
                     int id = Integer.parseInt(s.split("-")[1]);

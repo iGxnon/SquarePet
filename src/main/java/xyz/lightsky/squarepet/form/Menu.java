@@ -4,10 +4,13 @@ import cn.nukkit.Player;
 import cn.nukkit.form.element.ElementButton;
 import cn.nukkit.form.element.ElementButtonImageData;
 import cn.nukkit.utils.TextFormat;
+import xyz.lightsky.squarepet.form.api.window.FormModal;
 import xyz.lightsky.squarepet.form.api.window.FormSimple;
 import xyz.lightsky.squarepet.manager.ConfigManager;
 import xyz.lightsky.squarepet.manager.TrainerManager;
 import xyz.lightsky.squarepet.trainer.Trainer;
+
+import java.util.function.Consumer;
 
 public class Menu {
 
@@ -31,19 +34,19 @@ public class Menu {
                         Pet.PET_LIST(trainer, s -> Pet.PET_INFO(s, trainer), "");
                         break;
                     case 1:
-                        //Pet.PET_LINEUP(trainer.getLineup(), trainer);
+                        Pet.PET_LINEUP(trainer.getLineup(), trainer);
                         break;
                     case 2:
-                        //Pet.PET_LIST(trainer, s -> Pet.PET_GIVE(trainer, s), "请选择要赠送的宠物");
+                        Pet.PET_LIST(trainer, s -> Pet.PET_GIVE(trainer, s), "请选择要赠送的宠物");
                         break;
                     case 3:
-                        //Pet.PET_LIST(trainer, s -> Pet.PET_EDIT(s, trainer), "请选择要编辑的宠物");
+                        Pet.PET_LIST(trainer, s -> Pet.PET_EDIT(trainer, s), "请选择要编辑的宠物");
                         break;
                     case 4:
-                        //Market.SWITCH(trainer);
+                        Market.SWITCH(trainer);
                         break;
                     case 5:
-                        //Me.ME(trainer);
+                        Me.ME(trainer);
                         break;
                     case 6:
                         OP_SETTING(player);
@@ -55,6 +58,20 @@ public class Menu {
 
     public static void OP_SETTING(Player player) {
 
+    }
+
+
+    public void CONFIRM(Player player, Consumer<Boolean> consumer) {
+        CONFIRM(player, consumer, "确认界面", "确定要这么做吗?");
+    }
+
+    public static void CONFIRM(Player player, Consumer<Boolean> consumer, String title, String content) {
+        CONFIRM(player, consumer, title, content, "确认", "取消");
+    }
+
+    public static void CONFIRM(Player player, Consumer<Boolean> consumer, String title, String content, String trueButton, String falseButton) {
+        FormModal form = new FormModal(title, content, trueButton, falseButton);
+        player.showFormWindow(form.onResponse(consumer));
     }
 
 }

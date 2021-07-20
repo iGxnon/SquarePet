@@ -3,6 +3,7 @@ package xyz.lightsky.squarepet.form;
 import xyz.lightsky.squarepet.form.api.window.FormModal;
 import xyz.lightsky.squarepet.form.api.window.FormSimple;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
+import xyz.lightsky.squarepet.trainer.Lineup;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
 import java.util.function.Consumer;
@@ -58,6 +59,18 @@ public class Pet {
                 pet.getOwner().closePet(pet.getType());
             }
         }));
+    }
+
+    public static void PET_LINEUP(Lineup lineup, Trainer trainer) {
+
+    }
+
+    public static void PET_GIVE(Trainer trainer, String type) {
+
+    }
+
+    public static void PET_EDIT(Trainer trainer, String type) {
+
     }
 
 }
