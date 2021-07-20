@@ -9,8 +9,10 @@ import cn.nukkit.entity.data.FloatEntityData;
 import cn.nukkit.event.entity.EntityDamageByEntityEvent;
 import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.item.Item;
+import cn.nukkit.level.Position;
 import cn.nukkit.level.format.FullChunk;
 import cn.nukkit.level.particle.DestroyBlockParticle;
+import cn.nukkit.math.Vector3;
 import cn.nukkit.math.Vector3f;
 import cn.nukkit.nbt.tag.CompoundTag;
 import cn.nukkit.nbt.tag.ListTag;
@@ -25,6 +27,8 @@ import xyz.lightsky.squarepet.manager.ConfigManager;
 import xyz.lightsky.squarepet.manager.PetManager;
 import xyz.lightsky.squarepet.manager.TrainerManager;
 import xyz.lightsky.squarepet.pet.animation.AnimationController;
+import xyz.lightsky.squarepet.pet.pathfinder.astar.AstarPathfinder;
+import xyz.lightsky.squarepet.pet.pathfinder.utils.Util;
 import xyz.lightsky.squarepet.skill.BaseSkill;
 import xyz.lightsky.squarepet.utils.Tools;
 import xyz.lightsky.squarepet.trainer.Trainer;
@@ -341,12 +345,25 @@ public class BaseSquarePet extends EntityHuman {
             checkInWater();
             checkOnGround();
             checkLineup();
+            checkOwnerDistance();
             //// TODO: 2021/07/15 训练师控制技能释放
             if(target != null) {
                 autoSkill();
             }
+            if(target != null) {
+                moveTo(target);
+            }else {
+                moveTo(getOwner().getPlayer().add(1,0,0));
+            }
         }
+
         return super.onUpdate(currentTick);
+    }
+
+    public void checkOwnerDistance() {
+        if(Util.MHDistance(this, getOwner().getPlayer()) >= 100) {
+            this.teleport(getOwner().getPlayer());
+        }
     }
 
     public void checkTarget() {
@@ -362,13 +379,53 @@ public class BaseSquarePet extends EntityHuman {
             }
         }
     }
-    //todo
-    public void moveToTarget(float speed) {
 
+
+    //direct motion to target
+    //target is locked! or fixSpeed is more than 5!
+    //Hope that fixSpeed ​​is a factor of 10
+    public void moveToTarget(float fixSpeed) {
+        if(target == null) return;
+        int[] j = new int[]{0};
+        int divide = (int) Util.MHDistance(this, target);
+        double dx = (target.x - this.x) / divide;
+        double dy = (target.y - this.y) / divide;
+        double dz = (target.z - this.z) / divide;
+        Server.getInstance().getScheduler().scheduleRepeatingTask(new Task() {
+            @Override
+            public void onRun(int i) {
+                j[0] ++;
+                move(dx, dy, dz);
+                updateMovement();
+                if(j[0] >= divide) {
+                    getHandler().cancel();
+                }
+            }
+        }, Math.max((int) (10F / fixSpeed), 1));
     }
-    //todo
-    public void moveToTarget() {
 
+    public void moveTo(Position pos) {
+        // wait for 1 tick = 50ms
+        // need to complete in 250 ms = 5 tick
+        Vector3 next = new AstarPathfinder(this, pos).find();
+        Vector3 start = this.getPosition();
+        if(next != null) {
+            int[] j = new int[]{0};
+            // 5 - 1 = 4 tick
+            Server.getInstance().getScheduler().scheduleRepeatingTask(new Task() {
+                @Override
+                public void onRun(int i) {
+                    j[0] ++;
+                    double dx = (next.x - start.x) * 0.25;
+                    double dy = (next.y - start.y) * 0.25;
+                    double dz = (next.z - start.z) * 0.25;
+                    move(dx, dy, dz);
+                    updateMovement();
+                    if(j[0] >= 4) {
+                        getHandler().cancel();
+                    }
+                }}, 2);
+        }
     }
 
     //// TODO: 2021/07/17
@@ -400,7 +457,6 @@ public class BaseSquarePet extends EntityHuman {
         isInLineup = checked;
         getOwner().getPetMap().get(getType()).setInLineup(checked);
     }
-
 
     public void updateMaxExp() {
         maxExp = PetManager.getPetNeedExp(type, lv);
@@ -548,6 +604,7 @@ public class BaseSquarePet extends EntityHuman {
                 + "技能: " + skillNames.toString();
     }
 
+    //todo animation supported
     public void playAnimation(String animationType){
         AnimationController.sendAnimate(animationType, this);
     }

@@ -1,9 +1,15 @@
 package xyz.lightsky.squarepet.pet.pathfinder.utils;
 
 import cn.nukkit.block.Block;
+import cn.nukkit.block.BlockAir;
 import cn.nukkit.block.BlockID;
+import cn.nukkit.math.BlockFace;
 import cn.nukkit.math.Vector3;
 
+/**
+ * @author lvhaoxuan
+ * @author iGxnon
+ */
 public class Util {
 
     /**
@@ -97,6 +103,25 @@ public class Util {
         return canStand(block.getLevel().getBlock(block.add(0, -1, 0)))
                 || block.getId() == Block.VINE
                 || block.getId() == Block.LADDER;
+    }
+
+    public static Block getNearBlock(Block block, BlockFace face) {
+        switch (face) {
+            case UP:
+                return block.getLevel().getBlock(block.add(0, 1, 1));
+            case DOWN:
+                return block.getLevel().getBlock(block.add(0, -1, 0));
+            case EAST:
+                return block.getLevel().getBlock(block.add(1, 0, 0));
+            case WEST:
+                return block.getLevel().getBlock(block.add(-1, 0, 0));
+            case NORTH:
+                return block.getLevel().getBlock(block.add(0, 0, -1));
+            case SOUTH:
+                return block.getLevel().getBlock(block.add(0, 0, 1));
+            default:
+                return new BlockAir();
+        }
     }
 
 

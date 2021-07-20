@@ -6,9 +6,10 @@ import java.util.List;
 
 public interface API {
 
-    void find();
-
-    List<Vector3> result();
-
+    /**
+     * return the next node of path
+     * @return Vector3
+     */
+    Vector3 find();
 
 }

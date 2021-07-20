@@ -1,13 +1,16 @@
 package xyz.lightsky.squarepet.pet.pathfinder;
 
+import cn.nukkit.level.Location;
+import xyz.lightsky.squarepet.pet.pathfinder.astar.Node;
+
 import java.util.List;
 
 public interface NodeProvider {
 
-    boolean isReachable();
+    boolean isAccesse(int[] direct, Node n, Location nextStep);
 
-    void update();
+    void update(Node node);
 
-    List<NodeProvider> getNextNodes();
+    List<Node> getNextNodes(Location target);
 
 }

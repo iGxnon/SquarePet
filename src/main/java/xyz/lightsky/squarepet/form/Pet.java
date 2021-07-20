@@ -7,6 +7,7 @@ import xyz.lightsky.squarepet.trainer.Trainer;
 
 import java.util.function.Consumer;
 
+//todo complete Pet ui system
 public class Pet {
 
     public static void PET_LIST(Trainer trainer, Consumer<String> consumer, String content) {
