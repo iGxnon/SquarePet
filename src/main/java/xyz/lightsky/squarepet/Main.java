@@ -78,24 +78,6 @@ public class Main extends PluginBase {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             Trainer trainer = TrainerManager.trainerMap.get(sender.getName());
-
-//            CompoundTag tag = PetManager.createTag((Vector3) sender, testCfg);
-//            BaseSquarePet pet = new BaseSquarePet(((Player) sender).chunk, tag);
-//            pet.setSkin(((Player) sender).getSkin());
-//            pet.spawnToAll();
-//
-//            trainer.addPet("僵尸");
-//            trainer.spawnPet("僵尸");
-//
-//            System.out.println(trainer.getInfo());
-//
-//            Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
-//                @Override
-//                public void onRun(int i) {
-//                    trainer.closeAllPets();
-//                    System.out.println(trainer.hasSpawnedPet("僵尸"));
-//                }
-//            } ,5 * 20);
             Menu.MAIN((Player) sender);
         }
         return true;

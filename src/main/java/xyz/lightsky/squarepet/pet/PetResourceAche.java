@@ -54,9 +54,11 @@ public class PetResourceAche {
 
     private List<String> foods = new ArrayList<>();
 
+    private boolean autoSkill = false;
 
     public void save() {
         Config petConf = new Config(getOwner().getPlayerFolder() + "/宠物/" + type + ".yml", Config.YAML);
+        petConf.set("名称", name);
         petConf.set("等级", lv);
         petConf.set("经验", exp);
         petConf.set("血量", hp);
@@ -70,6 +72,7 @@ public class PetResourceAche {
         petConf.set("大小", scale);
         petConf.set("SP恢复速率", spRecoverRate);
         petConf.set("SP损耗率", spLossRate);
+        petConf.set("自动释放技能", autoSkill);
         petConf.set("食物", PetManager.getFoods(type));
         getSkills().removeIf(Objects::isNull);
         petConf.set("技能", getSkills());

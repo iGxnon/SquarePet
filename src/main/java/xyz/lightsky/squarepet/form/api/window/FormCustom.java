@@ -31,7 +31,6 @@ public class FormCustom extends FormWindowCustom {
         super(title, contents, icon);
     }
 
-
     public FormCustom onResponse(Consumer<FormResponseCustom> custom) {
         WindowManager.windowsCustom.put(this, custom);
         return this;

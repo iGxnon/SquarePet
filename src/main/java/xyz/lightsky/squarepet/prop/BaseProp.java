@@ -15,7 +15,6 @@ public abstract class BaseProp {
 
     private static Map<Integer, BaseProp> propMap = new HashMap<>();
 
-
     public static void init() {
         Main.info("正在注册基本道具");
         registerProp(LuckyStrawProp.class);
@@ -30,6 +29,7 @@ public abstract class BaseProp {
         registerProp(SkillStoneProp.class);
         registerProp(ResurrectionStoneProp.class);
         registerProp(炫迈.class);
+        registerProp(LevelUPProp.class);
     }
 
     private static final Map<String, Integer> name2Id = new HashMap<>();

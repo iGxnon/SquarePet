@@ -104,6 +104,7 @@ public class Trainer {
                 ache.setCritRate(config.getDouble("暴击率"));
                 ache.setCritTimeRate(config.getDouble("暴击倍率"));
                 ache.setSp(config.getInt("SP"));
+                ache.setAutoSkill(config.getBoolean("自动释放技能"));
                 ache.setMaxSP(config.getInt("最大SP"));
                 ache.setCd(config.getInt("CD"));
                 ache.setScale(config.getDouble("大小"));
@@ -142,6 +143,7 @@ public class Trainer {
             ache.setSp(pet.getSp());
             ache.setMaxSP(pet.getMaxSP());
             ache.setCd(pet.getCd());
+            ache.setAutoSkill(pet.getAutoSkill());
             ache.setScale(pet.getScale());
             ache.setSpRecoverRate(pet.getSpRecoverRate());
             ache.setSpLossRate(pet.getSpLossRate());
@@ -219,10 +221,10 @@ public class Trainer {
         return spawnedPets.containsKey(type);
     }
 
-    public void addPet(String type) {
+    public boolean addPet(String type) {
         if(ConfigManager.getPetContains(this) <= getPetTypes().size()) {
             sendMessage("宠物容量不够,请升级获取更多!");
-            return;
+            return false;
         }
         Config petConf = new Config(getPlayerFolder() + "/宠物/" + type + ".yml", Config.YAML);
         petConf.set("名称", type);
@@ -232,6 +234,7 @@ public class Trainer {
         petConf.set("属性", PetManager.getAttributeAsString(type));
         petConf.set("等级", 1);
         petConf.set("经验", 0);
+        petConf.set("自动释放技能", false);
         petConf.set("血量", PetManager.getBaseHp(type));
         petConf.set("最大血量", PetManager.getBaseHp(type));
         petConf.set("攻击", PetManager.getBaseAttack(type));
@@ -249,6 +252,7 @@ public class Trainer {
         petConf.set("技能", new ArrayList<>());
         petConf.save();
         sendMessage("成功添加宠物" + type);
+        return true;
     }
 
     public void receivePet(Trainer sender, PetResourceAche ache) {
@@ -261,6 +265,7 @@ public class Trainer {
         config.set("等级", ache.getLv());
         config.set("经验", ache.getExp());
         config.set("血量", ache.getHp());
+        config.set("自动释放技能", ache.isAutoSkill());
         config.set("最大血量", ache.getMaxHP());
         config.set("攻击", ache.getAttack());
         config.set("攻速", ache.getAttackSpeed());
@@ -318,11 +323,7 @@ public class Trainer {
     }
 
     public void levelUP() {
-        if(this.level != maxLevel) {
-            sendMessage("成功升级, 现在等级" + this.level + 1 + "级");
-        }
-        this.level = Math.min(this.level + 1, maxLevel);
-        updateMaxExp();
+        levelJump(1);
     }
 
     public void levelJump(int value) {

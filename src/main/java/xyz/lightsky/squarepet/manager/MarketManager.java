@@ -1,6 +1,7 @@
 package xyz.lightsky.squarepet.manager;
 
 import cn.nukkit.utils.Config;
+import lombok.Getter;
 import xyz.lightsky.squarepet.Main;
 import xyz.lightsky.squarepet.prop.BaseProp;
 import xyz.lightsky.squarepet.prop.SkillStoneProp;
@@ -9,12 +10,13 @@ import xyz.lightsky.squarepet.skill.BaseSkill;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class MarketManager {
 
-    private static Map<String, Integer> skillStonePrices = new HashMap<>();
-    private static Map<String, Integer> petPrices = new HashMap<>();
-    private static Map<String, Integer> propPrices = new HashMap<>();
+    public static Map<String, Integer> skillStonePrices = new HashMap<>();
+    public static Map<String, Integer> petPrices = new HashMap<>();
+    public static Map<String, Integer> propPrices = new HashMap<>();
 
     private static Config propConfig;
     private static Config petConfig;
@@ -44,7 +46,7 @@ public class MarketManager {
     }
 
     public static int getBaseProp$Cost(int id) {
-        return propPrices.get(BaseProp.getProp(id).getName());
+        return propPrices.get(Objects.requireNonNull(BaseProp.getProp(id)).getName());
     }
 
     public static int getSkillStone$Cost(String skillName) {

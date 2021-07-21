@@ -20,7 +20,7 @@
 等级经验倍率: 2
 幸运值最大暴击加成: 0.1
 宠物名称最大长度: 5
-宠物头衔显示格式: Lv.{lv} {name} |❤.{hp}|{n}{spBar} {owner} {lineup}
+宠物头衔显示格式: Lv.{lv} {name} |❤.{hp}|{n}SP:{spBar} {owner} {lineup}
 开启伤害显示: true
 管理人员:
   - iGxnon

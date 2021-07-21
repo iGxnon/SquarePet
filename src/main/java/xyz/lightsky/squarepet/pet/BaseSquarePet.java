@@ -19,7 +19,6 @@ import cn.nukkit.nbt.tag.CompoundTag;
 import cn.nukkit.nbt.tag.ListTag;
 import cn.nukkit.nbt.tag.StringTag;
 import cn.nukkit.scheduler.Task;
-import cn.nukkit.utils.Config;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -83,6 +82,8 @@ public class BaseSquarePet extends EntityHuman {
 
     private int attackDelay;
 
+    private boolean autoSkill;
+
     /**濒死状态*/
     private boolean preDead = false;
 
@@ -109,6 +110,7 @@ public class BaseSquarePet extends EntityHuman {
             addFood(foods.get(i).data);
         }
         ache = owner.getPetMap().get(getType());
+        autoSkill = ache.isAutoSkill();
     }
 
     @Override
@@ -210,7 +212,9 @@ public class BaseSquarePet extends EntityHuman {
                 return false;
             }
             getOwner().setOnRide(this);
-            return super.mountEntity(entity);
+            boolean bool = super.mountEntity(entity);
+            getOwner().getPlayer().sendPopup("骑乘状态");
+            return bool;
         }
         return false;
     }
@@ -263,23 +267,7 @@ public class BaseSquarePet extends EntityHuman {
 
     public void save() {
         getOwner().refreshAche(this);
-        Config petConf = new Config(getOwner().getPlayerFolder() + "/宠物/" + type + ".yml", Config.YAML);
-        petConf.set("等级", lv);
-        petConf.set("经验", exp);
-        petConf.set("血量", getHealth());
-        petConf.set("最大血量", getMaxHealth());
-        petConf.set("攻击", attack);
-        petConf.set("防御", defenceRate);
-        petConf.set("暴击率", critRate);
-        petConf.set("暴击倍率", critTimeRate);
-        petConf.set("SP", sp);
-        petConf.set("最大SP", maxSP);
-        petConf.set("大小", scale);
-        petConf.set("SP恢复速率", spRecoverRate);
-        petConf.set("SP损耗率", spLossRate);
-        petConf.set("食物", PetManager.getFoods(type));
-        petConf.set("技能", skillNames);
-        petConf.save();
+        getAche().save();
     }
 
     @Override
@@ -347,8 +335,7 @@ public class BaseSquarePet extends EntityHuman {
             checkLineup();
             checkOwnerDistance();
             updateScale();
-            //// TODO: 2021/07/15 训练师控制技能释放(骑乘后可控制 or 手动控制)
-            if(target != null) {
+            if(target != null && autoSkill) {
                 autoSkill();
             }
             if(target != null) {
@@ -463,14 +450,11 @@ public class BaseSquarePet extends EntityHuman {
     //// TODO: 2021/07/17
     public void checkOnGround() {
         if(getAttribute().equals(Attribute.LAND)) {
-            // path finder has completed this task for no passenger
-            if(getPassenger() != null) {
-                if(Util.isPermeable(getLevel().getBlock(this.add(0, -0.5, 0)))){
-                    move(0, -0.5, 0);
-                }
+            // path finder has completed this task for no passenger, but sometimes path finder will not find path as pet float on the sky
+            if(Util.isPermeable(getLevel().getBlock(this.add(0, -0.5, 0)))){
+                move(0, -0.5, 0);
             }
         }
-
         /* float on the sky */
         if(isInLineup && getAttribute().equals(Attribute.SWIM)) {
 
@@ -516,15 +500,7 @@ public class BaseSquarePet extends EntityHuman {
 
 
     public void levelUP() {
-        if(this.lv != maxLv) {
-            getOwner().sendMessage(getName() + ": 成功升级, 现在等级" + this.level + 1 + "级");
-        }
-        this.lv = Math.min(this.lv + 1, maxLv);
-        updateMaxExp();
-        setMaxSP(Math.max(PetManager.getPetCurrentMaxSP(getType(), lv), getMaxSP()));
-        setMaxHealth(Math.max(PetManager.getPetCurrentMaxHP(getType(), lv), getMaxHealth()));
-        setAttack(Math.max(PetManager.getPetCurrentAttack(getType(), lv), getAttack()));
-        getOwner().refreshAche(this);
+        levelJump(1);
     }
 
     public void levelJump(int value) {
@@ -600,6 +576,10 @@ public class BaseSquarePet extends EntityHuman {
         if(preDead) return;
         if(skill == null) return;
         if(!canSkill) return;
+        if(target == null) {
+            getOwner().getPlayer().sendTip(getName() + ": 没有目标!");
+            return;
+        }
         canSkill = false;
         if(getSp() < skill.getSpCost()) {
             getOwner().sendMessage(getName() + ": 我的SP不足，无法施加技能 " + skill.getName());
@@ -672,5 +652,9 @@ public class BaseSquarePet extends EntityHuman {
     @Override
     public Vector3f getMountedOffset(Entity entity) {
         return seatPosition;
+    }
+
+    public boolean getAutoSkill() {
+        return autoSkill;
     }
 }

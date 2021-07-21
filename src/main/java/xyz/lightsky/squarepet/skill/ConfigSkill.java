@@ -61,6 +61,8 @@ public class ConfigSkill extends BaseSkill {
                     });
                     DestroyBlockParticle particle = new DestroyBlockParticle(target.add(0, target.getEyeHeight()), Block.get(Block.REDSTONE_BLOCK));
                     damager.getLevel().addParticle(particle);
+                    target.getLevel().addLevelSoundEvent(target, 47);
+                    target.getLevel().addLevelSoundEvent(target, 48);
                     break;
                 case "加血量":
                     int value = Integer.parseInt(s.split("-")[1]);
@@ -111,7 +113,7 @@ public class ConfigSkill extends BaseSkill {
                     }, delayTick4);
                     break;
                 case "雷击":
-                    EntityLightning lightning = new EntityLightning(target.chunk, Entity.getDefaultNBT(target.add(0, -10,0)));
+                    EntityLightning lightning = new EntityLightning(target.chunk, Entity.getDefaultNBT(target.add(0, -8,0)));
                     lightning.spawnToAll();
                     break;
                 case "效果":

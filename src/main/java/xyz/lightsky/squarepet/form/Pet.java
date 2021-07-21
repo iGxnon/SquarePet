@@ -4,7 +4,7 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.form.element.ElementDropdown;
 import cn.nukkit.form.element.ElementInput;
-import javafx.scene.control.MenuItem;
+import cn.nukkit.form.element.ElementToggle;
 import xyz.lightsky.squarepet.form.api.window.FormCustom;
 import xyz.lightsky.squarepet.form.api.window.FormModal;
 import xyz.lightsky.squarepet.form.api.window.FormSimple;
@@ -17,11 +17,9 @@ import xyz.lightsky.squarepet.trainer.Lineup;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-//todo complete Pet ui system
 public class Pet {
 
     public static void PET_LIST(Trainer trainer, Consumer<String> consumer, String content) {
@@ -210,24 +208,30 @@ public class Pet {
     public static void PET_EDIT(Trainer trainer, String type) {
         FormCustom form = new FormCustom("宠物编辑: " + type);
         form.addElement(new ElementInput("修改名称", "", trainer.getPetMap().get(type).getName()));
+        form.addElement(new ElementToggle("自动释放技能", trainer.getPetMap().get(type).isAutoSkill()));
         trainer.getPlayer().showFormWindow(form.onResponse(s-> Menu.CONFIRM(trainer.getPlayer(), bool->{
             if(bool) {
                 String newName = s.getInputResponse(0);
+                boolean newAuto = s.getToggleResponse(1);
                 if(newName.length() >= ConfigManager.getPetNameMaxLength() * 2) {
                     trainer.sendMessage("宠物名字过长!");
                     return;
                 }
                 if(trainer.getSpawnedPets().get(type) != null) {
                     trainer.getSpawnedPets().get(type).setName(s.getInputResponse(0));
+                    trainer.getSpawnedPets().get(type).setAutoSkill(newAuto);
                     trainer.getSpawnedPets().get(type).save();
+                    trainer.sendMessage("设置成功!");
                 }else {
                     trainer.getPetMap().get(type).setName(s.getInputResponse(0));
+                    trainer.getPetMap().get(type).setAutoSkill(newAuto);
                     trainer.getPetMap().get(type).save();
+                    trainer.sendMessage("设置成功!");
                 }
             }else {
                 PET_EDIT(trainer, type);
             }
-        }, "", "确定要修改成这个名称吗")));
+        }, "", "确定要修改吗?")));
     }
 
 }

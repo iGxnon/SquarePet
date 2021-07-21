@@ -49,15 +49,11 @@ public class Menu {
                         Me.ME_INFO(trainer);
                         break;
                     case 6:
-                        OP_SETTING(player);
+                        OP.OP_SETTING(player);
                     default:
                 }
             }
         }));
-    }
-
-    public static void OP_SETTING(Player player) {
-
     }
 
 

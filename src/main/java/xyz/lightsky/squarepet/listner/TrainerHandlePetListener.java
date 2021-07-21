@@ -39,6 +39,9 @@ public class TrainerHandlePetListener implements Listener {
                     pet.dismountEntity(trainer.getPlayer());
                 }
             }
+            /*
+             * 移动 放技能
+             */
             if(pet != null) {
                 if(pk.motionY > 0) {
                     pet.yaw = trainer.getPlayer().yaw;
@@ -53,6 +56,39 @@ public class TrainerHandlePetListener implements Listener {
                         pet.move(motion.x * 0.5, motion.y, motion.z * 0.5);
                     }
                     pet.updateMovement();
+                }
+                /*
+                 * 放技能
+                 */
+
+                if(pk.motionY < 0) {
+                    // 三技能
+                    if(pet.isCanSkill()) {
+                        if(pet.getSkills()[2] != null) {
+                            pet.skill(pet.getSkills()[2]);
+                        }else {
+                            // sendTip 防止重复发送信息(反正也看不出来是重复发送的tip)
+                            trainer.getPlayer().sendTip(pet.getName()+": 该技能槽为空");
+                        }
+                    }
+                }else if(pk.motionX > 0) {
+                    // 一技能
+                    if(pet.isCanSkill()) {
+                        if(pet.getSkills()[0] != null) {
+                            pet.skill(pet.getSkills()[0]);
+                        }else {
+                            trainer.getPlayer().sendTip(pet.getName()+": 该技能槽为空");
+                        }
+                    }
+                }else if(pk.motionX < 0) {
+                    // 二技能
+                    if(pet.isCanSkill()) {
+                        if(pet.getSkills()[1] != null) {
+                            pet.skill(pet.getSkills()[1]);
+                        }else {
+                            trainer.getPlayer().sendTip(pet.getName()+": 该技能槽为空");
+                        }
+                    }
                 }
             }
 

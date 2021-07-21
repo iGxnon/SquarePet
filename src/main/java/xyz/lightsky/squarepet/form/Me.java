@@ -1,16 +1,13 @@
 package xyz.lightsky.squarepet.form;
 
-import com.google.gson.internal.$Gson$Types;
 import xyz.lightsky.squarepet.form.api.window.FormModal;
 import xyz.lightsky.squarepet.form.api.window.FormSimple;
 import xyz.lightsky.squarepet.prop.BaseProp;
 import xyz.lightsky.squarepet.prop.symbol.TrainerAcceptable;
-import xyz.lightsky.squarepet.trainer.Bag;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
 import java.util.List;
 
-//todo Me ui system
 public class Me {
 
     public static void ME_INFO(Trainer trainer) {
