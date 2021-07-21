@@ -2,7 +2,6 @@ package xyz.lightsky.squarepet.pet.pathfinder.utils;
 
 import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockAir;
-import cn.nukkit.block.BlockID;
 import cn.nukkit.math.BlockFace;
 import cn.nukkit.math.Vector3;
 

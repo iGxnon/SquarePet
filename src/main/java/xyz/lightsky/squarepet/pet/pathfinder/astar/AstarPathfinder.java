@@ -2,7 +2,6 @@ package xyz.lightsky.squarepet.pet.pathfinder.astar;
 
 import cn.nukkit.block.Block;
 import cn.nukkit.level.Position;
-import cn.nukkit.level.particle.DestroyBlockParticle;
 import cn.nukkit.math.Vector3;
 import xyz.lightsky.squarepet.pet.pathfinder.API;
 import xyz.lightsky.squarepet.pet.pathfinder.utils.Util;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author lvhaoxuan

@@ -50,7 +50,9 @@ public class Menu {
                         break;
                     case 6:
                         OP.OP_SETTING(player);
+                        break;
                     default:
+                        break;
                 }
             }
         }));

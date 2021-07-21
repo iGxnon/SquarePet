@@ -1,7 +1,6 @@
 package xyz.lightsky.squarepet.manager;
 
 import cn.nukkit.utils.Config;
-import lombok.Getter;
 import xyz.lightsky.squarepet.Main;
 import xyz.lightsky.squarepet.prop.BaseProp;
 import xyz.lightsky.squarepet.prop.SkillStoneProp;

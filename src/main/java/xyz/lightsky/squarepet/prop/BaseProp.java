@@ -13,7 +13,7 @@ import java.util.Map;
 @Getter
 public abstract class BaseProp {
 
-    private static Map<Integer, BaseProp> propMap = new HashMap<>();
+    public static Map<Integer, BaseProp> propMap = new HashMap<>();
 
     public static void init() {
         Main.info("正在注册基本道具");
@@ -32,7 +32,7 @@ public abstract class BaseProp {
         registerProp(LevelUPProp.class);
     }
 
-    private static final Map<String, Integer> name2Id = new HashMap<>();
+    public static final Map<String, Integer> name2Id = new HashMap<>();
 
     @Deprecated
     public static void registerProp(int id, BaseProp prop) {

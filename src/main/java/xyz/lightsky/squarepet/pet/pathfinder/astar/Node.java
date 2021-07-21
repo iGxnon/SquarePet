@@ -2,7 +2,6 @@ package xyz.lightsky.squarepet.pet.pathfinder.astar;
 
 import cn.nukkit.block.Block;
 import cn.nukkit.level.Position;
-import cn.nukkit.level.particle.Particle;
 import cn.nukkit.math.BlockFace;
 import xyz.lightsky.squarepet.pet.pathfinder.utils.Util;
 

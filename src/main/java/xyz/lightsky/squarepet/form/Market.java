@@ -1,11 +1,13 @@
 package xyz.lightsky.squarepet.form;
 
+import me.onebone.economyapi.EconomyAPI;
 import xyz.lightsky.squarepet.form.api.window.FormModal;
 import xyz.lightsky.squarepet.form.api.window.FormSimple;
 import xyz.lightsky.squarepet.manager.ConfigManager;
 import xyz.lightsky.squarepet.manager.MarketManager;
 import xyz.lightsky.squarepet.manager.PetManager;
 import xyz.lightsky.squarepet.prop.BaseProp;
+import xyz.lightsky.squarepet.prop.SkillStoneProp;
 import xyz.lightsky.squarepet.skill.BaseSkill;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
@@ -50,7 +52,14 @@ public class Market {
             if(s) {
                 Menu.CONFIRM(trainer.getPlayer(), bool->{
                     if(bool) {
-                        // todo 判断扣钱并add
+                        if(EconomyAPI.getInstance().myMoney(trainer.getPlayer()) < cost) {
+                            trainer.sendMessage("你的"+ConfigManager.getCurrencyUnit()+"好像不够哦");
+                            return;
+                        }
+                        EconomyAPI.getInstance().reduceMoney(trainer.getPlayer(), cost);
+                        if(trainer.addPet(type)) {
+                            trainer.sendMessage("购买成功!");
+                        }
                     }else {
                         MARKET_PET_INFO(type, cost, trainer);
                     }
@@ -98,7 +107,18 @@ public class Market {
             if(bool) {
                 Menu.CONFIRM(trainer.getPlayer(), i->{
                     if(i) {
-                        // todo 判断扣钱并add
+                        if(EconomyAPI.getInstance().myMoney(trainer.getPlayer()) < cost) {
+                            trainer.sendMessage("你的"+ConfigManager.getCurrencyUnit()+"好像不够哦");
+                            return;
+                        }
+                        SkillStoneProp prop = MarketManager.getSkillStone(skillName);
+                        Pet.PET_LIST(trainer, pet->{
+                            if(pet == null || pet.equals("")) {
+                                return;
+                            }
+                            EconomyAPI.getInstance().reduceMoney(trainer.getPlayer(), cost);
+                            prop.onUseToPet(trainer, pet);
+                        }, "请选择你的宠物添加此技能");
                     }else {
                         MARKET_SKILL_STONE_INFO(skillName, cost, trainer);
                     }
@@ -129,7 +149,14 @@ public class Market {
             if(bool) {
                 Menu.CONFIRM(trainer.getPlayer(), s->{
                     if(s) {
-                        // todo 判断扣钱并add
+                        if(EconomyAPI.getInstance().myMoney(trainer.getPlayer()) < cost) {
+                            trainer.sendMessage("你的"+ConfigManager.getCurrencyUnit()+"好像不够哦");
+                            return;
+                        }
+                        EconomyAPI.getInstance().reduceMoney(trainer.getPlayer(), cost);
+                        trainer.getBag().put(propID, 1);
+                        trainer.getBag().save();
+                        trainer.sendMessage("购买成功!");
                     }else {
                         MARKET_BASE_PROP_INFO(propID, cost, trainer);
                     }

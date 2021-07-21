@@ -226,6 +226,10 @@ public class Trainer {
             sendMessage("宠物容量不够,请升级获取更多!");
             return false;
         }
+        if(petTypes.contains(type)) {
+            sendMessage("添加失败! 你已经拥有该类型宠物");
+            return false;
+        }
         Config petConf = new Config(getPlayerFolder() + "/宠物/" + type + ".yml", Config.YAML);
         petConf.set("名称", type);
         petConf.set("主人", getName());
@@ -252,6 +256,7 @@ public class Trainer {
         petConf.set("技能", new ArrayList<>());
         petConf.save();
         sendMessage("成功添加宠物" + type);
+        refreshPetList();
         return true;
     }
 

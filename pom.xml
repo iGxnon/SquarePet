@@ -24,6 +24,11 @@
             <artifactId>ModelManagerRe</artifactId>
             <version>2.6-RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>moe.him188</groupId>
+            <artifactId>EconomyAPI</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <properties>

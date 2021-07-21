@@ -5,7 +5,6 @@ import cn.nukkit.entity.Entity;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
 import xyz.lightsky.squarepet.pet.animation.protocol.AnimatePetPacket;
 
-import java.net.ServerSocket;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

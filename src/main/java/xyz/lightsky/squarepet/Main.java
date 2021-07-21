@@ -22,7 +22,6 @@ import xyz.lightsky.squarepet.form.api.WindowManager;
 import xyz.lightsky.squarepet.listner.TrainerHandlePetListener;
 import xyz.lightsky.squarepet.listner.TrainerListener;
 import xyz.lightsky.squarepet.manager.*;
-import xyz.lightsky.squarepet.pet.animation.AnimationController;
 import xyz.lightsky.squarepet.prop.BaseProp;
 import xyz.lightsky.squarepet.skill.BaseSkill;
 import xyz.lightsky.squarepet.utils.Tools;
