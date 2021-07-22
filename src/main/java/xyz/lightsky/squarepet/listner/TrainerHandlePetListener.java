@@ -29,6 +29,20 @@ public class TrainerHandlePetListener implements Listener {
     public void onHandle(DataPacketReceiveEvent event) {
         Trainer trainer = TrainerManager.getTrainer(event.getPlayer().getName());
 
+        /*
+         * 潜行dismount
+         */
+        if(event.getPacket() instanceof PlayerActionPacket) {
+            if(((PlayerActionPacket) event.getPacket()).action == 11) {
+                BaseSquarePet pet = null;
+                if((pet = trainer.getOnRide()) != null) {
+                    if(pet.getPassenger() == null) return;
+                    trainer.getPlayer().resetFallDistance();
+                    pet.dismountEntity(trainer.getPlayer());
+                }
+            }
+        }
+
         if(event.getPacket() instanceof PlayerInputPacket) {
             /*
              * 跳跃dismount
@@ -36,7 +50,8 @@ public class TrainerHandlePetListener implements Listener {
             PlayerInputPacket pk = (PlayerInputPacket) event.getPacket();
             BaseSquarePet pet = trainer.getOnRide();
             if(pk.jumping) {
-                if(pet != null) {
+                if(pet != null && pet.getPassenger() != null && trainer.getOnRide() != null) {
+                    trainer.getPlayer().resetFallDistance();
                     pet.dismountEntity(trainer.getPlayer());
                 }
             }
@@ -46,7 +61,8 @@ public class TrainerHandlePetListener implements Listener {
             if(pet != null) {
                 // 水肺药水
                 if(pet.getAttribute().equals(Attribute.SWIM)) {
-                    pet.getPassenger().addEffect(Effect.getEffect(Effect.WATER_BREATHING));
+                    trainer.getPlayer().addEffect(Effect.getEffect(Effect.WATER_BREATHING).setDuration(10 * 20).setAmplifier(1).setVisible(false));
+                    pet.addEffect(Effect.getEffect(Effect.WATER_BREATHING).setDuration(10 * 20).setAmplifier(1).setVisible(false));
                 }
                 if(pk.motionY > 0) {
                     pet.yaw = trainer.getPlayer().yaw;
@@ -100,17 +116,7 @@ public class TrainerHandlePetListener implements Listener {
 
         }
 
-        /*
-         * 潜行dismount
-         */
-        if(event.getPacket() instanceof PlayerActionPacket) {
-            if(((PlayerActionPacket) event.getPacket()).action == 11) {
-                BaseSquarePet pet = null;
-                if((pet = trainer.getOnRide()) != null) {
-                    pet.dismountEntity(trainer.getPlayer());
-                }
-            }
-        }
+
     }
 
     /**
