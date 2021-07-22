@@ -3,6 +3,7 @@ package xyz.lightsky.squarepet.pet;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.block.Block;
+import cn.nukkit.block.BlockAir;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.entity.EntityHuman;
 import cn.nukkit.entity.data.FloatEntityData;
@@ -447,7 +448,6 @@ public class BaseSquarePet extends EntityHuman {
         }
     }
 
-    //// TODO: 2021/07/17
     public void checkOnGround() {
         if(getAttribute().equals(Attribute.LAND)) {
             // path finder has completed this task for no passenger, but sometimes path finder will not find path as pet float on the sky
@@ -455,9 +455,17 @@ public class BaseSquarePet extends EntityHuman {
                 move(0, -0.5, 0);
             }
         }
-        /* float on the sky */
-        if(isInLineup && getAttribute().equals(Attribute.SWIM)) {
-
+        if(getAttribute().equals(Attribute.SWIM)) {
+            if(isInLineup && !isInsideOfWater()) {
+                /* float on the sky */
+                if(Util.isPermeable(getLevel().getBlock(this.add(0, -3, 0)))){
+                    move(0, -0.8, 0);
+                }
+            }else {
+                if(this.getLevelBlock() instanceof BlockAir) {
+                    move(0, -0.5, 0);
+                }
+            }
         }
     }
 
@@ -478,7 +486,7 @@ public class BaseSquarePet extends EntityHuman {
             getOwner().closePet(getType());
         }
         if(getAttribute().equals(Attribute.SWIM) && !checked && !isInLineup) {
-            getOwner().sendMessage(getName() + ": 我无法上岸");
+            getOwner().sendMessage(getName() + ": 我无法离开水中!");
             getOwner().closePet(getType());
         }
     }

@@ -1,6 +1,8 @@
 package xyz.lightsky.squarepet.form;
 
+import cn.nukkit.form.element.ElementSlider;
 import me.onebone.economyapi.EconomyAPI;
+import xyz.lightsky.squarepet.form.api.window.FormCustom;
 import xyz.lightsky.squarepet.form.api.window.FormModal;
 import xyz.lightsky.squarepet.form.api.window.FormSimple;
 import xyz.lightsky.squarepet.manager.ConfigManager;
@@ -143,20 +145,25 @@ public class Market {
 
     public static void MARKET_BASE_PROP_INFO(int propID, int cost, Trainer trainer) {
         String info = Objects.requireNonNull(BaseProp.getProp(propID)).getInfo();
-        info = "价格: " + cost + " " + ConfigManager.getCurrencyUnit() + "\n" + info;
+        info = "单价: " + cost + " " + ConfigManager.getCurrencyUnit() + "\n" + info;
         FormModal form = new FormModal(Objects.requireNonNull(BaseProp.getProp(propID)).getName(), info, "购买", "返回");
         trainer.getPlayer().showFormWindow(form.onResponse(bool->{
             if(bool) {
                 Menu.CONFIRM(trainer.getPlayer(), s->{
                     if(s) {
-                        if(EconomyAPI.getInstance().myMoney(trainer.getPlayer()) < cost) {
-                            trainer.sendMessage("你的"+ConfigManager.getCurrencyUnit()+"好像不够哦");
-                            return;
-                        }
-                        EconomyAPI.getInstance().reduceMoney(trainer.getPlayer(), cost);
-                        trainer.getBag().put(propID, 1);
-                        trainer.getBag().save();
-                        trainer.sendMessage("购买成功!");
+                        FormCustom form1 = new FormCustom("选择数量");
+                        form1.addElement(new ElementSlider("数量", 1, 50, 1));
+                        trainer.getPlayer().showFormWindow(form1.onResponse(res->{
+                            int count = (int) res.getSliderResponse(0);
+                            if(EconomyAPI.getInstance().myMoney(trainer.getPlayer()) < (cost * count)) {
+                                trainer.sendMessage("你的"+ConfigManager.getCurrencyUnit()+"好像不够哦");
+                                return;
+                            }
+                            EconomyAPI.getInstance().reduceMoney(trainer.getPlayer(), (cost * count));
+                            trainer.getBag().put(propID, count);
+                            trainer.getBag().save();
+                            trainer.sendMessage("购买成功!");
+                        }));
                     }else {
                         MARKET_BASE_PROP_INFO(propID, cost, trainer);
                     }

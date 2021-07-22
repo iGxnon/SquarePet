@@ -28,7 +28,6 @@ public class PetResourceAche {
     private int maxHP;
     private int exp;
     private int maxSP;
-    // updated
     private int maxExp;
     private double defenceRate;
     private int cd;

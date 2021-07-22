@@ -16,7 +16,9 @@ package xyz.lightsky.squarepet;
 import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import cn.nukkit.command.ConsoleCommandSender;
 import cn.nukkit.plugin.PluginBase;
+import xyz.lightsky.squarepet.dlc.DLCLoader;
 import xyz.lightsky.squarepet.form.Menu;
 import xyz.lightsky.squarepet.form.api.WindowManager;
 import xyz.lightsky.squarepet.listner.TrainerHandlePetListener;
@@ -26,6 +28,8 @@ import xyz.lightsky.squarepet.prop.BaseProp;
 import xyz.lightsky.squarepet.skill.BaseSkill;
 import xyz.lightsky.squarepet.utils.Tools;
 import xyz.lightsky.squarepet.trainer.Trainer;
+
+import java.util.Arrays;
 
 public class Main extends PluginBase {
 
@@ -76,8 +80,21 @@ public class Main extends PluginBase {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
-            Trainer trainer = TrainerManager.trainerMap.get(sender.getName());
             Menu.MAIN((Player) sender);
+        }
+        if(sender instanceof ConsoleCommandSender) {
+            if(args.length != 2 || !Arrays.asList("install", "uninstall").contains(args[0])) {
+                sender.sendMessage("请输入正确的参数");
+                sender.sendMessage("spet install [DLC]");
+                sender.sendMessage("spet uninstall [DLC]");
+                return true;
+            }
+            String dlc = args[1];
+            if(args[0].equals("install")) {
+                DLCManager.registerDLC(dlc);
+            }else {
+                DLCManager.uninstallDLC(dlc);
+            }
         }
         return true;
     }

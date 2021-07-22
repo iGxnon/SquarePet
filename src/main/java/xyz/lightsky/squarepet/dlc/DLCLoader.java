@@ -4,6 +4,7 @@ import cn.nukkit.Server;
 import cn.nukkit.plugin.PluginDescription;
 import cn.nukkit.utils.PluginException;
 import cn.nukkit.utils.Utils;
+import xyz.lightsky.squarepet.Main;
 import xyz.lightsky.squarepet.exception.DLCLoadException;
 
 import java.io.File;
@@ -24,6 +25,10 @@ public class DLCLoader {
 
     public DLCLoader(Server server) {
         this.server = server;
+    }
+
+    public BaseDLC loadDLC(String dlc) {
+        return loadDLC(new File(Main.getInstance().getDataFolder() + "/DLC/" + dlc + ".jar"));
     }
 
     public BaseDLC loadDLC(File file) {

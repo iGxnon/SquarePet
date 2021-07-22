@@ -14,6 +14,7 @@ import cn.nukkit.math.Vector3f;
 import cn.nukkit.network.protocol.InventoryTransactionPacket;
 import cn.nukkit.network.protocol.PlayerActionPacket;
 import cn.nukkit.network.protocol.PlayerInputPacket;
+import cn.nukkit.potion.Effect;
 import xyz.lightsky.squarepet.manager.TrainerManager;
 import xyz.lightsky.squarepet.pet.Attribute;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
@@ -43,24 +44,29 @@ public class TrainerHandlePetListener implements Listener {
              * 移动 放技能
              */
             if(pet != null) {
+                // 水肺药水
+                if(pet.getAttribute().equals(Attribute.SWIM)) {
+                    pet.getPassenger().addEffect(Effect.getEffect(Effect.WATER_BREATHING));
+                }
                 if(pk.motionY > 0) {
                     pet.yaw = trainer.getPlayer().yaw;
-                    if(pet.getAttribute().equals(Attribute.FLY)) {
-                        pet.pitch = trainer.getPlayer().pitch;
-                        pet.getLevel().addEntityMovement(pet, pet.x, pet.y, pet.z, pet.yaw, pet.pitch, pet.yaw);
-                        pet.move(pet.getDirectionVector().x * 0.5, pet.getDirectionVector().y * 0.5, pet.getDirectionVector().z * 0.5);
-                    }else {
+                    if(pet.getAttribute().equals(Attribute.LAND)) {
                         pet.pitch = 0;
+                        //提前把转向移动包发送,降低操作延迟
                         pet.getLevel().addEntityMovement(pet, pet.x, pet.y, pet.z, pet.yaw, pet.pitch, pet.yaw);
                         Vector3f motion = pet.checkJump(new Vector2f((float) pet.getDirectionVector().x, (float) pet.getDirectionVector().z));
                         pet.move(motion.x * 0.5, motion.y, motion.z * 0.5);
+                    }else {
+                        pet.pitch = trainer.getPlayer().pitch;
+                        //提前把转向移动包发送,降低操作延迟
+                        pet.getLevel().addEntityMovement(pet, pet.x, pet.y, pet.z, pet.yaw, pet.pitch, pet.yaw);
+                        pet.move(pet.getDirectionVector().x * 0.5, pet.getDirectionVector().y * 0.5, pet.getDirectionVector().z * 0.5);
                     }
                     pet.updateMovement();
                 }
                 /*
                  * 放技能
                  */
-
                 if(pk.motionY < 0) {
                     // 三技能
                     if(pet.isCanSkill()) {

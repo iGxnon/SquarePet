@@ -58,6 +58,10 @@ public class DLCManager {
             Main.getInstance().getLogger().warning("找不到DLC: " + name);
             return;
         }
+        if(dlcMap.containsKey(name)) {
+            Main.getInstance().getLogger().warning(name + "已经加载!");
+            return;
+        }
         loadDLC(jar);
     }
 
