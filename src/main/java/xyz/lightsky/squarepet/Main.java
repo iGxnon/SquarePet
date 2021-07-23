@@ -18,7 +18,6 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.ConsoleCommandSender;
 import cn.nukkit.plugin.PluginBase;
-import xyz.lightsky.squarepet.dlc.DLCLoader;
 import xyz.lightsky.squarepet.form.Menu;
 import xyz.lightsky.squarepet.form.api.WindowManager;
 import xyz.lightsky.squarepet.listner.TrainerHandlePetListener;
@@ -27,7 +26,6 @@ import xyz.lightsky.squarepet.manager.*;
 import xyz.lightsky.squarepet.prop.BaseProp;
 import xyz.lightsky.squarepet.skill.BaseSkill;
 import xyz.lightsky.squarepet.utils.Tools;
-import xyz.lightsky.squarepet.trainer.Trainer;
 
 import java.util.Arrays;
 

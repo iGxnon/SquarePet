@@ -330,11 +330,11 @@ public class BaseSquarePet extends EntityHuman {
         }
         /*  Reduce the number of refreshes */
         if(currentTick % 5 == 0) {
+            checkLineup();
             updateNameTag();
             checkTarget();
-            checkInWater();
             checkOnGround();
-            checkLineup();
+            checkInWater();
             checkOwnerDistance();
             updateScale();
             if(target != null && autoSkill) {
@@ -492,6 +492,7 @@ public class BaseSquarePet extends EntityHuman {
         }
     }
 
+    //todo 改成不需要实时更新!
     public void checkLineup() {
         boolean checked = getOwner().getLineup().contains(getType());
         isInLineup = checked;
