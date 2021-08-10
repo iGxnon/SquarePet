@@ -1,0 +1,183 @@
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pom.xml	(revision 0274f6b59a6f566a84d74a875c3103f472c1965a)
++++ pom.xml	(date 1628585527396)
+@@ -6,7 +6,7 @@
+ 
+     <groupId>xyz.lightsky</groupId>
+     <artifactId>SquarePet</artifactId>
+-    <version>1.0.2-RELEASE</version>
++    <version>1.0.3-RELEASE</version>
+ 
+     <dependencies>
+         <dependency>
+Index: src/main/java/xyz/lightsky/squarepet/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/xyz/lightsky/squarepet/Main.java	(revision 0274f6b59a6f566a84d74a875c3103f472c1965a)
++++ src/main/java/xyz/lightsky/squarepet/Main.java	(date 1628584014793)
+@@ -20,6 +20,7 @@
+ import cn.nukkit.plugin.PluginBase;
+ import xyz.lightsky.squarepet.form.Menu;
+ import xyz.lightsky.squarepet.form.api.WindowManager;
++import xyz.lightsky.squarepet.language.Lang;
+ import xyz.lightsky.squarepet.listner.TrainerHandlePetListener;
+ import xyz.lightsky.squarepet.listner.TrainerListener;
+ import xyz.lightsky.squarepet.manager.*;
+@@ -53,6 +54,8 @@
+ 
+     @Override
+     public void onEnable() {
++
++        Lang.init();
+         ConfigManager.init();
+         PetManager.init();
+         TrainerManager.init();
+Index: src/main/java/xyz/lightsky/squarepet/utils/Tools.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/xyz/lightsky/squarepet/utils/Tools.java	(revision 0274f6b59a6f566a84d74a875c3103f472c1965a)
++++ src/main/java/xyz/lightsky/squarepet/utils/Tools.java	(date 1628585335389)
+@@ -3,12 +3,16 @@
+ import cn.nukkit.Player;
+ import cn.nukkit.Server;
+ import cn.nukkit.entity.Entity;
++import cn.nukkit.entity.mob.EntitySlime;
+ import cn.nukkit.level.Position;
+ import cn.nukkit.level.particle.FloatingTextParticle;
+ import cn.nukkit.nbt.tag.CompoundTag;
++import cn.nukkit.network.protocol.AddEntityPacket;
+ import cn.nukkit.scheduler.Task;
+ 
++import java.net.ServerSocket;
+ import java.util.*;
++import java.util.concurrent.atomic.AtomicInteger;
+ 
+ public class Tools {
+ 
+@@ -47,7 +51,7 @@
+     public static void createHealParticle(Position pos, float value, HealType type){
+         String color = (type == HealType.HP) ? "§c" : "§1";
+         String text = color + "§l§o+" + value;
+-        addFloatDropText(pos, text);
++        addFloatDropText(text, pos);
+     }
+ 
+     public enum HealType {
+@@ -57,10 +61,38 @@
+     public static void createDamageParticle(Position centre, float damage, boolean crit) {
+         String color = randomColor();
+         String text = crit ? color+"§l§o-"+String.format("%.01f", damage)+"\n"+randomColor()+"暴击!" : "§l§o-"+String.format("%.01f", damage);
+-        addFloatDropText(centre, text);
++        addFloatDropText(text, centre);
+     }
+ 
+ 
++    public static void addFloatDropText(String text, Position pos) {
++        float bit = 0.5F/16F;
++        float x = new Random().nextFloat();
++        float z = new Random().nextFloat();
++        EntitySlime tool = new EntitySlime(pos.getChunk(), Entity.getDefaultNBT(pos.add(x, 0.5D, z)));
++        tool.setMaxHealth(1000);
++        tool.setHealth(1000F);
++        tool.setScale(0);
++        tool.setNameTagAlwaysVisible();
++        tool.setNameTagVisible();
++        tool.setNameTag(text);
++        tool.spawnToAll();
++        AtomicInteger ai = new AtomicInteger();
++        Server.getInstance().getScheduler().scheduleRepeatingTask(new Task() {
++            @Override
++            public void onRun(int i) {
++                ai.incrementAndGet();
++                if(ai.get() > 31) {
++                    getHandler().cancel();
++                    tool.close();
++                }
++                tool.move(0, -bit, 0);
++                tool.updateMovement();
++            }
++        }, 1);
++    }
++
++    @Deprecated
+     public static void addFloatDropText(Position centre, String text) {
+         List<FloatingTextParticle> particles = new ArrayList<>();
+         float bit = 0.5F/16F;
+@@ -71,22 +103,21 @@
+             FloatingTextParticle particle = new FloatingTextParticle(newPos, text);
+             particles.add(particle);
+         }
+-
+-        final Integer[] j = {0};
++        AtomicInteger ai = new AtomicInteger();
+ 
+         Server.getInstance().getScheduler().scheduleRepeatingTask(new Task() {
+             @Override
+             public void onRun(int i) {
+-                j[0]++;
+-                if(j[0] > 31) {
++                ai.incrementAndGet();
++                if(ai.get() > 31) {
+                     getHandler().cancel();
+                     FloatingTextParticle en = particles.get(31);
+                     en.setInvisible(true);
+                     centre.getLevel().addParticle(en);
+                     return;
+                 }
+-                FloatingTextParticle n = particles.get(j[0]);
+-                FloatingTextParticle o = particles.get(Math.max(0, j[0] - 1));
++                FloatingTextParticle n = particles.get(ai.get());
++                FloatingTextParticle o = particles.get(Math.max(0, ai.get() - 1));
+                 o.setInvisible(true);
+                 centre.getLevel().addParticle(n);
+                 centre.getLevel().addParticle(o);
+@@ -95,15 +126,15 @@
+     }
+ 
+     public static void sendTitle(Player player, String... messages) {
+-        int[] j = new int[]{0};
++        AtomicInteger ai = new AtomicInteger();
+         int end = messages.length - 1;
+         Server.getInstance().getScheduler().scheduleDelayedRepeatingTask(new Task() {
+             @Override
+             public void onRun(int i) {
+-                String mess = messages[j[0]];
++                String mess = messages[ai.get()];
+                 player.sendTitle(mess,"",10, 15, 4);
+-                j[0] ++;
+-                if(j[0] > end) {
++                ai.incrementAndGet();
++                if(ai.get() > end) {
+                     getHandler().cancel();
+                 }
+             }
+Index: src/main/java/xyz/lightsky/squarepet/language/Lang.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/xyz/lightsky/squarepet/language/Lang.java	(date 1628584014808)
++++ src/main/java/xyz/lightsky/squarepet/language/Lang.java	(date 1628584014808)
+@@ -0,0 +1,14 @@
++package xyz.lightsky.squarepet.language;
++
++import java.util.ArrayList;
++import java.util.List;
++
++public class Lang {
++
++    public static List<String> availableLangList = new ArrayList<>();
++
++    public static void init() {
++
++    }
++
++}
