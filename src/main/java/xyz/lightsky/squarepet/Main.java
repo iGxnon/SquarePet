@@ -20,6 +20,7 @@ import cn.nukkit.command.ConsoleCommandSender;
 import cn.nukkit.plugin.PluginBase;
 import xyz.lightsky.squarepet.form.Menu;
 import xyz.lightsky.squarepet.form.api.WindowManager;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.listner.TrainerHandlePetListener;
 import xyz.lightsky.squarepet.listner.TrainerListener;
 import xyz.lightsky.squarepet.manager.*;
@@ -53,6 +54,8 @@ public class Main extends PluginBase {
 
     @Override
     public void onEnable() {
+
+        Lang.init();
         ConfigManager.init();
         PetManager.init();
         TrainerManager.init();

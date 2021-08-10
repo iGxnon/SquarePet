@@ -3,12 +3,16 @@ package xyz.lightsky.squarepet.utils;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.entity.Entity;
+import cn.nukkit.entity.mob.EntitySlime;
 import cn.nukkit.level.Position;
 import cn.nukkit.level.particle.FloatingTextParticle;
 import cn.nukkit.nbt.tag.CompoundTag;
+import cn.nukkit.network.protocol.AddEntityPacket;
 import cn.nukkit.scheduler.Task;
 
+import java.net.ServerSocket;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Tools {
 
@@ -47,7 +51,7 @@ public class Tools {
     public static void createHealParticle(Position pos, float value, HealType type){
         String color = (type == HealType.HP) ? "§c" : "§1";
         String text = color + "§l§o+" + value;
-        addFloatDropText(pos, text);
+        addFloatDropText(text, pos);
     }
 
     public enum HealType {
@@ -57,10 +61,38 @@ public class Tools {
     public static void createDamageParticle(Position centre, float damage, boolean crit) {
         String color = randomColor();
         String text = crit ? color+"§l§o-"+String.format("%.01f", damage)+"\n"+randomColor()+"暴击!" : "§l§o-"+String.format("%.01f", damage);
-        addFloatDropText(centre, text);
+        addFloatDropText(text, centre);
     }
 
 
+    public static void addFloatDropText(String text, Position pos) {
+        float bit = 0.5F/16F;
+        float x = new Random().nextFloat();
+        float z = new Random().nextFloat();
+        EntitySlime tool = new EntitySlime(pos.getChunk(), Entity.getDefaultNBT(pos.add(x, 0.5D, z)));
+        tool.setMaxHealth(1000);
+        tool.setHealth(1000F);
+        tool.setScale(0);
+        tool.setNameTagAlwaysVisible();
+        tool.setNameTagVisible();
+        tool.setNameTag(text);
+        tool.spawnToAll();
+        AtomicInteger ai = new AtomicInteger();
+        Server.getInstance().getScheduler().scheduleRepeatingTask(new Task() {
+            @Override
+            public void onRun(int i) {
+                ai.incrementAndGet();
+                if(ai.get() > 31) {
+                    getHandler().cancel();
+                    tool.close();
+                }
+                tool.move(0, -bit, 0);
+                tool.updateMovement();
+            }
+        }, 1);
+    }
+
+    @Deprecated
     public static void addFloatDropText(Position centre, String text) {
         List<FloatingTextParticle> particles = new ArrayList<>();
         float bit = 0.5F/16F;
@@ -71,22 +103,21 @@ public class Tools {
             FloatingTextParticle particle = new FloatingTextParticle(newPos, text);
             particles.add(particle);
         }
-
-        final Integer[] j = {0};
+        AtomicInteger ai = new AtomicInteger();
 
         Server.getInstance().getScheduler().scheduleRepeatingTask(new Task() {
             @Override
             public void onRun(int i) {
-                j[0]++;
-                if(j[0] > 31) {
+                ai.incrementAndGet();
+                if(ai.get() > 31) {
                     getHandler().cancel();
                     FloatingTextParticle en = particles.get(31);
                     en.setInvisible(true);
                     centre.getLevel().addParticle(en);
                     return;
                 }
-                FloatingTextParticle n = particles.get(j[0]);
-                FloatingTextParticle o = particles.get(Math.max(0, j[0] - 1));
+                FloatingTextParticle n = particles.get(ai.get());
+                FloatingTextParticle o = particles.get(Math.max(0, ai.get() - 1));
                 o.setInvisible(true);
                 centre.getLevel().addParticle(n);
                 centre.getLevel().addParticle(o);
@@ -95,15 +126,15 @@ public class Tools {
     }
 
     public static void sendTitle(Player player, String... messages) {
-        int[] j = new int[]{0};
+        AtomicInteger ai = new AtomicInteger();
         int end = messages.length - 1;
         Server.getInstance().getScheduler().scheduleDelayedRepeatingTask(new Task() {
             @Override
             public void onRun(int i) {
-                String mess = messages[j[0]];
+                String mess = messages[ai.get()];
                 player.sendTitle(mess,"",10, 15, 4);
-                j[0] ++;
-                if(j[0] > end) {
+                ai.incrementAndGet();
+                if(ai.get() > end) {
                     getHandler().cancel();
                 }
             }
