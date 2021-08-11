@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 import xyz.lightsky.ModelManagerRe.ModelManagerRe;
 import xyz.lightsky.squarepet.Main;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.manager.ConfigManager;
 import xyz.lightsky.squarepet.manager.PetManager;
 import xyz.lightsky.squarepet.manager.TrainerManager;
@@ -61,7 +62,7 @@ public class Trainer {
             this.cfg.set("宠物阵容", new ArrayList());
             this.cfg.save();
             (new File(this.getPlayerFolder(), "宠物")).mkdirs();
-            Main.info("正在创建" + player.getName() + "的数据");
+            Main.info(Lang.translate("%sys.trainer.loading%").replace("{trainer}", player.getName()));
         } else {
             this.cfg = new Config(info, 2);
         }

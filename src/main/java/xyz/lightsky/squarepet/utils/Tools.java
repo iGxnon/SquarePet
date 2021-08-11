@@ -92,6 +92,20 @@ public class Tools {
         }, 1);
     }
 
+    public static String generateBar(int amount, int max, int length) {
+        int count = (int) ((((float) amount) / ((float) max)) * length);
+        StringBuilder builder = new StringBuilder();
+        builder.append("§a");
+        for(int i=0;i<length;i++){
+            if(i == count) {
+                builder.append("§c");
+            }
+            builder.append("|");
+        }
+        builder.append("§f");
+        return builder.toString();
+    }
+
     @Deprecated
     public static void addFloatDropText(Position centre, String text) {
         List<FloatingTextParticle> particles = new ArrayList<>();

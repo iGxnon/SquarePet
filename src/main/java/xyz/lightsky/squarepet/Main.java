@@ -55,7 +55,10 @@ public class Main extends PluginBase {
     @Override
     public void onEnable() {
 
+        saveDefaultConfig();
+
         Lang.init();
+
         ConfigManager.init();
         PetManager.init();
         TrainerManager.init();
@@ -63,7 +66,7 @@ public class Main extends PluginBase {
 
         BaseProp.init();
         BaseSkill.init();
-        saveDefaultConfig();
+
         getServer().getPluginManager().registerEvents(new TrainerListener(), this);
         getServer().getPluginManager().registerEvents(new TrainerHandlePetListener(), this);
         getServer().getPluginManager().registerEvents(new WindowManager(), this);
@@ -85,7 +88,7 @@ public class Main extends PluginBase {
         }
         if(sender instanceof ConsoleCommandSender) {
             if(args.length != 2 || !Arrays.asList("install", "uninstall").contains(args[0])) {
-                sender.sendMessage("请输入正确的参数");
+                sender.sendMessage(Lang.translate("%sys.command.dlcargs.wrong%"));
                 sender.sendMessage("spet install [DLC]");
                 sender.sendMessage("spet uninstall [DLC]");
                 return true;

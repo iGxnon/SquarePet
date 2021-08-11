@@ -5,6 +5,7 @@ import cn.nukkit.Server;
 import xyz.lightsky.squarepet.dlc.BaseDLC;
 import xyz.lightsky.squarepet.dlc.DLCLoader;
 import xyz.lightsky.squarepet.Main;
+import xyz.lightsky.squarepet.language.Lang;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -19,14 +20,14 @@ public class DLCManager {
         dlcMap.clear();
         File dlc = new File(Main.getInstance().getDataFolder() + "/DLC/");
         if (dlc.mkdirs()) {
-            Main.info("正在创建DLC文件夹");
+            Main.info(Lang.translate("%sys.dlc.dir.load%"));
         }
         registerDLCs();
     }
 
     private static void registerDLCs() {
         long start = System.currentTimeMillis();
-        Main.info("正在加载DLC列表");
+        Main.info(Lang.translate("%sys.dlc.list.loading%"));
         File dir = new File(Main.getInstance().getDataFolder() + "/DLC/");
         if (dir.listFiles() != null) {
             File[] files = Objects.requireNonNull(dir.listFiles());
@@ -36,7 +37,7 @@ public class DLCManager {
                 }
             }
             long end = System.currentTimeMillis();
-            Main.info("DLC加载完毕,用时: " + (end - start) + " ms");
+            Main.info(Lang.translate("%sys.dlc.load.timing%").replace("{time}", String.valueOf(end - start)));
         }
     }
 
@@ -46,7 +47,7 @@ public class DLCManager {
 
     public static void uninstallDLC(String name) {
         if(dlcMap.get(name) == null) {
-            Main.warning("找不到DLC: " + name);
+            Main.warning(Lang.translate("%sys.dlc.notfind%").replace("{dlcName}", name));
             return;
         }
         DLCLoader.disableDLC(dlcMap.get(name));
@@ -55,11 +56,11 @@ public class DLCManager {
     public static void registerDLC(String name) {
         File jar = new File(Main.getInstance().getDataFolder() + "/DLC/" + name + ".jar");
         if (!jar.exists()) {
-            Main.getInstance().getLogger().warning("找不到DLC: " + name);
+            Main.getInstance().getLogger().warning(Lang.translate("%sys.dlc.notfind%").replace("{dlcName}", name));
             return;
         }
         if(dlcMap.containsKey(name)) {
-            Main.getInstance().getLogger().warning(name + "已经加载!");
+            Main.getInstance().getLogger().warning(Lang.translate("%sys.dlc.loaded%").replace("{dlcName}", name));
             return;
         }
         loadDLC(jar);
@@ -67,7 +68,7 @@ public class DLCManager {
 
     private static void loadDLC(File jar) {
         BaseDLC dlc = new DLCLoader(Server.getInstance()).loadDLC(jar);
-        Main.getInstance().getLogger().info(dlc.getName() + " 加载成功!");
+        Main.getInstance().getLogger().info(Lang.translate("%sys.dlc.load.success%").replace("{dlcName}", dlc.getName()));
         DLCLoader.enableDLC(dlc);
         dlcMap.put(dlc.getName(), dlc);
     }

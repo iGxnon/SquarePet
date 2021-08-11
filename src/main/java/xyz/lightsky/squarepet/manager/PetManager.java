@@ -8,6 +8,7 @@ import cn.nukkit.nbt.tag.ListTag;
 import cn.nukkit.nbt.tag.StringTag;
 import cn.nukkit.utils.Config;
 import xyz.lightsky.squarepet.Main;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.pet.Attribute;
 import xyz.lightsky.squarepet.pet.PetResourceAche;
 
@@ -22,7 +23,7 @@ public class PetManager {
 
     public static void init() {
         if(petPath.mkdirs()) {
-            Main.getInstance().getLogger().info("正在创建宠物图鉴文件夹");
+            Main.info(Lang.translate("%sys.pet.dir.loaded%"));
         }
         registerAllPetMaps();
     }
@@ -33,7 +34,7 @@ public class PetManager {
             if(map.getName().endsWith(".yml")) {
                 String type = map.getName().split("\\.")[0];
                 TYPES.put(type, new Config(map));
-                Main.info(type + " 注册完毕");
+                Main.info(Lang.translate("%sys.pet.register.success%").replace("{type}", type));
             }
         }
     }
@@ -321,6 +322,7 @@ public class PetManager {
         return base;
     }
 
+    //@Deprecated
     public static CompoundTag createTag(Vector3 pos, PetResourceAche ache) {
 
         CompoundTag base = Entity.getDefaultNBT(pos);

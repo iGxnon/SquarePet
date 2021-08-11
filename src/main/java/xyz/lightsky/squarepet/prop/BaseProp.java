@@ -2,6 +2,7 @@ package xyz.lightsky.squarepet.prop;
 
 import lombok.Getter;
 import xyz.lightsky.squarepet.Main;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.manager.MarketManager;
 import xyz.lightsky.squarepet.prop.symbol.PetAcceptable;
 import xyz.lightsky.squarepet.prop.symbol.TrainerAcceptable;
@@ -16,7 +17,7 @@ public abstract class BaseProp {
     public static Map<Integer, BaseProp> propMap = new HashMap<>();
 
     public static void init() {
-        Main.info("正在注册基本道具");
+        Main.info(Lang.translate("%sys.prop.load%"));
         registerProp(LuckyStrawProp.class);
         registerProp(LittleHPProp.class);
         registerProp(LittleSPProp.class);

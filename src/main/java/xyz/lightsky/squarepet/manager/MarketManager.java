@@ -2,6 +2,7 @@ package xyz.lightsky.squarepet.manager;
 
 import cn.nukkit.utils.Config;
 import xyz.lightsky.squarepet.Main;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.prop.BaseProp;
 import xyz.lightsky.squarepet.prop.SkillStoneProp;
 import xyz.lightsky.squarepet.skill.BaseSkill;
@@ -30,7 +31,7 @@ public class MarketManager {
     public static void init() {
         File base = new File(Main.getInstance().getDataFolder() + "/市场/");
         if(base.mkdirs()) {
-            Main.info("正在创建市场文件夹");
+            Main.info(Lang.translate("%sys.market.dir.loaded%"));
         }
         propConfig = new Config(base + "/基础道具市场.yml");
         petConfig = new Config(base + "/宠物市场.yml");

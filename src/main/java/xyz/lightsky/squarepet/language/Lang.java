@@ -24,15 +24,37 @@ public class Lang {
     public static List<String> availableLangList = new ArrayList<>();
 
     public static ImmutableList<String> availableKeyList = ImmutableList.<String>builder()
-            .add("%user.%")
+            .add("%sys.language.load.success%")
+            .add("%sys.dlc.dir.loaded%")
+            .add("%sys.dlc.list.loading%")
+            .add("%sys.dlc.load.timing%")
+            .add("%sys.config.loaded%")
+            .add("%sys.dlc.notfind%")
+            .add("%sys.dlc.loaded%")
+            .add("%sys.dlc.load.success%")
+            .add("%sys.market.dir.loaded%")
+            .add("%sys.pet.dir.loaded%")
+            .add("%sys.pet.register.success%")
+            .add("%sys.trainer.dir.loaded%")
+            .add("%sys.prop.load%")
+            .add("%sys.skill.dir.loaded%")
+            .add("%sys.skill.register.success%")
+            .add("%sys.trainer.loading%")
+            .add("%sys.command.dlcargs.wrong%")
             .build();
 
     public static void init() {
-
         File langDir = new File(Main.getInstance().getDataFolder() + "/Languages/");
         if(langDir.mkdirs()) {
-            Main.info("正在加载语言文件夹");
-            Main.getInstance().saveResource("/Languages/");
+            Main.getInstance().saveResource("Languages/chs/sys.yml");
+            Main.getInstance().saveResource("Languages/chs/ui.yml");
+            Main.getInstance().saveResource("Languages/chs/user.yml");
+            Main.getInstance().saveResource("Languages/eng/sys.yml");
+            Main.getInstance().saveResource("Languages/eng/ui.yml");
+            Main.getInstance().saveResource("Languages/eng/user.yml");
+            Main.getInstance().saveResource("Languages/cht/sys.yml");
+            Main.getInstance().saveResource("Languages/cht/ui.yml");
+            Main.getInstance().saveResource("Languages/cht/user.yml");
         }
         Stream.of(Objects.requireNonNull(langDir.listFiles()))
                 .filter(File::isDirectory)
@@ -40,16 +62,20 @@ public class Lang {
                 .filter(s -> Objects.requireNonNull(s.listFiles()).length == langFileCount)
                 .map(File::getName)
                 .forEach(s -> availableLangList.add(s));
+
+        // ConfigManager is load behind Lang, so do not use ConfigManager.getLanguage()
+        loadLang(Main.getInstance().getConfig().getString("language"));
     }
 
     public static void loadLang(String lang) {
         if(!availableLangList.contains(lang)) {
+            new LanguageNotFoundException(lang).printStackTrace();
             return;
         }
-        sysLang.load(Main.getInstance().getDataFolder() + "/Languages/" + lang + "/sys.yml");
-        uiLang.load(Main.getInstance().getDataFolder() + "/Languages/" + lang + "/ui.yml");
-        userLang.load(Main.getInstance().getDataFolder() + "/Languages/" + lang + "/user.yml");
-        Main.info("语言加载成功!");
+        sysLang.load(Main.getInstance().getDataFolder() + "/Languages/" + lang + "/sys.yml", Config.YAML);
+        uiLang.load(Main.getInstance().getDataFolder() + "/Languages/" + lang + "/ui.yml", Config.YAML);
+        userLang.load(Main.getInstance().getDataFolder() + "/Languages/" + lang + "/user.yml", Config.YAML);
+        Main.info(Lang.translate("%sys.language.load.success%"));
     }
 
     public static String translate(String key) {

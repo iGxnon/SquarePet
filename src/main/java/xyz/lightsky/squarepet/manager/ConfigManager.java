@@ -3,8 +3,10 @@ package xyz.lightsky.squarepet.manager;
 import cn.nukkit.Player;
 import cn.nukkit.utils.Config;
 import xyz.lightsky.squarepet.Main;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
 import xyz.lightsky.squarepet.trainer.Trainer;
+import xyz.lightsky.squarepet.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,12 +20,15 @@ public class ConfigManager {
     private static String petPrefixBase = "";
 
     public static void init() {
-        Main.getInstance().saveDefaultConfig();
         config = Main.getInstance().getConfig();
         registerPetContains();
         registerPlayerMaxLv();
         registerPetPrefix();
-        Main.info("配置文件加载完毕");
+        Main.info(Lang.translate("%sys.config.loaded%"));
+    }
+
+    public static String getLanguage() {
+        return config.getString("language");
     }
 
     // Frequently visit, register directly
@@ -103,9 +108,9 @@ public class ConfigManager {
         int maxExp = pet.getMaxExp();
         String owner = pet.getOwner().getName();
         String name = pet.getName();
-        String spBar = generateBar(sp, maxSP, 10);
-        String hpBar = generateBar(hp, maxHP, 10);
-        String expBar = generateBar(exp, maxExp, 10);
+        String spBar = Tools.generateBar(sp, maxSP, 10);
+        String hpBar = Tools.generateBar(hp, maxHP, 10);
+        String expBar = Tools.generateBar(exp, maxExp, 10);
         String result = base.replace("{hp}", String.valueOf(hp))
                 .replace("{lv}", String.valueOf(lv))
                 .replace("{name}", name)
@@ -124,20 +129,6 @@ public class ConfigManager {
         }else {
             return result.replace("{lineup}", "");
         }
-    }
-
-    public static String generateBar(int amount, int max, int length) {
-        int count = (int) ((((float) amount) / ((float) max)) * length);
-        StringBuilder builder = new StringBuilder();
-        builder.append("§a");
-        for(int i=0;i<length;i++){
-            if(i == count) {
-                builder.append("§c");
-            }
-            builder.append("|");
-        }
-        builder.append("§f");
-        return builder.toString();
     }
 
     public static int getPetNameMaxLength() {

@@ -3,6 +3,7 @@ package xyz.lightsky.squarepet.skill;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.utils.Config;
 import xyz.lightsky.squarepet.Main;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.pet.Attribute;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
 
@@ -19,7 +20,7 @@ public abstract class BaseSkill {
     public static void init() {
         File path = new File(Main.getInstance().getDataFolder(), "技能图鉴");
         if(path.mkdirs()) {
-            Main.info("正在生成技能图鉴文件夹");
+            Main.info(Lang.translate("%sys.skill.dir.loaded%"));
         }
         Stream.of(Objects.requireNonNull(path.listFiles()))
                 .filter(s -> s.getName().endsWith(".yml"))
@@ -28,7 +29,7 @@ public abstract class BaseSkill {
 
     public static void register(String name, Config config) {
         skillMap.putIfAbsent(name, new ConfigSkill(config));
-        Main.info("已经加载技能: " + name);
+        Main.info(Lang.translate("%sys.skill.register.success%").replace("{skillName}", name));
     }
 
     public abstract Attribute getAttribute();
