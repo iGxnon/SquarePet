@@ -10,7 +10,7 @@ import cn.nukkit.utils.Config;
 import xyz.lightsky.squarepet.Main;
 import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.pet.Attribute;
-import xyz.lightsky.squarepet.pet.PetResourceAche;
+import xyz.lightsky.squarepet.pet.PetResourceCache;
 
 import java.io.File;
 import java.util.*;
@@ -323,7 +323,7 @@ public class PetManager {
     }
 
     //@Deprecated
-    public static CompoundTag createTag(Vector3 pos, PetResourceAche ache) {
+    public static CompoundTag createTag(Vector3 pos, PetResourceCache ache) {
 
         CompoundTag base = Entity.getDefaultNBT(pos);
 

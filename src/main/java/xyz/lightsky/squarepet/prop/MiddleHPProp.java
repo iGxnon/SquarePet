@@ -1,7 +1,7 @@
 package xyz.lightsky.squarepet.prop;
 
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
-import xyz.lightsky.squarepet.pet.PetResourceAche;
+import xyz.lightsky.squarepet.pet.PetResourceCache;
 import xyz.lightsky.squarepet.prop.symbol.PetAcceptable;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
@@ -34,7 +34,7 @@ public class MiddleHPProp extends BaseProp implements PetAcceptable {
             pet.setHealth(addition + pet.getHealth());
             pet.save();
         }else {
-            PetResourceAche ache = trainer.getPetMap().get(petType);
+            PetResourceCache ache = trainer.getPetMap().get(petType);
             ache.setHp(addition + ache.getHp());
             ache.save();
         }

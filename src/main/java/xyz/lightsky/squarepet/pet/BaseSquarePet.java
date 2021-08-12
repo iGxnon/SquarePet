@@ -4,7 +4,6 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockAir;
-import cn.nukkit.block.BlockWater;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.entity.EntityHuman;
 import cn.nukkit.entity.data.FloatEntityData;
@@ -89,13 +88,16 @@ public class BaseSquarePet extends EntityHuman {
     /**濒死状态*/
     private boolean preDead = false;
 
-    private PetResourceAche ache;
+    private PetResourceCache ache;
 
     /** Skill effect add */
     private int attackAdd;
     private double defenceRateAdd;
     private double critRateAdd;
     private double critTimeRateAdd;
+
+
+    private Vector2f randomPosition = new Vector2f();
 
 
     public BaseSquarePet(FullChunk chunk, CompoundTag nbt) {
@@ -113,11 +115,30 @@ public class BaseSquarePet extends EntityHuman {
         }
         ache = owner.getPetMap().get(getType());
         autoSkill = ache.isAutoSkill();
+
+        float randomX = new Random().nextFloat() + 2F;
+        float randomZ = new Random().nextFloat() + 2F;
+        if((new Random()).nextBoolean()) {
+            randomPosition.add(randomX);
+            if((new Random()).nextBoolean()) {
+                randomPosition.add(0, randomZ);
+            }else {
+                randomPosition.add(0, -randomZ);
+            }
+        }else {
+            randomPosition.add(-randomX);
+            if((new Random()).nextBoolean()) {
+                randomPosition.add(0, randomZ);
+            }else {
+                randomPosition.add(0, -randomZ);
+            }
+        }
     }
 
     @Override
     protected void initEntity() {
         super.initEntity();
+        // todo: use PetResourceCache to transfer data
         CompoundTag nbt = namedTag;
         dataTag = nbt.getCompound("SquareDATA");
         ownerName = dataTag.getString("主人");
@@ -341,7 +362,7 @@ public class BaseSquarePet extends EntityHuman {
             if(target != null) {
                 moveTo(target);
             }else {
-                moveTo(getOwner().getPlayer().add(1.2,0,1.2));
+                moveTo(getOwner().getPlayer().getPosition().add(randomPosition.x, 0, randomPosition.y));
             }
         }
 

@@ -2,7 +2,7 @@ package xyz.lightsky.squarepet.prop;
 
 import xyz.lightsky.squarepet.manager.MarketManager;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
-import xyz.lightsky.squarepet.pet.PetResourceAche;
+import xyz.lightsky.squarepet.pet.PetResourceCache;
 import xyz.lightsky.squarepet.prop.symbol.PetAcceptable;
 import xyz.lightsky.squarepet.skill.BaseSkill;
 import xyz.lightsky.squarepet.trainer.Trainer;
@@ -54,7 +54,7 @@ public class SkillStoneProp extends BaseProp implements PetAcceptable {
             }
             return result;
         }else {
-            PetResourceAche ache = trainer.getPetMap().get(petType);
+            PetResourceCache ache = trainer.getPetMap().get(petType);
             if(ache.getSkills().size() < 3) {
                 ache.getSkills().add(getSkill().getName());
                 ache.save();

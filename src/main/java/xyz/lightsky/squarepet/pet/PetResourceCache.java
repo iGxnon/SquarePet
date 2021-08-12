@@ -16,7 +16,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString(exclude = {"owner"})
-public class PetResourceAche {
+public class PetResourceCache {
 
     private Trainer owner;
     private String ownerName;

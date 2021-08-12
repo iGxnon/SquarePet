@@ -2,7 +2,7 @@ package xyz.lightsky.squarepet.prop;
 
 import xyz.lightsky.squarepet.manager.PetManager;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
-import xyz.lightsky.squarepet.pet.PetResourceAche;
+import xyz.lightsky.squarepet.pet.PetResourceCache;
 import xyz.lightsky.squarepet.prop.symbol.PetAcceptable;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
@@ -40,7 +40,7 @@ public class SPEnhanceProp extends BaseProp implements PetAcceptable {
             pet.setMaxSP(Math.min(result, PetManager.getUltimateSp(petType)));
             pet.save();
         }else {
-            PetResourceAche ache = trainer.getPetMap().get(petType);
+            PetResourceCache ache = trainer.getPetMap().get(petType);
             if(ache.getMaxSP() == PetManager.getUltimateSp(petType)) {
                 trainer.sendMessage("已经扩容至最大SP,无法继续扩容了!");
                 return false;

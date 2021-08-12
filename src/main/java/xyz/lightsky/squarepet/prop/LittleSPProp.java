@@ -1,7 +1,7 @@
 package xyz.lightsky.squarepet.prop;
 
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
-import xyz.lightsky.squarepet.pet.PetResourceAche;
+import xyz.lightsky.squarepet.pet.PetResourceCache;
 import xyz.lightsky.squarepet.prop.symbol.PetAcceptable;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
@@ -35,7 +35,7 @@ public class LittleSPProp extends BaseProp implements PetAcceptable {
             pet.setSp(addition + pet.getSp());
             pet.save();
         }else {
-            PetResourceAche ache = trainer.getPetMap().get(petType);
+            PetResourceCache ache = trainer.getPetMap().get(petType);
             ache.setSp(addition + ache.getSp());
             ache.save();
         }

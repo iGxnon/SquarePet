@@ -125,6 +125,23 @@ public class Lang {
             .add("%ui.pet.back%")
             .add("%ui.pet.ride%")
             .add("%ui.pet.info%")
+            .add("%ui.pet.lineup.title%")
+            .add("%ui.pet.lineup.land.null%")
+            .add("%ui.pet.lineup.fly.null%")
+            .add("%ui.pet.lineup.swim.null%")
+            .add("%ui.pet.lineup.land%")
+            .add("%ui.pet.lineup.swim%")
+            .add("%ui.pet.lineup.fly%")
+            .add("%ui.pet.lineup.spawnall%")
+            .add("%ui.pet.lineup.del.confirm%")
+            .add("%ui.pet.lineup.add.confirm%")
+            .add("%ui.pet.lineup.add.land%")
+            .add("%ui.pet.lineup.add.swim%")
+            .add("%ui.pet.lineup.add.fly%")
+            .add("%ui.pet.givepet.dropdown%")
+            .add("%ui.pet.edit.name%")
+            .add("%ui.pet.edit.autoskill%")
+            .add("%ui.pet.edit.confirm%")
 
             .build();
 

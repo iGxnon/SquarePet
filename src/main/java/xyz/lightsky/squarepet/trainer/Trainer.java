@@ -16,7 +16,7 @@ import xyz.lightsky.squarepet.manager.PetManager;
 import xyz.lightsky.squarepet.manager.TrainerManager;
 import xyz.lightsky.squarepet.pet.Attribute;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
-import xyz.lightsky.squarepet.pet.PetResourceAche;
+import xyz.lightsky.squarepet.pet.PetResourceCache;
 import xyz.lightsky.squarepet.utils.Tools;
 
 import java.io.File;
@@ -41,7 +41,7 @@ public class Trainer {
 
     /**当宠物释放时读取spawnedPets为实时数据, 当宠物收回时,读取petMap为实时数据*/
     private Map<String, BaseSquarePet> spawnedPets = new HashMap<>();
-    private Map<String, PetResourceAche> petMap = new HashMap<>();
+    private Map<String, PetResourceCache> petMap = new HashMap<>();
 
     private List<String> petTypes = new ArrayList<>();
 
@@ -84,7 +84,7 @@ public class Trainer {
             if (file.getName().endsWith(".yml")) {
                 String type = file.getName().split("\\.")[0];
                 if(petTypes.contains(type)) continue;
-                PetResourceAche ache = new PetResourceAche();
+                PetResourceCache ache = new PetResourceCache();
                 Config config = new Config(file);
                 ache.setName(config.getString("名称"));
                 ache.setOwnerName(config.getString("主人"));
@@ -128,7 +128,7 @@ public class Trainer {
 
     public void refreshAche(BaseSquarePet pet) {
         String type = pet.getType();
-        PetResourceAche ache = petMap.get(type);
+        PetResourceCache ache = petMap.get(type);
         if(ache != null) {
             ache.setName(pet.getName());
             ache.setLv(pet.getLv());
@@ -158,7 +158,7 @@ public class Trainer {
         if(this.spawnedPets.containsKey(type)) {
             return this.spawnedPets.get(type).getInfo();
         }
-        PetResourceAche ache = getPetMap().get(type);
+        PetResourceCache ache = getPetMap().get(type);
         if(ache == null) return "";
         return "名称: " + ache.getName() + "\n"
                 + "类别: " + ache.getType() + "\n"
@@ -261,7 +261,7 @@ public class Trainer {
         return true;
     }
 
-    public void receivePet(Trainer sender, PetResourceAche ache) {
+    public void receivePet(Trainer sender, PetResourceCache ache) {
         Config config = new Config(this.getPlayerFolder() + "/宠物/" + ache.getType() + ".yml");
         config.set("名称", ache.getName());
         config.set("主人", getName());

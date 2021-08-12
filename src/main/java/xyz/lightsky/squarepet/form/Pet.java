@@ -74,11 +74,14 @@ public class Pet {
     }
 
     public static void PET_LINEUP(Lineup lineup, Trainer trainer) {
-        FormSimple form = new FormSimple(trainer.getName() + " 的宠物阵容", lineup.getInfo());
-        form.addButton(lineup.getLand() == null ? "陆属性: 无(点击添加)" : "陆属性: " + lineup.getLand());
-        form.addButton(lineup.getSwim() == null ? "水属性: 无(点击添加)" : "水属性: " + lineup.getSwim());
-        form.addButton(lineup.getFly() == null ? "空属性: 无(点击添加)" : "空属性: " + lineup.getFly());
-        form.addButton("召唤全部");
+
+        FormSimple form = new FormSimple(Lang.translate("%ui.pet.lineup.title%")
+                .replace("{trainer}", trainer.getName()),
+                lineup.getInfo());
+        form.addButton(lineup.getLand() == null ? Lang.translate("%ui.pet.lineup.land.null%") : Lang.translate("%ui.pet.lineup.land%") + lineup.getLand());
+        form.addButton(lineup.getSwim() == null ? Lang.translate("%ui.pet.lineup.swim.null%") : Lang.translate("%ui.pet.lineup.swim%") + lineup.getSwim());
+        form.addButton(lineup.getFly() == null ?  Lang.translate("%ui.pet.lineup.fly.null%") : Lang.translate("%ui.pet.lineup.fly%") + lineup.getFly());
+        form.addButton(Lang.translate("%ui.pet.lineup.spawnall%"));
         trainer.getPlayer().showFormWindow(form.onClick(i->{
             switch (i) {
                 case 0:
@@ -90,7 +93,7 @@ public class Pet {
                             }else {
                                 PET_LINEUP(lineup, trainer);
                             }
-                        }, "","是否从阵容中移除该宠物?");
+                        }, "",Lang.translate("%ui.pet.lineup.del.confirm%"));
                     }else {
                         PET_LIST(trainer, s->{
                             if(PetManager.getAttribute(s).equals(Attribute.LAND)) {
@@ -102,11 +105,11 @@ public class Pet {
                                     }else {
                                         PET_LINEUP(lineup, trainer);
                                     }
-                                }, "修改阵容", "你确定要将 "+s+" 加入你的阵容吗?");
+                                }, "", Lang.translate("%ui.pet.lineup.add.confirm%").replace("{type}", s));
                             }else {
                                 trainer.sendMessage("请选择陆属性宠物!");
                             }
-                        }, "请选择陆属性宠物");
+                        }, Lang.translate("%ui.pet.lineup.add.land%"));
                     }
                     break;
                 case 1:
@@ -118,7 +121,7 @@ public class Pet {
                             }else {
                                 PET_LINEUP(lineup, trainer);
                             }
-                        }, "","是否从阵容中移除该宠物?");
+                        }, "",Lang.translate("%ui.pet.lineup.del.confirm%"));
                     }else {
                         PET_LIST(trainer, s->{
                             if(PetManager.getAttribute(s).equals(Attribute.SWIM)) {
@@ -130,11 +133,11 @@ public class Pet {
                                     }else {
                                         PET_LINEUP(lineup, trainer);
                                     }
-                                }, "修改阵容", "你确定要将 "+s+" 加入你的阵容吗?");
+                                }, "", Lang.translate("%ui.pet.lineup.add.confirm%").replace("{type}", s));
                             }else {
                                 trainer.sendMessage("请选择水属性宠物!");
                             }
-                        }, "请选择水属性宠物");
+                        }, Lang.translate("%ui.pet.lineup.add.swim%"));
                     }
                     break;
                 case 2:
@@ -146,7 +149,7 @@ public class Pet {
                             }else {
                                 PET_LINEUP(lineup, trainer);
                             }
-                        }, "","是否从阵容中移除该宠物?");
+                        }, "",Lang.translate("%ui.pet.lineup.del.confirm%"));
                     }else {
                         PET_LIST(trainer, s->{
                             if(PetManager.getAttribute(s).equals(Attribute.FLY)) {
@@ -158,11 +161,11 @@ public class Pet {
                                     }else {
                                         PET_LINEUP(lineup, trainer);
                                     }
-                                }, "修改阵容", "你确定要将 "+s+" 加入你的阵容吗?");
+                                }, "", Lang.translate("%ui.pet.lineup.add.confirm%").replace("{type}", s));
                             }else {
                                 trainer.sendMessage("请选择空属性宠物!");
                             }
-                        }, "请选择空属性宠物");
+                        }, Lang.translate("%ui.pet.lineup.add.fly%"));
                     }
                     break;
                 case 3:
@@ -176,13 +179,13 @@ public class Pet {
 
     public static void PET_GIVE(Trainer trainer, String type) {
         trainer.closeAllPets();
-        FormCustom form = new FormCustom("宠物赠送: " + type);
+        FormCustom form = new FormCustom();
         List<String> playerList = Server.getInstance().getOnlinePlayers().values()
                 .stream().map(Player::getName)
                 .filter(s-> !s.equals(trainer.getName()))
                 .collect(Collectors.toList());
-        playerList.add("请选择一个玩家");
-        form.addElement(new ElementDropdown("选择赠送的玩家", playerList));
+        playerList.add(Lang.translate("%ui.pet.givepet.dropdown%"));
+        form.addElement(new ElementDropdown(Lang.translate("%ui.pet.givepet.dropdown%"), playerList));
         trainer.getPlayer().showFormWindow(form.onResponse(s->{
             Menu.CONFIRM(trainer.getPlayer(), bool->{
                 if(bool) {
@@ -207,9 +210,9 @@ public class Pet {
     }
 
     public static void PET_EDIT(Trainer trainer, String type) {
-        FormCustom form = new FormCustom("宠物编辑: " + type);
-        form.addElement(new ElementInput("修改名称", "", trainer.getPetMap().get(type).getName()));
-        form.addElement(new ElementToggle("自动释放技能", trainer.getPetMap().get(type).isAutoSkill()));
+        FormCustom form = new FormCustom();
+        form.addElement(new ElementInput(Lang.translate("%ui.pet.edit.name%"), "", trainer.getPetMap().get(type).getName()));
+        form.addElement(new ElementToggle(Lang.translate("%ui.pet.edit.autoskill%"), trainer.getPetMap().get(type).isAutoSkill()));
         trainer.getPlayer().showFormWindow(form.onResponse(s-> Menu.CONFIRM(trainer.getPlayer(), bool->{
             if(bool) {
                 String newName = s.getInputResponse(0);
@@ -232,7 +235,7 @@ public class Pet {
             }else {
                 PET_EDIT(trainer, type);
             }
-        }, "", "确定要修改吗?")));
+        }, "", Lang.translate("%ui.pet.edit.confirm%"))));
     }
 
 }

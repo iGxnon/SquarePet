@@ -1,6 +1,6 @@
 package xyz.lightsky.squarepet.prop;
 
-import xyz.lightsky.squarepet.pet.PetResourceAche;
+import xyz.lightsky.squarepet.pet.PetResourceCache;
 import xyz.lightsky.squarepet.prop.symbol.PetAcceptable;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
@@ -25,7 +25,7 @@ public class ResurrectionStoneProp extends BaseProp implements PetAcceptable {
 
     @Override
     public boolean onUseToPet(Trainer trainer, String petType) {
-        PetResourceAche ache = trainer.getPetMap().get(petType);
+        PetResourceCache ache = trainer.getPetMap().get(petType);
         if(!ache.isPreDead()) {
             trainer.sendMessage("该宠物没有濒死!");
             return false;
