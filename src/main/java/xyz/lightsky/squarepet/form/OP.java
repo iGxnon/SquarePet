@@ -8,6 +8,7 @@ import cn.nukkit.form.element.ElementSlider;
 import xyz.lightsky.squarepet.form.api.window.FormCustom;
 import xyz.lightsky.squarepet.form.api.window.FormModal;
 import xyz.lightsky.squarepet.form.api.window.FormSimple;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.manager.ConfigManager;
 import xyz.lightsky.squarepet.manager.MarketManager;
 import xyz.lightsky.squarepet.manager.PetManager;
@@ -23,7 +24,9 @@ import java.util.stream.Collectors;
 public class OP {
 
     public static void OP_SETTING(Player player) {
-        FormModal form = new FormModal("OP设置", "", "编辑玩家", "编辑市场");
+        FormModal form = new FormModal(Lang.translate("%ui.op.title%"), "",
+                Lang.translate("%ui.op.edit.player%"),
+                Lang.translate("%ui.op.edit.market%"));
         player.showFormWindow(form.onResponse(s -> {
             if(s) {
                 OP_PLAYER_EDIT(player);
@@ -39,7 +42,7 @@ public class OP {
                 .map(Player::getName)
                 .collect(Collectors.toList());
         FormCustom form = new FormCustom();
-        form.addElement(new ElementDropdown("选择编辑的玩家", players));
+        form.addElement(new ElementDropdown(Lang.translate("%ui.op.edit.player.choose%"), players));
         player.showFormWindow(form.onResponse(s -> {
             String target = s.getDropdownResponse(0).getElementContent();
             OP_PLAYER_EDIT_SWITCH(player, target);
@@ -48,12 +51,12 @@ public class OP {
 
     public static void OP_PLAYER_EDIT_SWITCH(Player op, String target) {
         FormSimple form = new FormSimple(target, "");
-        form.addButton("添加宠物");
-        form.addButton("删除宠物");
-        form.addButton("添加道具");
-        form.addButton("添加技能");
-        form.addButton("修改称号");
-        form.addButton("修改等级");
+        form.addButton(Lang.translate("%ui.op.switch.addpet%"));
+        form.addButton(Lang.translate("%ui.op.switch.delpet%"));
+        form.addButton(Lang.translate("%ui.op.switch.addprop%"));
+        form.addButton(Lang.translate("%ui.op.switch.addskill%"));
+        form.addButton(Lang.translate("%ui.op.switch.editprefix%"));
+        form.addButton(Lang.translate("%ui.op.switch.editlevel%"));
         Trainer trainer = TrainerManager.getTrainer(target);
         if(trainer == null) {
             op.sendMessage("该玩家已经离线!");
@@ -87,7 +90,7 @@ public class OP {
 
     public static void OP_PLAYER_EDIT_ADD_PET(Player op, Trainer target) {
         List<String> petTypes = new ArrayList<>(PetManager.TYPES.keySet());
-        FormSimple form = new FormSimple("添加宠物", "选择宠物给" + target.getName() + "添加");
+        FormSimple form = new FormSimple(Lang.translate("%ui.op.switch.addpet%"), Lang.translate("%ui.op.addpet.choose%").replace("{trainer}", target.getName()));
         petTypes.forEach(form::addButton);
         op.showFormWindow(form.onClick(s->{
             String type = petTypes.get(s);
@@ -101,7 +104,7 @@ public class OP {
 
     public static void OP_PLAYER_EDIT_REMOVE_PET(Player op, Trainer target) {
         List<String> petTypes = target.getPetTypes();
-        FormSimple form = new FormSimple("删除宠物", "选择将" + target.getName() + "的宠物删除");
+        FormSimple form = new FormSimple(Lang.translate("%ui.op.switch.delpet%"), Lang.translate("%ui.op.delpet.choose%").replace("{trainer}", target.getName()));
         petTypes.forEach(form::addButton);
         op.showFormWindow(form.onClick(s->{
             String type = petTypes.get(s);
@@ -114,9 +117,9 @@ public class OP {
         List<String> propTypes = BaseProp.propMap.values().stream()
                 .map(BaseProp::getName)
                 .collect(Collectors.toList());
-        FormCustom form = new FormCustom("添加道具给" + target.getName());
-        form.addElement(new ElementDropdown("选择道具", propTypes));
-        form.addElement(new ElementSlider("数量", 1F, 20F, 1));
+        FormCustom form = new FormCustom(Lang.translate("%ui.op.switch.addprop%"));
+        form.addElement(new ElementDropdown(Lang.translate("%ui.op.addprop.choose%").replace("{trainer}", target.getName()), propTypes));
+        form.addElement(new ElementSlider(Lang.translate("%ui.market.baseprop.count%"), 1F, 20F, 1));
         op.showFormWindow(form.onResponse(s -> {
             String type = s.getDropdownResponse(0).getElementContent();
             int amount = (int) s.getSliderResponse(2);
@@ -127,40 +130,40 @@ public class OP {
 
     public static void OP_PLAYER_EDIT_ADD_SKILL(Player op, Trainer target) {
         List<String> skillTypes = new ArrayList<>(BaseSkill.skillMap.keySet());
-        FormSimple form = new FormSimple("添加技能", "选择技能给" + target.getName() + "的宠物添加");
+        FormSimple form = new FormSimple(Lang.translate("%ui.op.switch.addskill%"), Lang.translate("%ui.op.addskill.choose%").replace("{trainer}", target.getName()));
         skillTypes.forEach(form::addButton);
         op.showFormWindow(form.onClick(s->{
             String type = skillTypes.get(s);
-            Pet.PET_LIST(target, pet->{
+            Pet.PET_LIST(target, pet -> {
                 if(pet != null && !pet.equals("")) {
+                    List<String> ownSkills = target.getPetMap().get(pet).getSkills();
+                    if(ownSkills.size() >= 3) {
+                        op.sendMessage("对方选择的宠物技能已经满了!");
+                        target.sendMessage("该宠物技能已经满了!");
+                        return;
+                    }
                     if(target.getSpawnedPets().get(pet) != null) {
                         target.getSpawnedPets().get(pet).addSkill(BaseSkill.get(type));
                         target.getSpawnedPets().get(pet).save();
-                        target.sendMessage("添加成功!");
-                        op.sendMessage("添加成功!");
+                        target.sendMessage("添加成功");
+                        op.sendMessage("添加成功");
                     }else {
-                        List<String> ownSkills = target.getPetMap().get(pet).getSkills();
-                        if(ownSkills.size() >= 3) {
-                            op.sendMessage("对方选择的宠物技能已经满了!");
-                            target.sendMessage("该宠物技能已经满了!");
-                            return;
-                        }
                         ownSkills.add(type);
                         target.getPetMap().get(pet).setSkills(ownSkills);
                         target.getPetMap().get(pet).save();
-                        op.sendMessage("添加成功!");
-                        target.sendMessage("添加成功!");
+                        op.sendMessage("添加成功");
+                        target.sendMessage("添加成功");
                     }
                 }else {
-                    op.sendMessage("添加失败!");
+                    op.sendMessage("添加失败");
                 }
-            }, "管理员准备给你技能 " + type + " 请选择宠物添加!");
+            }, Lang.translate("%ui.op.addskill.target.content%").replace("{skillName}", type));
         }));
     }
 
     public static void OP_PLAYER_EDIT_PREFIX(Player op, Trainer target) {
-        FormCustom form = new FormCustom("修改称号");
-        form.addElement(new ElementInput(target.getName(), "输入新的称号"));
+        FormCustom form = new FormCustom(Lang.translate("%ui.op.switch.editprefix%"));
+        form.addElement(new ElementInput(target.getName(), Lang.translate("%ui.op.editprefix.content%")));
         op.showFormWindow(form.onResponse(s->{
             String newPrefix = s.getInputResponse(0);
             target.setPrefix(newPrefix);
@@ -171,8 +174,8 @@ public class OP {
 
     public static void OP_PLAYER_EDIT_LEVEL(Player op, Trainer target) {
         float maxLv = ConfigManager.getTrainerMaxLv();
-        FormCustom form = new FormCustom("设置等级");
-        form.addElement(new ElementSlider("等级", 1, maxLv, 1));
+        FormCustom form = new FormCustom(Lang.translate("%ui.op.switch.editlevel%"));
+        form.addElement(new ElementSlider(Lang.translate("%ui.op.editlevel.content%"), 1, maxLv, 1));
         op.showFormWindow(form.onResponse(s->{
             int newLv = (int) s.getSliderResponse(0);
             target.setLevel(newLv);
@@ -182,11 +185,11 @@ public class OP {
     }
 
     public static void OP_MARKET_EDIT(Player player) {
-        FormSimple form = new FormSimple("选择需要编辑的市场", "");
-        form.addButton("宠物市场");
-        form.addButton("技能石市场");
-        form.addButton("基础道具市场");
-        form.addButton("返回");
+        FormSimple form = new FormSimple(Lang.translate("%ui.op.edit.market%"), "");
+        form.addButton(Lang.translate("%ui.market.pet%"));
+        form.addButton(Lang.translate("%ui.market.skillstone%"));
+        form.addButton(Lang.translate("%ui.market.baseprop%"));
+        form.addButton(Lang.translate("%ui.market.back%"));
         player.showFormWindow(form.onClick(s->{
             switch (s) {
                 case 0:
@@ -209,15 +212,15 @@ public class OP {
 
     public static void OP_MARKET_PET_EDIT(Player player) {
         List<String> list = new ArrayList<>(MarketManager.petPrices.keySet());
-        FormSimple form = new FormSimple("宠物市场编辑", "");
+        FormSimple form = new FormSimple(Lang.translate("%ui.op.edit.market.pet%"), "");
         list.forEach(form::addButton);
-        form.addButton("添加更多");
+        form.addButton(Lang.translate("%ui.op.edit.market.addmore%"));
         player.showFormWindow(form.onClick(s->{
             if(s == list.size()) {
                 List<String> extra = PetManager.TYPES.keySet().stream()
                         .filter(e-> !list.contains(e))
                         .collect(Collectors.toList());
-                FormSimple formSimple = new FormSimple("选择宠物", "");
+                FormSimple formSimple = new FormSimple(Lang.translate("%ui.op.edit.market.pet.choose%"), "");
                 extra.forEach(formSimple::addButton);
                 player.showFormWindow(formSimple.onClick(b->{
                     String type = extra.get(b);
@@ -231,14 +234,17 @@ public class OP {
                     }else {
                         OP_MARKET_PET_EDIT_ADD_REMAKE(player, list.get(s));
                     }
-                }, "", "是否删除该商品?", "是", "编辑价格");
+                }, "", Lang.translate("%ui.op.edit.market.del.content%"),
+                        Lang.translate("%ui.menu.confirm.true%"),
+                        Lang.translate("%ui.op.edit.market.editprice%"));
             }
         }));
     }
 
     public static void OP_MARKET_PET_EDIT_ADD_REMAKE(Player player, String type) {
         FormCustom form = new FormCustom(type);
-        form.addElement(new ElementInput("设置价格", "填入整数"));
+        form.addElement(new ElementInput(Lang.translate("%ui.op.edit.market.editprice%"),
+                Lang.translate("%ui.op.edit.market.editprice.placeholder%")));
         player.showFormWindow(form.onResponse(s->{
             String input = s.getInputResponse(0);
             int price = 0;
@@ -259,17 +265,17 @@ public class OP {
 
     public static void OP_MARKET_SKILL_STONE_EDIT(Player player) {
         List<String> list = new ArrayList<>(MarketManager.skillStonePrices.keySet());
-        FormSimple form = new FormSimple("技能石市场编辑", "");
+        FormSimple form = new FormSimple(Lang.translate("%ui.market.skillstone%"), "");
         list.forEach(form::addButton);
-        form.addButton("添加更多");
+        form.addButton(Lang.translate("%ui.op.edit.market.addmore%"));
         player.showFormWindow(form.onClick(s->{
             if(s == list.size()) {
                 List<String> extra = BaseSkill.skillMap.keySet().stream()
                         .filter(e-> !list.contains(e))
                         .collect(Collectors.toList());
-                FormSimple formSimple = new FormSimple("选择技能", "");
+                FormSimple formSimple = new FormSimple(Lang.translate("%ui.op.edit.market.skill.choose%"), "");
                 extra.forEach(formSimple::addButton);
-                player.showFormWindow(formSimple.onClick(b->{
+                player.showFormWindow(formSimple.onClick(b -> {
                     String type = extra.get(b);
                     OP_MARKET_SKILL_STONE_EDIT_ADD(player, type);
                 }));
@@ -281,14 +287,17 @@ public class OP {
                     }else {
                         OP_MARKET_SKILL_STONE_EDIT_ADD_REMAKE(player, list.get(s));
                     }
-                }, "", "是否删除该商品?", "是", "编辑价格");
+                }, "", Lang.translate("%ui.op.edit.market.del.content%"),
+                        Lang.translate("%ui.menu.confirm.true%"),
+                        Lang.translate("%ui.op.edit.market.editprice%"));
             }
         }));
     }
 
     public static void OP_MARKET_SKILL_STONE_EDIT_ADD_REMAKE(Player player, String type) {
         FormCustom form = new FormCustom(type);
-        form.addElement(new ElementInput("设置价格", "填入整数"));
+        form.addElement(new ElementInput(Lang.translate("%ui.op.edit.market.editprice%"),
+                Lang.translate("%ui.op.edit.market.editprice.placeholder%")));
         player.showFormWindow(form.onResponse(s->{
             String input = s.getInputResponse(0);
             int price = 0;
@@ -309,15 +318,15 @@ public class OP {
 
     public static void OP_MARKET_BASE_PROP_EDIT(Player player) {
         List<String> list = new ArrayList<>(MarketManager.propPrices.keySet());
-        FormSimple form = new FormSimple("基本道具市场编辑", "");
+        FormSimple form = new FormSimple(Lang.translate("%ui.market.baseprop%"), "");
         list.forEach(form::addButton);
-        form.addButton("添加更多");
+        form.addButton(Lang.translate("%ui.op.edit.market.addmore%"));
         player.showFormWindow(form.onClick(s->{
             if(s == list.size()) {
                 List<String> extra = BaseProp.name2Id.keySet().stream()
                         .filter(e-> !list.contains(e))
                         .collect(Collectors.toList());
-                FormSimple formSimple = new FormSimple("选择道具", "");
+                FormSimple formSimple = new FormSimple(Lang.translate("%ui.op.edit.market.prop.choose%"), "");
                 extra.forEach(formSimple::addButton);
                 player.showFormWindow(formSimple.onClick(b->{
                     String type = extra.get(b);
@@ -331,7 +340,9 @@ public class OP {
                     }else {
                         OP_MARKET_BASE_PROP_EDIT_ADD_REMAKE(player, list.get(s));
                     }
-                }, "", "是否删除该商品?", "是", "编辑价格");
+                }, "", Lang.translate("%ui.op.edit.market.del.content%"),
+                        Lang.translate("%ui.menu.confirm.true%"),
+                        Lang.translate("%ui.op.edit.market.editprice%"));
             }
         }));
     }
@@ -342,7 +353,8 @@ public class OP {
 
     public static void OP_MARKET_BASE_PROP_EDIT_ADD_REMAKE(Player player, String type) {
         FormCustom form = new FormCustom(type);
-        form.addElement(new ElementInput("设置价格", "填入整数"));
+        form.addElement(new ElementInput(Lang.translate("%ui.op.edit.market.editprice%"),
+                Lang.translate("%ui.op.edit.market.editprice.placeholder%")));
         player.showFormWindow(form.onResponse(s->{
             String input = s.getInputResponse(0);
             int price = 0;

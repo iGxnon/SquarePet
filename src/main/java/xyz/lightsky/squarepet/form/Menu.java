@@ -3,9 +3,9 @@ package xyz.lightsky.squarepet.form;
 import cn.nukkit.Player;
 import cn.nukkit.form.element.ElementButton;
 import cn.nukkit.form.element.ElementButtonImageData;
-import cn.nukkit.utils.TextFormat;
 import xyz.lightsky.squarepet.form.api.window.FormModal;
 import xyz.lightsky.squarepet.form.api.window.FormSimple;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.manager.ConfigManager;
 import xyz.lightsky.squarepet.manager.TrainerManager;
 import xyz.lightsky.squarepet.trainer.Trainer;
@@ -15,15 +15,17 @@ import java.util.function.Consumer;
 public class Menu {
 
     public static void MAIN(Player player) {
-        FormSimple form = new FormSimple(TextFormat.BLUE + "方块宠物", TextFormat.GREEN + "请执行您的操作");
-        form.addButton(new ElementButton("我的宠物", new ElementButtonImageData("path", "textures/items/villagebell.png")));
-        form.addButton(new ElementButton("宠物阵容", new ElementButtonImageData("path", "textures/items/diamond_sword.png")));
-        form.addButton(new ElementButton("赠送宠物", new ElementButtonImageData("path", "textures/ui/gift_square.png")));
-        form.addButton(new ElementButton("编辑宠物", new ElementButtonImageData("path", "textures/ui/anvil_icon.png")));
-        form.addButton(new ElementButton("市场", new ElementButtonImageData("path", "textures/ui/icon_hangar.png")));
-        form.addButton(new ElementButton("我", new ElementButtonImageData("path", "textures/ui/icon_panda.png")));
+        FormSimple form = new FormSimple(Lang.translate("%ui.menu.main.title%"),
+                Lang.translate("%ui.menu.main.content%"));
+
+        form.addButton(new ElementButton(Lang.translate("%ui.menu.main.mypet%"), new ElementButtonImageData(Lang.translate("%ui.menu.main.mypet.icon%").split(":")[0], Lang.translate("%ui.menu.main.mypet.icon%").split(":")[1])));
+        form.addButton(new ElementButton(Lang.translate("%ui.menu.main.lineup%"), new ElementButtonImageData(Lang.translate("%ui.menu.main.lineup.icon%").split(":")[0], Lang.translate("%ui.menu.main.lineup.icon%").split(":")[1])));
+        form.addButton(new ElementButton(Lang.translate("%ui.menu.main.givepet%"), new ElementButtonImageData(Lang.translate("%ui.menu.main.givepet.icon%").split(":")[0], Lang.translate("%ui.menu.main.givepet.icon%").split(":")[1])));
+        form.addButton(new ElementButton(Lang.translate("%ui.menu.main.editpet%"), new ElementButtonImageData(Lang.translate("%ui.menu.main.editpet.icon%").split(":")[0], Lang.translate("%ui.menu.main.editpet.icon%").split(":")[1])));
+        form.addButton(new ElementButton(Lang.translate("%ui.menu.main.market%"), new ElementButtonImageData(Lang.translate("%ui.menu.main.market.icon%").split(":")[0], Lang.translate("%ui.menu.main.market.icon%").split(":")[1])));
+        form.addButton(new ElementButton(Lang.translate("%ui.menu.main.me%"), new ElementButtonImageData(Lang.translate("%ui.menu.main.me.icon%").split(":")[0], Lang.translate("%ui.menu.main.me.icon%").split(":")[1])));
         if (ConfigManager.isOP(player)) {
-            form.addButton(new ElementButton("OP系统", new ElementButtonImageData("path", "textures/ui/icon_sign.png")));
+            form.addButton(new ElementButton(Lang.translate("%ui.menu.main.op%"), new ElementButtonImageData(Lang.translate("%ui.menu.main.op.icon%").split(":")[0], Lang.translate("%ui.menu.main.op.icon%").split(":")[1])));
         }
 
         Trainer trainer = TrainerManager.getTrainer(player.getName());
@@ -37,10 +39,10 @@ public class Menu {
                         Pet.PET_LINEUP(trainer.getLineup(), trainer);
                         break;
                     case 2:
-                        Pet.PET_LIST(trainer, s -> Pet.PET_GIVE(trainer, s), "请选择要赠送的宠物");
+                        Pet.PET_LIST(trainer, s -> Pet.PET_GIVE(trainer, s), Lang.translate("%ui.menu.main.petchoose.give%"));
                         break;
                     case 3:
-                        Pet.PET_LIST(trainer, s -> Pet.PET_EDIT(trainer, s), "请选择要编辑的宠物");
+                        Pet.PET_LIST(trainer, s -> Pet.PET_EDIT(trainer, s), Lang.translate("%ui.menu.main.petchoose.edit%"));
                         break;
                     case 4:
                         Market.SWITCH(trainer);
@@ -60,11 +62,11 @@ public class Menu {
 
 
     public static void CONFIRM(Player player, Consumer<Boolean> consumer) {
-        CONFIRM(player, consumer, "确认界面", "确定要这么做吗?");
+        CONFIRM(player, consumer, "", Lang.translate("%ui.menu.confirm.content%"));
     }
 
     public static void CONFIRM(Player player, Consumer<Boolean> consumer, String title, String content) {
-        CONFIRM(player, consumer, title, content, "确认", "取消");
+        CONFIRM(player, consumer, title, content, Lang.translate("%ui.menu.confirm.true%"), Lang.translate("%ui.menu.confirm.false%"));
     }
 
     public static void CONFIRM(Player player, Consumer<Boolean> consumer, String title, String content, String trueButton, String falseButton) {

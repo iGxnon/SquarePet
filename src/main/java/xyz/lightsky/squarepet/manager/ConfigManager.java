@@ -152,6 +152,7 @@ public class ConfigManager {
     }
 
     public static boolean isOP(Player player) {
-        return config.getStringList("管理人员").contains(player.getName());
+        return config.getStringList("管理人员").contains(player.getName()) && player.isOp();
     }
+
 }

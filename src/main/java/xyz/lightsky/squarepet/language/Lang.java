@@ -13,13 +13,15 @@ import java.util.stream.Stream;
 
 public class Lang {
 
-    public static final int langFileCount = 3;
+    public static final int langFileCount = 4;
 
     public static final Config sysLang = new Config();
 
     public static final Config uiLang = new Config();
 
     public static final Config userLang = new Config();
+
+    public static final Config propLang = new Config();
 
     public static List<String> availableLangList = new ArrayList<>();
 
@@ -40,7 +42,90 @@ public class Lang {
             .add("%sys.skill.dir.loaded%")
             .add("%sys.skill.register.success%")
             .add("%sys.trainer.loading%")
+
             .add("%sys.command.dlcargs.wrong%")
+
+            .add("%ui.market%")
+            .add("%ui.market.switch.content%")
+            .add("%ui.market.switch.pet%")
+            .add("%ui.market.switch.prop%")
+            .add("%ui.market.pet.content.tips%")
+            .add("%ui.market.pet%")
+            .add("%ui.market.buy%")
+            .add("%ui.market.back%")
+            .add("%ui.market.pet.info%")
+            .add("%ui.market.buy.confirm%")
+            .add("%ui.market.prop.switch.content%")
+            .add("%ui.market.baseprop%")
+            .add("%ui.market.skillstone%")
+            .add("%ui.market.skillstone.info%")
+            .add("%ui.market.skillstone.content%")
+            .add("%ui.market.baseprop.info%")
+            .add("%ui.market.baseprop.count%")
+
+            .add("%ui.me.info.openbag%")
+            .add("%ui.me.back%")
+            .add("%ui.me.bag.title%")
+            .add("%ui.me.bag.prop.info%")
+            .add("%ui.me.bag.prop.use%")
+            .add("%ui.me.bag.prop.choosepettouse%")
+            .add("%ui.me.bag.prop.use.confirm%")
+
+            .add("%ui.menu.main.title%")
+            .add("%ui.menu.main.content%")
+            .add("%ui.menu.main.mypet%")
+            .add("%ui.menu.main.mypet.icon%")
+            .add("%ui.menu.main.lineup%")
+            .add("%ui.menu.main.lineup.icon%")
+            .add("%ui.menu.main.givepet%")
+            .add("%ui.menu.main.givepet.icon%")
+            .add("%ui.menu.main.editpet%")
+            .add("%ui.menu.main.editpet.icon%")
+            .add("%ui.menu.main.market%")
+            .add("%ui.menu.main.market.icon%")
+            .add("%ui.menu.main.me%")
+            .add("%ui.menu.main.me.icon%")
+            .add("%ui.menu.main.op%")
+            .add("%ui.menu.main.op.icon%")
+            .add("%ui.menu.main.petchoose.give%")
+            .add("%ui.menu.main.petchoose.edit%")
+            .add("%ui.menu.confirm.content%")
+            .add("%ui.menu.confirm.true%")
+            .add("%ui.menu.confirm.false%")
+
+            .add("%ui.op.title%")
+            .add("%ui.op.edit.player%")
+            .add("%ui.op.edit.market%")
+            .add("%ui.op.edit.player.choose%")
+            .add("%ui.op.switch.addpet%")
+            .add("%ui.op.switch.delpet%")
+            .add("%ui.op.switch.addprop%")
+            .add("%ui.op.switch.addskill%")
+            .add("%ui.op.switch.editprefix%")
+            .add("%ui.op.switch.editlevel%")
+            .add("%ui.op.addpet.choose%")
+            .add("%ui.op.delpet.choose%")
+            .add("%ui.op.addprop.choose%")
+            .add("%ui.op.addskill.choose%")
+            .add("%ui.op.addskill.target.content%")
+            .add("%ui.op.editprefix.content%")
+            .add("%ui.op.editlevel.content%")
+            .add("%ui.op.edit.market.pet%")
+            .add("%ui.op.edit.market.addmore%")
+            .add("%ui.op.edit.market.pet.choose%")
+            .add("%ui.op.edit.market.del.content%")
+            .add("%ui.op.edit.market.editprice%")
+            .add("%ui.op.edit.market.editprice.placeholder%")
+            .add("%ui.op.edit.market.skill.choose%")
+            .add("%ui.op.edit.market.prop.choose%")
+
+            .add("%ui.pet.list.title%")
+            .add("%ui.pet.spawn%")
+            .add("%ui.pet.takeback%")
+            .add("%ui.pet.back%")
+            .add("%ui.pet.ride%")
+            .add("%ui.pet.info%")
+
             .build();
 
     public static void init() {
@@ -49,12 +134,15 @@ public class Lang {
             Main.getInstance().saveResource("Languages/chs/sys.yml");
             Main.getInstance().saveResource("Languages/chs/ui.yml");
             Main.getInstance().saveResource("Languages/chs/user.yml");
+            Main.getInstance().saveResource("Languages/chs/prop.yml");
             Main.getInstance().saveResource("Languages/eng/sys.yml");
             Main.getInstance().saveResource("Languages/eng/ui.yml");
             Main.getInstance().saveResource("Languages/eng/user.yml");
+            Main.getInstance().saveResource("Languages/eng/prop.yml");
             Main.getInstance().saveResource("Languages/cht/sys.yml");
             Main.getInstance().saveResource("Languages/cht/ui.yml");
             Main.getInstance().saveResource("Languages/cht/user.yml");
+            Main.getInstance().saveResource("Languages/cht/prop.yml");
         }
         Stream.of(Objects.requireNonNull(langDir.listFiles()))
                 .filter(File::isDirectory)
@@ -75,6 +163,7 @@ public class Lang {
         sysLang.load(Main.getInstance().getDataFolder() + "/Languages/" + lang + "/sys.yml", Config.YAML);
         uiLang.load(Main.getInstance().getDataFolder() + "/Languages/" + lang + "/ui.yml", Config.YAML);
         userLang.load(Main.getInstance().getDataFolder() + "/Languages/" + lang + "/user.yml", Config.YAML);
+        propLang.load(Main.getInstance().getDataFolder() + "/Languages/" + lang + "/prop.yml", Config.YAML);
         Main.info(Lang.translate("%sys.language.load.success%"));
     }
 
@@ -97,6 +186,9 @@ public class Lang {
         }
         if(userLang.exists(key)) {
             return userLang.getString(key);
+        }
+        if(propLang.exists(key)) {
+            return propLang.getString(key);
         }
         throw  new LanguageNotFoundException(key);
     }

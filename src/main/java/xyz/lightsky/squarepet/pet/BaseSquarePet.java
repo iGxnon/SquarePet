@@ -214,9 +214,7 @@ public class BaseSquarePet extends EntityHuman {
                 return false;
             }
             getOwner().setOnRide(this);
-            boolean bool = super.mountEntity(entity);
-            getOwner().getPlayer().sendPopup("骑乘状态");
-            return bool;
+            return super.mountEntity(entity);
         }
         return false;
     }

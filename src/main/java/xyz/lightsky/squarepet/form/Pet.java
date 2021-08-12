@@ -8,6 +8,7 @@ import cn.nukkit.form.element.ElementToggle;
 import xyz.lightsky.squarepet.form.api.window.FormCustom;
 import xyz.lightsky.squarepet.form.api.window.FormModal;
 import xyz.lightsky.squarepet.form.api.window.FormSimple;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.manager.ConfigManager;
 import xyz.lightsky.squarepet.manager.PetManager;
 import xyz.lightsky.squarepet.manager.TrainerManager;
@@ -24,7 +25,7 @@ public class Pet {
 
     public static void PET_LIST(Trainer trainer, Consumer<String> consumer, String content) {
         FormSimple form = new FormSimple();
-        form.setTitle(trainer.getName() + "的宠物列表");
+        form.setTitle(Lang.translate("%ui.pet.list.title%").replace("{trainer}", trainer.getName()));
         form.setContent(content);
         trainer.getPetTypes().forEach(form::addButton);
         trainer.getPlayer().showFormWindow(form.onClick(id -> {
@@ -36,8 +37,8 @@ public class Pet {
     }
 
     public static void PET_INFO(String petType, Trainer trainer) {
-        String state = trainer.getSpawnedPets().containsKey(petType) ? "收回" : "召唤";
-        FormModal form = new FormModal(petType, trainer.getPetInfo(petType), state, "返回");
+        String state = trainer.getSpawnedPets().containsKey(petType) ? Lang.translate("%ui.pet.takeback%") : Lang.translate("%ui.pet.spawn%");
+        FormModal form = new FormModal(petType, trainer.getPetInfo(petType), state, Lang.translate("%ui.pet.back%"));
         trainer.getPlayer().showFormWindow(form.onResponse(result -> {
             if(result) {
                 if(trainer.getSpawnedPets().containsKey(petType)) {
@@ -55,9 +56,9 @@ public class Pet {
         if(pet == null) return;
         FormModal form = null;
         if(pet.isCanSeat()){
-            form = new FormModal(pet.getName(), pet.getInfo(), "骑乘", "收回");
+            form = new FormModal(pet.getName(), pet.getInfo(), Lang.translate("%ui.pet.ride%"), Lang.translate("%ui.pet.takeback%"));
         }else {
-            form = new FormModal(pet.getName(), pet.getInfo(), "简介","收回");
+            form = new FormModal(pet.getName(), pet.getInfo(), Lang.translate("%ui.pet.info%"),Lang.translate("%ui.pet.takeback%"));
         }
         pet.getOwner().getPlayer().showFormWindow(form.onResponse(s->{
             if(s) {
