@@ -6,7 +6,7 @@
 
     <groupId>xyz.lightsky</groupId>
     <artifactId>SquarePet</artifactId>
-    <version>1.0.3-RELEASE</version>
+    <version>1.0.4-RELEASE</version>
 
     <dependencies>
         <dependency>
