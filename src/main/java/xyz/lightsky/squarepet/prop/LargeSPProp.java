@@ -1,5 +1,6 @@
 package xyz.lightsky.squarepet.prop;
 
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
 import xyz.lightsky.squarepet.pet.PetResourceCache;
 import xyz.lightsky.squarepet.prop.symbol.PetAcceptable;
@@ -13,7 +14,7 @@ public class LargeSPProp extends BaseProp implements PetAcceptable {
 
     @Override
     public String getName() {
-        return "大型SP药剂";
+        return Lang.translate("%prop.sprecover.large%");
     }
 
     @Override
@@ -23,7 +24,7 @@ public class LargeSPProp extends BaseProp implements PetAcceptable {
 
     @Override
     public String getInfo() {
-        return "宠物SP不够? 快来大幅恢复SP";
+        return Lang.translate("%prop.sprecover.large.info%");
     }
 
     @Override
@@ -38,7 +39,8 @@ public class LargeSPProp extends BaseProp implements PetAcceptable {
             ache.setSp(addition + ache.getSp());
             ache.save();
         }
-        trainer.sendMessage("SP已经恢复SP " + addition + " 点");
+        trainer.sendMessage(Lang.translate("%user.prop.sprecover.addition%")
+                .replace("{addition}", String.valueOf(addition)));
         return true;
     }
 }

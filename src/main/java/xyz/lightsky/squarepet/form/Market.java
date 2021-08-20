@@ -62,12 +62,12 @@ public class Market {
                 Menu.CONFIRM(trainer.getPlayer(), bool->{
                     if(bool) {
                         if(EconomyAPI.getInstance().myMoney(trainer.getPlayer()) < cost) {
-                            trainer.sendMessage("你的"+ConfigManager.getCurrencyUnit()+"好像不够哦");
+                            trainer.sendMessage(Lang.translate("%user.money.less%").replace("{CurrencyUnit}", ConfigManager.getCurrencyUnit()));
                             return;
                         }
                         if(trainer.addPet(type)) {
                             EconomyAPI.getInstance().reduceMoney(trainer.getPlayer(), cost);
-                            trainer.sendMessage("购买成功!");
+                            trainer.sendMessage(Lang.translate("%user.buy.success%"));
                         }
                     }else {
                         MARKET_PET_INFO(type, cost, trainer);
@@ -122,7 +122,7 @@ public class Market {
                 Menu.CONFIRM(trainer.getPlayer(), i->{
                     if(i) {
                         if(EconomyAPI.getInstance().myMoney(trainer.getPlayer()) < cost) {
-                            trainer.sendMessage("你的"+ConfigManager.getCurrencyUnit()+"好像不够哦");
+                            trainer.sendMessage(Lang.translate("%user.money.less%").replace("{CurrencyUnit}", ConfigManager.getCurrencyUnit()));
                             return;
                         }
                         SkillStoneProp prop = MarketManager.getSkillStone(skillName);
@@ -172,13 +172,13 @@ public class Market {
                         trainer.getPlayer().showFormWindow(form1.onResponse(res->{
                             int count = (int) res.getSliderResponse(0);
                             if(EconomyAPI.getInstance().myMoney(trainer.getPlayer()) < (cost * count)) {
-                                trainer.sendMessage("你的"+ConfigManager.getCurrencyUnit()+"好像不够哦");
+                                trainer.sendMessage(Lang.translate("%user.money.less%").replace("{CurrencyUnit}", ConfigManager.getCurrencyUnit()));
                                 return;
                             }
                             EconomyAPI.getInstance().reduceMoney(trainer.getPlayer(), (cost * count));
                             trainer.getBag().put(propID, count);
                             trainer.getBag().save();
-                            trainer.sendMessage("购买成功!");
+                            trainer.sendMessage(Lang.translate("%user.buy.success%"));
                         }));
                     }else {
                         MARKET_BASE_PROP_INFO(propID, cost, trainer);

@@ -5,6 +5,7 @@ import cn.nukkit.entity.Entity;
 import cn.nukkit.event.entity.EntityDamageByEntityEvent;
 import cn.nukkit.nbt.tag.CompoundTag;
 import cn.nukkit.utils.Config;
+import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -186,13 +187,13 @@ public class Trainer {
     public void spawnPet(String type) {
         if(type == null) return;
         if(!petMap.containsKey(type)) {
-            sendMessage("你没有该宠物!");
+            sendMessage(Lang.translate("%user.pet.donot.have%"));
         }
         if(spawnedPets.containsKey(type)) {
             return;
         }
         if(petMap.get(type).isPreDead()) {
-            sendMessage("该宠物已经濒死，请使用复活石复活!");
+            sendMessage(Lang.translate("%user.pet.die%"));
             return;
         }
         CompoundTag nbt = PetManager.createTag(player, petMap.get(type));
@@ -200,14 +201,14 @@ public class Trainer {
         pet.setSkin(ModelManagerRe.getModel(pet.getModelName()));
         pet.spawnToAll();
         spawnedPets.put(type, pet);
-        sendMessage("成功召唤该宠物 " + pet.getName());
+        sendMessage(Lang.translate("%user.pet.spawn%").replace("{petName}", pet.getName()));
     }
 
     public void closePet(String type) {
         if(spawnedPets.containsKey(type)) {
             spawnedPets.get(type).close();
             spawnedPets.remove(type);
-            sendMessage("成功收回该宠物");
+            sendMessage(Lang.translate("%user.pet.despawn%"));
         }
     }
 
@@ -224,11 +225,11 @@ public class Trainer {
 
     public boolean addPet(String type) {
         if(ConfigManager.getPetContains(this) <= getPetTypes().size()) {
-            sendMessage("宠物容量不够,请升级获取更多!");
+            sendMessage(Lang.translate("%user.pet.contain.less%"));
             return false;
         }
         if(petTypes.contains(type)) {
-            sendMessage("添加失败! 你已经拥有该类型宠物");
+            sendMessage(Lang.translate("%user.pet.add.failed%"));
             return false;
         }
         Config petConf = new Config(getPlayerFolder() + "/宠物/" + type + ".yml", Config.YAML);
@@ -256,7 +257,7 @@ public class Trainer {
         petConf.set("食物", PetManager.getFoods(type));
         petConf.set("技能", new ArrayList<>());
         petConf.save();
-        sendMessage("成功添加宠物" + type);
+        sendMessage(Lang.translate("%user.pet.add.success%").replace("{type}", type));
         refreshPetList();
         return true;
     }
@@ -288,7 +289,7 @@ public class Trainer {
         config.set("技能", ache.getSkills());
         config.save();
         refreshPetList();
-        sendMessage("你收到了来自 "+sender.getName()+" 的宠物 "+ache.getName());
+        sendMessage(Lang.translate("%user.pet.add.success%").replace("{type}", ache.getType()));
         sender.removePet(ache.getType());
     }
 
@@ -334,7 +335,8 @@ public class Trainer {
 
     public void levelJump(int value) {
         if(this.level != maxLevel) {
-            sendMessage("成功升级, 现在等级" + Math.min(this.level + value, maxLevel) + "级");
+            int lv = Math.min(this.level + value, maxLevel);
+            sendMessage(Lang.translate("%user.level.up%").replace("{level}", String.valueOf(lv)));
         }
         this.level = Math.min(this.level + value, maxLevel);
         updateMaxExp();

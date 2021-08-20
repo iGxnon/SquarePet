@@ -1,5 +1,6 @@
 package xyz.lightsky.squarepet.prop;
 
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.manager.PetManager;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
 import xyz.lightsky.squarepet.pet.PetResourceCache;
@@ -14,7 +15,7 @@ public class SPEnhanceProp extends BaseProp implements PetAcceptable {
 
     @Override
     public String getName() {
-        return "SP扩容";
+        return Lang.translate("%prop.spenhance%");
     }
 
     @Override
@@ -24,7 +25,7 @@ public class SPEnhanceProp extends BaseProp implements PetAcceptable {
 
     @Override
     public String getInfo() {
-        return "宠物SP不够用? 随机给宠物扩大SP吧! 最大可扩大 10 点!";
+        return Lang.translate("%prop.spenhance.info%");
     }
 
     @Override
@@ -33,7 +34,7 @@ public class SPEnhanceProp extends BaseProp implements PetAcceptable {
         if(trainer.hasSpawnedPet(petType)) {
             BaseSquarePet pet = trainer.getSpawnedPets().get(petType);
             if(pet.getMaxSP() == PetManager.getUltimateSp(petType)) {
-                trainer.sendMessage("已经扩容至最大SP,无法继续扩容了!");
+                trainer.sendMessage(Lang.translate("%user.prop.spenlarge.max%"));
                 return false;
             }
             int result = addition + pet.getMaxSP();
@@ -42,14 +43,15 @@ public class SPEnhanceProp extends BaseProp implements PetAcceptable {
         }else {
             PetResourceCache ache = trainer.getPetMap().get(petType);
             if(ache.getMaxSP() == PetManager.getUltimateSp(petType)) {
-                trainer.sendMessage("已经扩容至最大SP,无法继续扩容了!");
+                trainer.sendMessage(Lang.translate("%user.prop.spenlarge.max%"));
                 return false;
             }
             int result = addition + ache.getMaxSP();
             ache.setMaxSP(Math.min(result, PetManager.getUltimateSp(petType)));
             ache.save();
         }
-        trainer.sendMessage("已经扩容SP " + addition + " 点");
+        trainer.sendMessage(Lang.translate("%user.prop.spenlarge.addition%")
+                .replace("{addition}", String.valueOf(addition)));
         return true;
     }
 }

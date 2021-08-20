@@ -1,5 +1,6 @@
 package xyz.lightsky.squarepet.prop;
 
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.manager.MarketManager;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
 import xyz.lightsky.squarepet.pet.PetResourceCache;
@@ -16,7 +17,7 @@ public class SkillStoneProp extends BaseProp implements PetAcceptable {
 
     @Override
     public String getName() {
-        return "技能石";
+        return Lang.translate("%prop.skillstone%");
     }
 
     @Override
@@ -26,7 +27,9 @@ public class SkillStoneProp extends BaseProp implements PetAcceptable {
 
     @Override
     public String getInfo() {
-        return "给宠物学习技能 " + getSkill().getName() +  " 属性: " + getSkill().getAttribute().toString();
+        return Lang.translate("%prop.skillstone.info%")
+                .replace("{skillName}", getSkill().getName())
+                .replace("{attribute}", getSkill().getAttribute().toString());
     }
 
     public void setSkill(BaseSkill achedSkill) {
@@ -50,7 +53,7 @@ public class SkillStoneProp extends BaseProp implements PetAcceptable {
             boolean result = pet.addSkill(getSkill());
             pet.save();
             if(result){
-                trainer.sendMessage("学习完毕!");
+                trainer.sendMessage(Lang.translate("%user.learn.complete%"));
             }
             return result;
         }else {
@@ -58,7 +61,7 @@ public class SkillStoneProp extends BaseProp implements PetAcceptable {
             if(ache.getSkills().size() < 3) {
                 ache.getSkills().add(getSkill().getName());
                 ache.save();
-                trainer.sendMessage("学习完毕!");
+                trainer.sendMessage(Lang.translate("%user.learn.complete%"));
                 return true;
             }
         }

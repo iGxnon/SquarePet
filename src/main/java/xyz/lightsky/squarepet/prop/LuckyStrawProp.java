@@ -1,5 +1,6 @@
 package xyz.lightsky.squarepet.prop;
 
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.prop.symbol.TrainerAcceptable;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
@@ -11,7 +12,7 @@ public class LuckyStrawProp extends BaseProp implements TrainerAcceptable {
 
     @Override
     public String getName() {
-        return "幸运草";
+        return Lang.translate("%prop.luckystraw%");
     }
 
     @Override
@@ -21,7 +22,7 @@ public class LuckyStrawProp extends BaseProp implements TrainerAcceptable {
 
     @Override
     public String getInfo() {
-        return "快来提高自己的幸运值吧!";
+        return Lang.translate("%prop.luckystraw.info%");
     }
 
     @Override
@@ -29,7 +30,9 @@ public class LuckyStrawProp extends BaseProp implements TrainerAcceptable {
         int raw = trainer.getLuckRate();
         trainer.setLuckRate(raw + (new Random().nextInt(101 - raw)));
         trainer.save();
-        trainer.sendMessage("幸运值已经提升 " + (trainer.getLuckRate() - raw) + " 点");
+        int addition = trainer.getLuckRate() - raw;
+        trainer.sendMessage(Lang.translate("%user.trainer.lucky.addition%")
+                .replace("{addition}", String.valueOf(addition)));
         return true;
     }
 }

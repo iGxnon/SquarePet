@@ -31,7 +31,6 @@ public class ConfigManager {
         return config.getString("language");
     }
 
-    // Frequently visit, register directly
     private static void registerPlayerMaxLv() {
         trainerMaxLv = config.getInt("训练师最高等级");
     }
@@ -55,8 +54,6 @@ public class ConfigManager {
             }
         }
     }
-
-
 
     public static String getPetPrefixBase() {
         return petPrefixBase;

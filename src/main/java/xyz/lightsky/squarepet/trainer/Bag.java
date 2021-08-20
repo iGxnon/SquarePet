@@ -3,6 +3,7 @@ package xyz.lightsky.squarepet.trainer;
 import cn.nukkit.utils.Config;
 import lombok.Getter;
 import lombok.Setter;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.prop.BaseProp;
 
 import java.util.HashMap;
@@ -76,7 +77,7 @@ public class Bag {
                 remove(propId, 1);
             }
         }else {
-            getOwner().sendMessage("你没有该道具!");
+            getOwner().sendMessage(Lang.translate("%user.prop.donot.have%"));
         }
     }
 
@@ -88,7 +89,7 @@ public class Bag {
                 remove(propId, 1);
             }
         }else {
-            getOwner().sendMessage("你没有该道具!");
+            getOwner().sendMessage(Lang.translate("%user.prop.donot.have%"));
         }
     }
 

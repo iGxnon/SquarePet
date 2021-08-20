@@ -1,5 +1,6 @@
 package xyz.lightsky.squarepet.prop;
 
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.pet.BaseSquarePet;
 import xyz.lightsky.squarepet.pet.PetResourceCache;
 import xyz.lightsky.squarepet.prop.symbol.PetAcceptable;
@@ -13,7 +14,7 @@ public class MiddleHPProp extends BaseProp implements PetAcceptable {
 
     @Override
     public String getName() {
-        return "中型HP药剂";
+        return Lang.translate("%prop.hprecover.middle%");
     }
 
     @Override
@@ -23,7 +24,7 @@ public class MiddleHPProp extends BaseProp implements PetAcceptable {
 
     @Override
     public String getInfo() {
-        return "宠物受伤了? 快来恢复HP";
+        return Lang.translate("%prop.hprecover.middle.info%");
     }
 
     @Override
@@ -38,7 +39,8 @@ public class MiddleHPProp extends BaseProp implements PetAcceptable {
             ache.setHp(addition + ache.getHp());
             ache.save();
         }
-        trainer.sendMessage("SP已经恢复HP " + addition + " 点");
+        trainer.sendMessage(Lang.translate("%user.prop.hprecover.addition%")
+                .replace("{addition}", String.valueOf(addition)));
         return true;
     }
 }

@@ -59,7 +59,7 @@ public class OP {
         form.addButton(Lang.translate("%ui.op.switch.editlevel%"));
         Trainer trainer = TrainerManager.getTrainer(target);
         if(trainer == null) {
-            op.sendMessage("该玩家已经离线!");
+            op.sendMessage(Lang.translate("%user.choose.player.offline%"));
             return;
         }
         op.showFormWindow(form.onClick(s->{
@@ -95,9 +95,9 @@ public class OP {
         op.showFormWindow(form.onClick(s->{
             String type = petTypes.get(s);
             if(target.addPet(type)) {
-                op.sendMessage("成给 "+target.getName()+" 添加了宠物 "+type);
+                op.sendMessage(Lang.translate("%user.add.success%"));
             }else {
-                op.sendMessage("添加失败,请检查对方使用拥有该类型宠物或者宠物已满");
+                op.sendMessage(Lang.translate("%user.op.add.fail%"));
             }
         }));
     }
@@ -109,7 +109,7 @@ public class OP {
         op.showFormWindow(form.onClick(s->{
             String type = petTypes.get(s);
             target.removePet(type);
-            op.sendMessage("删除成功!");
+            op.sendMessage(Lang.translate("%user.remove.success%"));
         }));
     }
 
@@ -124,7 +124,7 @@ public class OP {
             String type = s.getDropdownResponse(0).getElementContent();
             int amount = (int) s.getSliderResponse(2);
             target.getBag().put(BaseProp.getID(type), amount);
-            op.sendMessage("添加成功");
+            op.sendMessage(Lang.translate("%user.add.success%"));
         }));
     }
 
@@ -138,24 +138,24 @@ public class OP {
                 if(pet != null && !pet.equals("")) {
                     List<String> ownSkills = target.getPetMap().get(pet).getSkills();
                     if(ownSkills.size() >= 3) {
-                        op.sendMessage("对方选择的宠物技能已经满了!");
-                        target.sendMessage("该宠物技能已经满了!");
+                        op.sendMessage(Lang.translate("%user.pet.addskill.full%"));
+                        target.sendMessage(Lang.translate("%user.pet.addskill.full%"));
                         return;
                     }
                     if(target.getSpawnedPets().get(pet) != null) {
                         target.getSpawnedPets().get(pet).addSkill(BaseSkill.get(type));
                         target.getSpawnedPets().get(pet).save();
-                        target.sendMessage("添加成功");
-                        op.sendMessage("添加成功");
+                        target.sendMessage(Lang.translate("%user.add.success%"));
+                        op.sendMessage(Lang.translate("%user.add.success%"));
                     }else {
                         ownSkills.add(type);
                         target.getPetMap().get(pet).setSkills(ownSkills);
                         target.getPetMap().get(pet).save();
-                        op.sendMessage("添加成功");
-                        target.sendMessage("添加成功");
+                        op.sendMessage(Lang.translate("%user.add.success%"));
+                        target.sendMessage(Lang.translate("%user.add.success%"));
                     }
                 }else {
-                    op.sendMessage("添加失败");
+                    op.sendMessage(Lang.translate("%user.op.add.fail%"));
                 }
             }, Lang.translate("%ui.op.addskill.target.content%").replace("{skillName}", type));
         }));
@@ -167,8 +167,8 @@ public class OP {
         op.showFormWindow(form.onResponse(s->{
             String newPrefix = s.getInputResponse(0);
             target.setPrefix(newPrefix);
-            op.sendMessage("设置成功");
-            target.sendMessage("你获得了新称号"+newPrefix);
+            op.sendMessage(Lang.translate("%user.set.success%"));
+            target.sendMessage(Lang.translate("%user.obtain.prefix%").replace("{newPrefix}", newPrefix));
         }));
     }
 
@@ -179,8 +179,8 @@ public class OP {
         op.showFormWindow(form.onResponse(s->{
             int newLv = (int) s.getSliderResponse(0);
             target.setLevel(newLv);
-            op.sendMessage("设置成功");
-            target.sendMessage("你的等级被设置成了" + newLv);
+            op.sendMessage(Lang.translate("%user.set.success%"));
+            target.sendMessage(Lang.translate("%user.level.set.tip%").replace("{newLv}", String.valueOf(newLv)));
         }));
     }
 
@@ -251,11 +251,11 @@ public class OP {
             try {
                 price = Integer.parseInt(input);
             }catch (NumberFormatException e) {
-                player.sendMessage("请输入整数!");
+                player.sendMessage(Lang.translate("%user.op.set.numberformatexception%"));
             }
             MarketManager.petPrices.put(type, price);
             MarketManager.save();
-            player.sendMessage("设置成功!");
+            player.sendMessage(Lang.translate("%user.set.success%"));
         }));
     }
 
@@ -304,11 +304,11 @@ public class OP {
             try {
                 price = Integer.parseInt(input);
             }catch (NumberFormatException e) {
-                player.sendMessage("请输入整数!");
+                player.sendMessage(Lang.translate("%user.op.set.numberformatexception%"));
             }
             MarketManager.skillStonePrices.put(type, price);
             MarketManager.save();
-            player.sendMessage("设置成功!");
+            player.sendMessage(Lang.translate("%user.set.success%"));
         }));
     }
 
@@ -361,11 +361,11 @@ public class OP {
             try {
                 price = Integer.parseInt(input);
             }catch (NumberFormatException e) {
-                player.sendMessage("请输入整数!");
+                player.sendMessage(Lang.translate("%user.op.set.numberformatexception%"));
             }
             MarketManager.propPrices.put(type, price);
             MarketManager.save();
-            player.sendMessage("设置成功!");
+            player.sendMessage(Lang.translate("%user.set.success%"));
         }));
     }
 

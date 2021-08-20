@@ -1,5 +1,6 @@
 package xyz.lightsky.squarepet.prop;
 
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.pet.PetResourceCache;
 import xyz.lightsky.squarepet.prop.symbol.PetAcceptable;
 import xyz.lightsky.squarepet.trainer.Trainer;
@@ -10,7 +11,7 @@ public class ResurrectionStoneProp extends BaseProp implements PetAcceptable {
 
     @Override
     public String getName() {
-        return "复活石";
+        return Lang.translate("%prop.resurrectionstone%");
     }
 
     @Override
@@ -20,20 +21,20 @@ public class ResurrectionStoneProp extends BaseProp implements PetAcceptable {
 
     @Override
     public String getInfo() {
-        return "宠物力竭了? 快来复活它吧!";
+        return Lang.translate("%prop.resurrectionstone.info%");
     }
 
     @Override
     public boolean onUseToPet(Trainer trainer, String petType) {
         PetResourceCache ache = trainer.getPetMap().get(petType);
         if(!ache.isPreDead()) {
-            trainer.sendMessage("该宠物没有濒死!");
+            trainer.sendMessage(Lang.translate("%user.pet.not.die%"));
             return false;
         }
         ache.setPreDead(false);
         ache.setHp(ache.getMaxHP());
         ache.save();
-        trainer.sendMessage("宠物已经复活");
+        trainer.sendMessage(Lang.translate("%user.pet.resurrection%"));
         return true;
     }
 }

@@ -24,6 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import xyz.lightsky.squarepet.form.Pet;
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.manager.ConfigManager;
 import xyz.lightsky.squarepet.manager.PetManager;
 import xyz.lightsky.squarepet.manager.TrainerManager;
@@ -230,10 +231,6 @@ public class BaseSquarePet extends EntityHuman {
     @Override
     public boolean mountEntity(Entity entity) {
         if(isCanSeat()) {
-            if(preDead) {
-                getOwner().sendMessage("濒死状态无法骑乘");
-                return false;
-            }
             getOwner().setOnRide(this);
             return super.mountEntity(entity);
         }
@@ -259,11 +256,11 @@ public class BaseSquarePet extends EntityHuman {
                 skills[2] = skill;
                 skillNames.add(skill.getName());
             }else {
-                getOwner().sendMessage("技能已满,请删除一些技能添加此技能");
+                getOwner().sendMessage(Lang.translate("%user.pet.addskill.full%"));
                 return false;
             }
         }else {
-            getOwner().sendMessage("无法学习不符合属性的技能!");
+            getOwner().sendMessage(Lang.translate("%user.pet.addskill.cannot.learn%"));
             return false;
         }
         return true;
@@ -301,7 +298,7 @@ public class BaseSquarePet extends EntityHuman {
     public void kill() {
         preDead = true;
         updatePreDead();
-        getOwner().sendMessage(getName() + ": 已经精疲力竭了!");
+        getOwner().sendMessage(Lang.translate("%user.pet.dead%").replace("{Name}", getName()));
         super.kill();
         getOwner().closePet(getType());
     }
@@ -310,15 +307,15 @@ public class BaseSquarePet extends EntityHuman {
         ArrayList<Integer> ids = (ArrayList<Integer>) getFoodItems().stream().map(Item::getId).collect(Collectors.toList());
         ArrayList<Integer> metas = (ArrayList<Integer>) getFoodItems().stream().map(Item::getDamage).collect(Collectors.toList());
         if(!ids.contains(food.getId()) || !metas.contains(food.getDamage())) {
-            getOwner().sendMessage(getName() + ": 我不喜欢吃这个!");
+            getOwner().sendMessage(Lang.translate("%user.pet.donot.like.eat%").replace("{Name}", getName()));
             return false;
         }
         boolean bool = new Random().nextBoolean();
         if(bool) {
-            int amout = new Random().nextInt(6);
-            healHP(amout);
+            int amount = new Random().nextInt(6);
+            healHP(amount);
             healSP(1);
-            getOwner().sendMessage(getName() + ": 恢复了 "+amout+" 点HP和 1 点SP");
+            getOwner().sendMessage(Lang.translate("%user.pet.eat.recover").replace("{Name}", getName()).replace("{Amount}", String.valueOf(amount)));
         }
         updateNameTag();
         return true;
@@ -502,16 +499,15 @@ public class BaseSquarePet extends EntityHuman {
     public void checkInWater() {
         boolean checked = isInsideOfWater();
         if(!getAttribute().equals(Attribute.SWIM) && checked) {
-            getOwner().sendMessage(getName() + ": 我无法进入水中");
+            getOwner().sendMessage(Lang.translate("%user.pet.cannot.touch.water%").replace("{Name}", getName()));
             getOwner().closePet(getType());
         }
         if(getAttribute().equals(Attribute.SWIM) && !checked && !isInLineup) {
-            getOwner().sendMessage(getName() + ": 我无法离开水中!");
+            getOwner().sendMessage(Lang.translate("%user.pet.cannot.leave.water%").replace("{Name}", getName()));
             getOwner().closePet(getType());
         }
     }
 
-    //todo 改成不需要实时更新!
     public void checkLineup() {
         boolean checked = getOwner().getLineup().contains(getType());
         isInLineup = checked;
@@ -535,7 +531,8 @@ public class BaseSquarePet extends EntityHuman {
     public void levelJump(int value) {
         if(value == 0) return;
         if(this.lv != maxLv) {
-            getOwner().sendMessage(getName() + ": 成功升级, 现在等级" + Math.min(this.lv + value, maxLv) + "级");
+            int lv = Math.min(this.lv + value, maxLv);
+            getOwner().sendMessage(Lang.translate("%user.pet.level.jump%").replace("{Name}", getName()).replace("{lv}", String.valueOf(lv)));
         }
         this.lv = Math.min(this.lv + value, maxLv);
         updateMaxExp();
@@ -559,7 +556,9 @@ public class BaseSquarePet extends EntityHuman {
 
     public void gainExp(int value) {
         gainExp(value, 0);
-        getOwner().sendMessage(getName() + ": 获得经验" + value);
+        getOwner().sendMessage(Lang.translate("%user.pet.gain.exp%")
+                .replace("{Name}", getName())
+                .replace("{value}", String.valueOf(value)));
     }
 
     private void updateNameTag() {
@@ -606,12 +605,13 @@ public class BaseSquarePet extends EntityHuman {
         if(skill == null) return;
         if(!canSkill) return;
         if(target == null) {
-            getOwner().getPlayer().sendTip(getName() + ": 没有目标!");
+            getOwner().getPlayer().sendTip(Lang.translate("%user.pet.no.target%").replace("{Name}", getName()));
             return;
         }
         canSkill = false;
         if(getSp() < skill.getSpCost()) {
-            getOwner().sendMessage(getName() + ": 我的SP不足，无法施加技能 " + skill.getName());
+            getOwner().sendMessage(Lang.translate("%user.pet.no.sp%").replace("{Name}", getName())
+                    .replace("{skillName}", skill.getName()));
             return;
         }
         if(this.distanceSquared(target) <= Math.pow(skill.getRange(), 2)) {
@@ -622,17 +622,20 @@ public class BaseSquarePet extends EntityHuman {
                 Tools.createDamageParticle(target, skill.getDamage(), true);
             }
             setSp(getSp() - skill.getSpCost());
-            getOwner().sendMessage(getName() + ": 发动技能 " + skill.getName());
+            getOwner().sendMessage(Lang.translate("%user.pet.go.skill%").replace("{Name}", getName())
+                    .replace("{skillName}", skill.getName()));
             Server.getInstance().getScheduler().scheduleDelayedTask(new Task() {
                 @Override
                 public void onRun(int i) {
                     int amount = (int) ((1 - getSpLossRate()) * skill.getSpCost());
                     healSP(amount);
-                    getOwner().sendMessage(getName() +": 已恢复SP: " + amount + "点");
+                    getOwner().sendMessage(Lang.translate("%user.pet.sp.recover%").replace("{Name}", getName())
+                    .replace("{amount}", String.valueOf(amount)));
                 }
             }, getSpRecoverRate() * 20);
         }else {
-            getOwner().sendMessage(getName() + ": 技能: " + skill.getName() + " 距离不够，无法释放!");
+            getOwner().sendMessage(Lang.translate("%user.pet.skill.distance%")
+            .replace("{Name}", getName()).replace("{skillName}", skill.getName()));
         }
     }
 
@@ -686,4 +689,5 @@ public class BaseSquarePet extends EntityHuman {
     public boolean getAutoSkill() {
         return autoSkill;
     }
+
 }

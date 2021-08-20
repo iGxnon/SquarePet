@@ -1,5 +1,6 @@
 package xyz.lightsky.squarepet.prop;
 
+import xyz.lightsky.squarepet.language.Lang;
 import xyz.lightsky.squarepet.prop.symbol.TrainerAcceptable;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
@@ -9,7 +10,7 @@ public class LevelUPProp extends BaseProp implements TrainerAcceptable {
 
     @Override
     public String getName() {
-        return "训练师升级卡";
+        return Lang.translate("%prop.levelup%");
     }
 
     @Override
@@ -19,13 +20,13 @@ public class LevelUPProp extends BaseProp implements TrainerAcceptable {
 
     @Override
     public String getInfo() {
-        return "是否还在为了宠物容量不够发愁?";
+        return Lang.translate("%prop.levelup.info%");
     }
 
     @Override
     public boolean onUseToTrainer(Trainer trainer) {
         if(trainer.getLevel() >= trainer.getMaxLevel()) {
-            trainer.sendMessage("你已经达到了最高等级,无需升级");
+            trainer.sendMessage(Lang.translate("%user.trainer.level.max%"));
             return false;
         }
         trainer.levelUP();

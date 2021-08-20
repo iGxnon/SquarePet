@@ -89,7 +89,7 @@ public class Pet {
                         Menu.CONFIRM(trainer.getPlayer(), s->{
                             if(s) {
                                 lineup.remove(Attribute.LAND);
-                                trainer.sendMessage("移除成功");
+                                trainer.sendMessage(Lang.translate("%user.remove.success%"));
                             }else {
                                 PET_LINEUP(lineup, trainer);
                             }
@@ -101,13 +101,13 @@ public class Pet {
                                     if(bool) {
                                         lineup.set(Attribute.LAND, s);
                                         lineup.save();
-                                        trainer.sendMessage("设置成功");
+                                        trainer.sendMessage(Lang.translate("%user.set.success%"));
                                     }else {
                                         PET_LINEUP(lineup, trainer);
                                     }
                                 }, "", Lang.translate("%ui.pet.lineup.add.confirm%").replace("{type}", s));
                             }else {
-                                trainer.sendMessage("请选择陆属性宠物!");
+                                trainer.sendMessage(Lang.translate("%user.pet.attribute.choose.wrong%"));
                             }
                         }, Lang.translate("%ui.pet.lineup.add.land%"));
                     }
@@ -117,7 +117,7 @@ public class Pet {
                         Menu.CONFIRM(trainer.getPlayer(), s->{
                             if(s) {
                                 lineup.remove(Attribute.SWIM);
-                                trainer.sendMessage("移除成功");
+                                trainer.sendMessage(Lang.translate("%user.remove.success%"));
                             }else {
                                 PET_LINEUP(lineup, trainer);
                             }
@@ -129,13 +129,13 @@ public class Pet {
                                     if(bool) {
                                         lineup.set(Attribute.SWIM, s);
                                         lineup.save();
-                                        trainer.sendMessage("设置成功");
+                                        trainer.sendMessage(Lang.translate("%user.set.success%"));
                                     }else {
                                         PET_LINEUP(lineup, trainer);
                                     }
                                 }, "", Lang.translate("%ui.pet.lineup.add.confirm%").replace("{type}", s));
                             }else {
-                                trainer.sendMessage("请选择水属性宠物!");
+                                trainer.sendMessage(Lang.translate("%user.pet.attribute.choose.wrong%"));
                             }
                         }, Lang.translate("%ui.pet.lineup.add.swim%"));
                     }
@@ -145,7 +145,7 @@ public class Pet {
                         Menu.CONFIRM(trainer.getPlayer(), s->{
                             if(s) {
                                 lineup.remove(Attribute.FLY);
-                                trainer.sendMessage("移除成功");
+                                trainer.sendMessage(Lang.translate("%user.remove.success%"));
                             }else {
                                 PET_LINEUP(lineup, trainer);
                             }
@@ -157,13 +157,13 @@ public class Pet {
                                     if(bool) {
                                         lineup.set(Attribute.FLY, s);
                                         lineup.save();
-                                        trainer.sendMessage("设置成功");
+                                        trainer.sendMessage(Lang.translate("%user.set.success%"));
                                     }else {
                                         PET_LINEUP(lineup, trainer);
                                     }
                                 }, "", Lang.translate("%ui.pet.lineup.add.confirm%").replace("{type}", s));
                             }else {
-                                trainer.sendMessage("请选择空属性宠物!");
+                                trainer.sendMessage(Lang.translate("%user.pet.attribute.choose.wrong%"));
                             }
                         }, Lang.translate("%ui.pet.lineup.add.fly%"));
                     }
@@ -191,17 +191,17 @@ public class Pet {
                 if(bool) {
                     String name = s.getDropdownResponse(0).getElementContent();
                     Trainer target = TrainerManager.getTrainer(name);
-                    if(name.equals("请选择一个玩家")) return;
+                    if(name.equals(Lang.translate("%ui.pet.givepet.dropdown%"))) return;
                     if(target == null) {
-                        trainer.sendMessage("该玩家离线了!");
+                        trainer.sendMessage(Lang.translate("%user.choose.player.offline%"));
                         return;
                     }
                     if(target.getPetTypes().size() >= ConfigManager.getPetContains(target)) {
-                        trainer.sendMessage("对方宠物容量已经满了!");
+                        trainer.sendMessage(Lang.translate("%user.choose.player.pet.full%"));
                         return;
                     }
                     target.receivePet(trainer, trainer.getPetMap().get(type));
-                    trainer.sendMessage("成功将 "+type+" 赠送给了"+target.getName());
+                    trainer.sendMessage(Lang.translate("%user.givepet.tips%").replace("{type}", type).replace("{target}", target.getName()));
                 }else {
                     PET_GIVE(trainer, type);
                 }
@@ -218,19 +218,19 @@ public class Pet {
                 String newName = s.getInputResponse(0);
                 boolean newAuto = s.getToggleResponse(1);
                 if(newName.length() >= ConfigManager.getPetNameMaxLength() * 2) {
-                    trainer.sendMessage("宠物名字过长!");
+                    trainer.sendMessage(Lang.translate("%user.pet.name.2long%"));
                     return;
                 }
                 if(trainer.getSpawnedPets().get(type) != null) {
                     trainer.getSpawnedPets().get(type).setName(s.getInputResponse(0));
                     trainer.getSpawnedPets().get(type).setAutoSkill(newAuto);
                     trainer.getSpawnedPets().get(type).save();
-                    trainer.sendMessage("设置成功!");
+                    trainer.sendMessage(Lang.translate("%user.set.success%"));
                 }else {
                     trainer.getPetMap().get(type).setName(s.getInputResponse(0));
                     trainer.getPetMap().get(type).setAutoSkill(newAuto);
                     trainer.getPetMap().get(type).save();
-                    trainer.sendMessage("设置成功!");
+                    trainer.sendMessage(Lang.translate("%user.set.success%"));
                 }
             }else {
                 PET_EDIT(trainer, type);
