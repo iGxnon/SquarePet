@@ -159,8 +159,10 @@ public class TrainerHandlePetListener implements Listener {
             }
 
             if(event.getEntity() instanceof Player) {
-                Trainer trainer = TrainerManager.getTrainer(event.getEntity().getName());
-                trainer.onAttack((EntityDamageByEntityEvent) event);
+                if(TrainerManager.trainerMap.containsKey(event.getEntity().getName())) {
+                    Trainer trainer = TrainerManager.getTrainer(event.getEntity().getName());
+                    trainer.onAttack((EntityDamageByEntityEvent) event);
+                }
             }
 
         }

@@ -37,7 +37,10 @@ public class AstarPathfinder implements API {
         this.close = new HashSet<>();
     }
 
-    //寻路
+    /**
+     * 寻路
+     * @return 若有路径，返回下一个节点坐标
+     */
     public Vector3 find() {
         long timeStart = System.currentTimeMillis();
         Node start = new Node(begin, 0, Util.MHDistance(begin, target), null);

@@ -55,7 +55,7 @@ public class Util {
     }
 
     /**
-     * 是否可透过 todo add more
+     * 是否可透过
      * @return
      */
     public static boolean isPermeable(Block block) {
