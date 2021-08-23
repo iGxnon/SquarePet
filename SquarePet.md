@@ -28,7 +28,9 @@
 
 ![](https://z3.ax1x.com/2021/08/20/fXYFIS.png)
 
-### 视频(待更新)
+### 视频
+
+[【Minecraft】Nukkit Plugin SquarePet 演示_Minecraft (bilibili.com)](https://www.bilibili.com/video/BV1pM4y1V7S4)
 
 ### 详细操作
 
@@ -138,6 +140,10 @@
 8. UI操作：UI操作很简单，这里就不再赘述
 
 ### 更新日志
+
++ 1.0.5-RELEASE
+
+  > 修复了打NPC会报错的bug
 
  + 1.0.4-RELEASE 
 
