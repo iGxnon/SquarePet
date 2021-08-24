@@ -20,7 +20,7 @@ public class DLCManager {
         dlcMap.clear();
         File dlc = new File(Main.getInstance().getDataFolder() + "/DLC/");
         if (dlc.mkdirs()) {
-            Main.info(Lang.translate("%sys.dlc.dir.load%"));
+            Main.info(Lang.translate("%sys.dlc.dir.loaded%"));
         }
         registerDLCs();
     }

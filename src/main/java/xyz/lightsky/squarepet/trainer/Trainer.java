@@ -359,10 +359,12 @@ public class Trainer {
     }
 
     public void onAttack(EntityDamageByEntityEvent source) {
+        if (source == null) return;
         getSpawnedPets().values().forEach(s->s.setTarget(source.getDamager()));
     }
 
     public void onDamage(Entity target) {
+        if(target == null) return;
         getSpawnedPets().values().forEach(s->s.setTarget(target));
     }
 
@@ -381,7 +383,6 @@ public class Trainer {
     public void close() {
         save();
         closeAllPets();
-        TrainerManager.trainerMap.remove(getName());
         petMap.clear();
     }
 

@@ -18,6 +18,7 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.ConsoleCommandSender;
 import cn.nukkit.plugin.PluginBase;
+import xyz.lightsky.squarepet.form.Market;
 import xyz.lightsky.squarepet.form.Menu;
 import xyz.lightsky.squarepet.form.api.WindowManager;
 import xyz.lightsky.squarepet.language.Lang;
@@ -28,6 +29,7 @@ import xyz.lightsky.squarepet.prop.BaseProp;
 import xyz.lightsky.squarepet.skill.BaseSkill;
 import xyz.lightsky.squarepet.utils.Tools;
 
+import javax.xml.bind.Marshaller;
 import java.util.Arrays;
 
 public class Main extends PluginBase {
@@ -50,14 +52,12 @@ public class Main extends PluginBase {
     public void onLoad() {
         instance = this;
         getLogger().info(Tools.logo());
+        saveDefaultConfig();
+        Lang.init();
     }
 
     @Override
     public void onEnable() {
-
-        saveDefaultConfig();
-
-        Lang.init();
 
         ConfigManager.init();
         PetManager.init();
@@ -79,6 +79,11 @@ public class Main extends PluginBase {
     public void onDisable() {
         MarketManager.save();
         TrainerManager.save();
+        TrainerManager.trainerMap.clear();
+        MarketManager.propPrices.clear();
+        MarketManager.skillStonePrices.clear();
+        MarketManager.petPrices.clear();
+        DLCManager.dlcMap.clear();
     }
 
     @Override

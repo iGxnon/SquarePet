@@ -10,17 +10,18 @@ import xyz.lightsky.squarepet.trainer.Trainer;
 public class TrainerListener implements Listener {
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event){
+    public void onJoin(PlayerJoinEvent event) {
         Trainer trainer = new Trainer(event.getPlayer());
-        TrainerManager.trainerMap.put(event.getPlayer().getName(), trainer);
+        TrainerManager.trainerMap.putIfAbsent(event.getPlayer().getName(), trainer);
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         if(TrainerManager.trainerMap.containsKey(event.getPlayer().getName())){
             TrainerManager.trainerMap.get(event.getPlayer().getName()).close();
-            TrainerManager.trainerMap.remove(event.getPlayer().getName());
         }
+        TrainerManager.trainerMap.remove(event.getPlayer().getName());
+        System.gc();
     }
 
 }

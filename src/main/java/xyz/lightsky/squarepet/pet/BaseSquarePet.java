@@ -36,6 +36,7 @@ import xyz.lightsky.squarepet.utils.Tools;
 import xyz.lightsky.squarepet.trainer.Trainer;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Setter
@@ -394,7 +395,6 @@ public class BaseSquarePet extends EntityHuman {
         }
     }
 
-
     //direct motion to target
     //target is locked! or fixSpeed is more than 5!
     //Hope that fixSpeed ​​is a factor of 10
@@ -425,18 +425,18 @@ public class BaseSquarePet extends EntityHuman {
         Vector3 next = new AstarPathfinder(this, pos).find();
         Vector3 start = this.getPosition();
         if(next != null) {
-            int[] j = new int[]{0};
+            AtomicInteger ai = new AtomicInteger();
             // 5 - 1 = 4 tick
             Server.getInstance().getScheduler().scheduleRepeatingTask(new Task() {
                 @Override
                 public void onRun(int i) {
-                    j[0] ++;
+                    ai.incrementAndGet();
                     double dx = (next.x - start.x) * 0.25;
                     double dy = (next.y - start.y) * 0.25;
                     double dz = (next.z - start.z) * 0.25;
                     move(dx, dy, dz);
                     updateMovement();
-                    if(j[0] >= 4) {
+                    if(ai.get() >= 4) {
                         getHandler().cancel();
                     }
                 }}, 2);
