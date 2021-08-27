@@ -91,15 +91,11 @@ public class Node {
             return false;
         } else if ((direct[0] != 0 || direct[2] != 0) && direct[1] == -1) {
             return false;
+        } else if(direct[0] != 0 && direct[2] != 0 && direct[1] != 0) {
+            return Util.isPermeable(n.location.getLevel().getBlock(n.location.add(direct[0], direct[1]))) && Util.isPermeable(n.location.getLevel().getBlock(n.location.add(0, direct[1], direct[2])));
+        } else{
+            return direct[0] == 0 || direct[2] == 0 || Util.isPermeable(n.location.getLevel().getBlock(n.location.add(direct[0]))) || Util.isPermeable(n.location.getLevel().getBlock(n.location.add(0, 0, direct[2])));
         }
-        return true;
-//            //对顶角格挡
-//        }else if(direct[0] != 0 && direct[2] != 0 && direct[1] != 0) {
-//            return Util.isPermeable(n.location.getLevel().getBlock(n.location.add(direct[0], direct[1]))) && Util.isPermeable(n.location.getLevel().getBlock(n.location.add(0, direct[1], direct[2])));
-//            //对角线格挡
-//        } else{
-//            return direct[0] == 0 || direct[2] == 0 || Util.isPermeable(n.location.getLevel().getBlock(n.location.add(direct[0]))) || Util.isPermeable(n.location.getLevel().getBlock(n.location.add(0, 0, direct[2])));
-//        }
     }
 
     @Override
