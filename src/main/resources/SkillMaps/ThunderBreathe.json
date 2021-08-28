@@ -1,0 +1,21 @@
+{
+  "version": "0.0.1",
+  "square:skill": {
+    "description": {
+      "use_file_name": false,
+      "identifier": "ThunderBreathe",
+      "contains_lambda": false,
+      "contains_anonymous": false,
+      "land": false,
+      "swim": true,
+      "fly": false
+    },
+    "main": [
+      {
+        "target": "self",
+        "damage": -1,
+        "work": "${target}.heal(5);"
+      }
+    ]
+  }
+}

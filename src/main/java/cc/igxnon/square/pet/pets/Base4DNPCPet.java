@@ -8,7 +8,7 @@ import cn.nukkit.nbt.tag.CompoundTag;
  * @author iGxnon
  * @date 2021/08/27
  */
-public class Base4DNPCPet extends EntityHuman {
+public class Base4DNPCPet extends EntityHuman implements IPet {
 
     public Base4DNPCPet(FullChunk chunk, CompoundTag nbt) {
         super(chunk, nbt);

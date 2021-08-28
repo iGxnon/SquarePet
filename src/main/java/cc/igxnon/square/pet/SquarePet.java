@@ -2,12 +2,14 @@ package cc.igxnon.square.pet;
 
 import cc.igxnon.square.pet.commands.CommandRegistrar;
 import cn.nukkit.plugin.PluginBase;
+import cn.nukkit.utils.Config;
 
 /**
  * @author iGxnon
  * @date 2021/08/27
  * SquarePet 2.0.0
  */
+@SuppressWarnings("unused")
 public class SquarePet extends PluginBase {
 
     private static SquarePet instance;

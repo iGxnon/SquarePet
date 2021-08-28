@@ -1,0 +1,19 @@
+name: SquarePet
+main: xyz.lightsky.squarepet.Main
+version: @pom.version@
+api: [1.0.9]
+author: iGxnon
+description: 一款轻量级宠物插件
+load: POSTWORLD
+depend:
+  - "ModelManagerRe"
+commands:
+  spet:
+    permission: spet.command.SquarePet
+    aliases:
+      - 宠物
+      - 方宠
+    description: The Main Command For SquarePet
+permissions:
+  spet.command.SquarePet:
+    default: true

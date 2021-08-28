@@ -2,4 +2,4 @@
 /target/
 /.idea
 *.iml
-/src/main/java/xyz/
+!/src/main/java/xyz/lightsky/squarepet/
