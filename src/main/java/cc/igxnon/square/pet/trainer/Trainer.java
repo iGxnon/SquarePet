@@ -8,6 +8,7 @@ import cn.nukkit.Player;
  * @date 2021/08/27
  */
 public class Trainer implements ITrainer {
+
     @Override
     public boolean spawnPet(String identifier) {
         return false;
