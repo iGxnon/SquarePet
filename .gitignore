@@ -3,3 +3,4 @@
 /.idea
 *.iml
 !/src/main/java/xyz/lightsky/squarepet/
+*/.DS_Store
